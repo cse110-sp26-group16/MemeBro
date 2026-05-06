@@ -12,11 +12,11 @@ https://www.conventionalcommits.org/en/v1.0.0/#specification
 
 Good question! There are plenty of reasons why we should use the conventional commits standard, but here are the main points:
 
-Automatically generates CHANGELOGs
-Automatically determining a semantic version bump (based on the types of commits landed).
-Communicating the nature of changes to teammates, the public, and others.
-Triggering build and publish processes.
-Making it easier for people to contribute to your projects, by allowing them to explore a more structured commit history.
+- Automatically generates CHANGELOGs
+- Automatically determining a semantic version bump (based on the types of commits landed).
+- Communicating the nature of changes to teammates, the public, and others.
+- Triggering build and publish processes.
+- Making it easier for people to contribute to your projects, by allowing them to explore a more structured commit history.
 
 
 
