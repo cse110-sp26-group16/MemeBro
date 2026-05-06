@@ -42,11 +42,15 @@ The most common types you will be interacting with are the following:
 - **test**: Adding or updating tests
 - **chore**: Maintenance tasks, dependency updates
 
+Please note that types in the commit title can be type in either lowercase or upper case, but please be consistient. 
+
+We will be using SemVer hand in hand with our format, so please **read** both this doc and the SemVer doc as well.
+
 ## Specifications of Conventional Commit
   1. Commits MUST be prefixed with a type, which consists of a noun, feat, fix, etc., followed by the OPTIONAL scope, OPTIONAL !, and REQUIRED terminal colon and space.
   2. The type feat MUST be used when a commit adds a new feature to your application or library.
   3. The type fix MUST be used when a commit represents a bug fix for your application.
-  4. A scope MAY be provided after a type. A scope MUST consist of a noun describing a section of the codebase surrounded by parenthesis, e.g., fix(parser):
+  4. A scope MAY be provided after a type. A scope MUST consist of a noun describing a section of the codebase surrounded by parenthesis, `e.g., fix(parser):`
   5. A description MUST immediately follow the colon and space after the type/scope prefix. The description is a short summary of the code changes, e.g., fix: array parsing issue when multiple spaces were contained in string.
   6. A longer commit body MAY be provided after the short description, providing additional contextual information about the code changes. The body MUST begin one blank line after the description.
   7. A commit body is free-form and MAY consist of any number of newline separated paragraphs.
