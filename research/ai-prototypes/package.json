@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "test:meme": "node test-meme.js"
+  },
+  "dependencies": {
+    "canvas": "^3.2.3",
+    "replicate": "^1.4.0"
+  }
+}

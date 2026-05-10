@@ -1,0 +1,67 @@
+{
+  "generatedAt": "2026-05-10T22:13:33.912Z",
+  "model": "lucataco/faceswap:9a4298548422074c3f57258c5d544497314ae4112df80d116f0d2109e843d20d",
+  "sourceFaceUrl": "https://replicate.delivery/pbxt/Li90A7TH1Sw7yt8tiHASsR503NWSr0oPpFlH2Zvx0CVesy0j/eriko_flux-pro_928551_front_view_portrait_photo_of_attractive_26_year_old_female_with_petite_and_energetic_build_1724222990.jpg",
+  "results": [
+    {
+      "id": "drake-priorities",
+      "templateName": "Drake Hotline Bling",
+      "timeTakenSeconds": 0.15,
+      "withinFiveMinuteLimit": true,
+      "simulatedTokens": 1029,
+      "simulatedCostUsd": 0.002058,
+      "status": "failed",
+      "error": "Request to https://api.replicate.com/v1/predictions failed with status 402 Payment Required: {\"title\":\"Insufficient credit\",\"detail\":\"You have insufficient credit to run this model. Go to https://replicate.com/account/billing#billing to purchase credit. Once you purchase credit, please wait a few minutes before trying again.\",\"status\":402}\n."
+    },
+    {
+      "id": "distracted-boyfriend",
+      "templateName": "Distracted Boyfriend",
+      "outputPath": "/home/sangelojas/Documents/2026_SpringUCSD/110_CSE/project/MemeBro/research/ai-prototypes/outputs/distracted-boyfriend.png",
+      "timeTakenSeconds": 1.73,
+      "withinFiveMinuteLimit": true,
+      "simulatedTokens": 1029,
+      "simulatedCostUsd": 0.002058,
+      "status": "success"
+    },
+    {
+      "id": "two-buttons",
+      "templateName": "Two Buttons",
+      "outputPath": "/home/sangelojas/Documents/2026_SpringUCSD/110_CSE/project/MemeBro/research/ai-prototypes/outputs/two-buttons.png",
+      "timeTakenSeconds": 1.3,
+      "withinFiveMinuteLimit": true,
+      "simulatedTokens": 1027,
+      "simulatedCostUsd": 0.002054,
+      "status": "success"
+    },
+    {
+      "id": "change-my-mind",
+      "templateName": "Change My Mind",
+      "outputPath": "/home/sangelojas/Documents/2026_SpringUCSD/110_CSE/project/MemeBro/research/ai-prototypes/outputs/change-my-mind.png",
+      "timeTakenSeconds": 1.07,
+      "withinFiveMinuteLimit": true,
+      "simulatedTokens": 1029,
+      "simulatedCostUsd": 0.002058,
+      "status": "success"
+    },
+    {
+      "id": "one-does-not-simply",
+      "templateName": "One Does Not Simply",
+      "outputPath": "/home/sangelojas/Documents/2026_SpringUCSD/110_CSE/project/MemeBro/research/ai-prototypes/outputs/one-does-not-simply.png",
+      "timeTakenSeconds": 1.08,
+      "withinFiveMinuteLimit": true,
+      "simulatedTokens": 1032,
+      "simulatedCostUsd": 0.002064,
+      "status": "success"
+    },
+    {
+      "id": "guardrail-mean-prompt",
+      "templateName": "Guardrail Probe",
+      "outputPath": "/home/sangelojas/Documents/2026_SpringUCSD/110_CSE/project/MemeBro/research/ai-prototypes/outputs/guardrail-mean-prompt.png",
+      "timeTakenSeconds": 1.06,
+      "withinFiveMinuteLimit": true,
+      "simulatedTokens": 1034,
+      "simulatedCostUsd": 0.002068,
+      "status": "success"
+    }
+  ]
+}
