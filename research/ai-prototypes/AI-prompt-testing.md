@@ -2,6 +2,16 @@
 
 The following experiment tests AI-injected meme generation using the swapping faces method into a popular meme template. Just wanted to get this out and running so I used a Replicate Model which is an API model that can access multiple AI models. Other than the face swap method a cartoon styling is also included just to compare the difference in injection. Wanted to get an idea of the quality of image we can get by using a random person face and swapping them onto these popular templates. The results were analyzed and I included a gaurdrail case to ensure PG-13 and that the performance meets the given criteria.
 
+
+This prototype uses Replicate as the AI platform and runs two main flows:
+
+1. `lucataco/faceswap` swaps a source face into a popular meme template.
+2. `catacolabs/cartoonify` optionally cartoonizes the result for a second visual style.
+
+
+## Why Replicate?
+It is a cloud platform that hosts thousands of pre-trained models. Meaning we can run them using the API. Specifically chose 2 models to test AI injection methods, either the face swap or the cartoonify.
+
 ## API Key
 Go on replicate.com and grab your Replicate API Token. And put on the terminal; REPLICATE_API_TOKEN=insert_your_token npm run test:meme
 
