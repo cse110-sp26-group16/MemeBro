@@ -18,7 +18,7 @@ As Alex, I want the AI to preserve the original meme's text and style so that th
 As Marcus, I want to upload a custom photo to a classic meme template so that I can make my friends part of the meme lore.
 
 ### Story 5
-As Marcus, I want to see evidence of prompt-caching or token accounting in the app's workflow so that I have technical talking points for my resume.
+As Marcus, I want to see evidence of prompt-caching or token accounting in the app's workflow so that I can regenerate the same meme from my history.
 
 
 ## Taylor — Social Connector
