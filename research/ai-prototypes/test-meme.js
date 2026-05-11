@@ -7,6 +7,10 @@ const OUTPUT_DIR = path.join(__dirname, "outputs");
 const MODEL =
   process.env.REPLICATE_MODEL ||
   "lucataco/faceswap:9a4298548422074c3f57258c5d544497314ae4112df80d116f0d2109e843d20d";
+const CARTOONIZE_OUTPUT = process.env.CARTOONIZE_OUTPUT !== "false";
+const CARTOON_MODEL =
+  process.env.CARTOON_MODEL ||
+  "catacolabs/cartoonify:f109015d60170dfb20460f17da8cb863155823c85ece1115e1e9e4ec7ef51d3b";
 const SOURCE_FACE_URL =
   process.env.SOURCE_FACE_URL ||
   "https://replicate.delivery/pbxt/Li90A7TH1Sw7yt8tiHASsR503NWSr0oPpFlH2Zvx0CVesy0j/eriko_flux-pro_928551_front_view_portrait_photo_of_attractive_26_year_old_female_with_petite_and_energetic_build_1724222990.jpg";
@@ -97,6 +101,24 @@ function normalizeReplicateOutput(output) {
   return output;
 }
 
+function imageBufferToDataUri(imageBuffer) {
+  return `data:image/png;base64,${imageBuffer.toString("base64")}`;
+}
+
+function imageInputFromOutput(output, fallbackBuffer) {
+  const normalized = normalizeReplicateOutput(output);
+
+  if (typeof normalized === "string") {
+    return normalized;
+  }
+
+  if (normalized && typeof normalized.url === "function") {
+    return normalized.url();
+  }
+
+  return imageBufferToDataUri(fallbackBuffer);
+}
+
 async function imageBufferFromOutput(output) {
   const normalized = normalizeReplicateOutput(output);
 
@@ -127,6 +149,22 @@ async function imageBufferFromOutput(output) {
   }
 
   throw new Error(`Unsupported Replicate output shape: ${typeof normalized}`);
+}
+
+async function cartoonizeImage(replicate, imageInput) {
+  if (!CARTOONIZE_OUTPUT) {
+    throw new Error("Cartoonize was called while CARTOONIZE_OUTPUT is disabled.");
+  }
+
+  console.log(`Cartoonize model: ${CARTOON_MODEL}`);
+
+  const output = await replicate.run(CARTOON_MODEL, {
+    input: {
+      image: imageInput,
+    },
+  });
+
+  return imageBufferFromOutput(output);
 }
 
 function wrapText(ctx, text, maxWidth) {
@@ -229,7 +267,10 @@ async function runTestCase(replicate, testCase) {
       input: getReplicateInput(testCase),
     });
     const imageBuffer = await imageBufferFromOutput(output);
-    await renderMeme(imageBuffer, testCase, outputPath);
+    const finalImageBuffer = CARTOONIZE_OUTPUT
+      ? await cartoonizeImage(replicate, imageInputFromOutput(output, imageBuffer))
+      : imageBuffer;
+    await renderMeme(finalImageBuffer, testCase, outputPath);
 
     const timeTakenMs = Date.now() - startedAt;
     const timeTakenSeconds = Number((timeTakenMs / 1000).toFixed(2));
@@ -243,6 +284,8 @@ async function runTestCase(replicate, testCase) {
       id: testCase.id,
       templateName: testCase.templateName,
       outputPath,
+      cartoonized: CARTOONIZE_OUTPUT,
+      cartoonModel: CARTOONIZE_OUTPUT ? CARTOON_MODEL : null,
       timeTakenSeconds,
       withinFiveMinuteLimit,
       ...simulatedCost,
@@ -279,7 +322,11 @@ async function main() {
   });
 
   console.log(`Running ${testCases.length} meme face-swap tests`);
-  console.log(`Replicate model: ${MODEL}`);
+  console.log(`Face-swap model: ${MODEL}`);
+  console.log(`Cartoonize output: ${CARTOONIZE_OUTPUT ? "enabled" : "disabled"}`);
+  if (CARTOONIZE_OUTPUT) {
+    console.log(`Cartoonize model: ${CARTOON_MODEL}`);
+  }
   console.log(`Outputs folder: ${OUTPUT_DIR}`);
 
   const results = [];
@@ -296,6 +343,9 @@ async function main() {
       {
         generatedAt: new Date().toISOString(),
         model: MODEL,
+        faceSwapModel: MODEL,
+        cartoonizeOutput: CARTOONIZE_OUTPUT,
+        cartoonModel: CARTOONIZE_OUTPUT ? CARTOON_MODEL : null,
         sourceFaceUrl: SOURCE_FACE_URL,
         results,
       },
