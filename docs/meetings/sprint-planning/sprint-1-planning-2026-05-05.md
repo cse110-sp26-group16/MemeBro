@@ -4,7 +4,7 @@
 - **Sprint:** 1
 - **Type:** Sprint Planning (kickoff)
 - **Attendees:** Full team
-- **Note-taker:** _TODO — add name_
+- **Note-taker:** Yuval Pesok
 
 ## Agenda
 
@@ -61,7 +61,7 @@ Tasks were assigned across the team using the existing GitHub Issues
 - **Initial layout**: preview at top, text input in the middle, upload button
   at the bottom.
 - **Sequencing**: functionality first; UX polish, AI quality, and
-  differentiation features come *after* the MVP loop works.
+  differentiation features come _after_ the MVP loop works.
 - Continue using the existing `design` / `devops` / `AI` / `QA` label scheme
   for issues.
 
