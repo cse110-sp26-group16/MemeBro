@@ -212,8 +212,3 @@ Quick Object Example:
 ### Management Rules
 * **Stale Cache Cleanup:** Monitor usage patterns. Prompts or prefixes that are no longer consistently used will be phased out of the active cache strategy.
 * **Hard Limits:** Implement a "Hard Cap" per user session to ensure resource availability for the entire team.
-
-## Benefits
-* **Cost Reduction:** Leveraging cached tokens reduces overhead for repetitive system prompts.
-* **Latency:** Reusing pre-computed states results in faster response times for the end-user.
-* **Consistency:** Fixed prefixes ensure the AI adheres to the same brand voice and safety standards across all generations.
