@@ -1,0 +1,3 @@
+# Design Brief
+
+**Core Problem:** Current meme creation tools are often clunky, slow, and lack personalization. In fast-moving digital conversations, the "joke dies in silence" if a meme cannot be generated and shared quickly. MemeBro solves this by combining the classic meme format with generative AI to allow users to instantly inject themselves or their friends into famous memes. By prioritizing a mobile-friendly interface and rapid AI processing, MemeBro ensures users can create high-quality, PG-13, personalized memes in under five minutes.
