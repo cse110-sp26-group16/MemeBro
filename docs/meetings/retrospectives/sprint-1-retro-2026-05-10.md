@@ -3,8 +3,8 @@
 - **Date:** 2026-05-10 (Sunday)
 - **Sprint:** 1 (Week 6 — design + prototyping sprint per course spec)
 - **Attendees:** Full team
-- **Facilitator:** _TODO_
-- **Note-taker:** _TODO_
+- **Facilitator:** Yuval Pesok
+- **Note-taker:** Yuval Pesok
 
 ## Sprint Review
 
@@ -22,129 +22,194 @@ and the baseline scaffolding for the project, not working features.
 
 ### Demo / What Shipped
 
-<!--
-  Fill in honestly. Link to the file, branch, PR, or screenshot for
-  each item. If nothing shipped for a category, write "Not shipped"
-  and move it into "What Did NOT Ship" below.
--->
+Substantial exploration and design work landed this sprint, mostly
+across short-lived feature branches with PRs opened but not yet
+merged.
 
-- **Design** (issues #1, #2, #3):
-  - _TODO — personas + user stories status_
-  - _TODO — mobile wireframes status_
-  - _TODO — landing page wireframe status_
-- **DevOps** (issues #4, #5):
-  - #4 Versioning Protocol Setup — ✅ done (commit format guide, SemVer
-    guide, `.gitignore`, `CHANGELOG.md` placeholder, issue template).
-    Acceptance criteria all met; closing this issue.
-  - #5 CI/CD Pipeline Skeleton — _TODO status_
-- **AI** (issues #7, #8):
-  - _TODO — prompt engineering status_
-  - _TODO — AI architecture research status_
-- **QA** (issues #10, #11):
-  - _TODO — baseline code status_
-  - _TODO — testing + linting infra status_
-- **Process / meta**:
-  - Conventional Commits guide (`docs/COMMITFORMAT.md`).
-  - SemVer guide (`docs/SemVerInfo.md`).
-  - Task assignment issue template.
-  - Functional labels configured (`design`, `devops`, `AI`, `QA`).
-  - Sprint 1 planning meeting notes captured.
-  - Meeting templates added for sprint planning, standups, retros,
-    and TA meetings.
+#### Design (issues #1, #2, #3)
+
+- **#1 Core Design Artifacts — shipped** (Jennifer).
+  - `research/design-brief.md` — problem statement, mobile-first +
+    speed framing.
+  - `research/personas.md` — three personas (Alex the rapid-fire
+    reactor, Marcus the OG meme enthusiast, plus one more).
+  - `research/user-stories.md` — user stories grouped by persona,
+    explicitly addressing the < 5-minute speed requirement.
+  - Branch: `core-design-artifacts` — open in **PR #13**, awaiting
+    review.
+- **#2 Wireframe Main Mobile Designs — not started** (nakazawak).
+  No commits and no comment on the issue.
+- **#3 Wireframe Landing Page — not started** (Fariba-Tokhi).
+  - Want more understand of the user flow of the app, will help design it better.
+  - Should the focus be on AI generate it or if based off a prompt
+    - Want a place where users can add an input, pick a template
+
+#### DevOps (issues #4, #5)
+
+- **#4 Versioning Protocol Setup — done** (Flimgees). Commit format
+  guide (`docs/COMMITFORMAT.md`), SemVer guide (`docs/SemVerInfo.md`),
+  `.gitignore`, `CHANGELOG.md` placeholder, and the issue template
+  are all in the repo. All acceptance criteria met. **Close this
+  issue.**
+- **#5 CI/CD Pipeline Skeleton — in flight** (Alec). GitHub Actions
+  workflow committed at `.github/workflows/ci-cd.yml`. Live
+  deployment pending Pages being enabled on the repo. Open in
+  **PR #14**. Also made a index.html to allow for a github pagEs to be delpoyed.
+
+#### AI (issues #7, #8)
+
+- **#7 Prompt Engineering — shipped** (Endless1010, Asespene).
+  Five prompt templates (`research/prompts/template-a..e.md`), a
+  spike doc (`research/prompt-engineering-spike.md`), and an
+  edge-case results doc on the `prompt-engineering` branch. **Not
+  yet opened as a PR.**
+- **#8 AI Architecture Research — substantial** (Asespene). Working
+  AI face-swap prototype on `research/ai-prototype-issue` (also on
+  `ai-meme-prototype-result1`): `test-meme.js` script, generated
+  outputs for famous meme templates (change-my-mind, drake,
+  distracted-boyfriend, two-buttons, one-does-not-simply), a
+  guardrail rejection test for a mean prompt, and `AI-prompt-testing.md`
+  notes. Open in **PR #12**. Asespene noted the markdown writeup is
+  still being finished.
+
+#### QA (issues #10, #11)
+
+- **#10 Baseline Code — partial.** `index.html` (Hello World) is
+  on `main` (merged via PR #15). No `style.css` or `app.js` yet, and
+  the page itself is a placeholder.
+- **#11 Testing + Linting Infrastructure — not started.**
+  Unassigned, no movement. Blocked partly on TA approval for dev
+  dependencies (ESLint, Prettier, Jest, Playwright).
+
+#### Process / meta (not tied to an specific issue)
+
+- **4 PRs opened this sprint** (#12, #13, #14, #15). PR #15 merged;
+  #12 / #13 / #14 still open.
+- Conventional Commits guide, SemVer guide, `.gitignore`, issue
+  template, and functional labels (`design`, `devops`, `AI`, `QA`)
+  all in `main`.
+- A `docs/sprint-1-process` branch was started with Sprint 1
+  planning notes, meeting templates (sprint planning, standup,
+  retro, TA meeting), this retrospective, and the team-cadence
+  doc. Not yet PR'd.
 
 ### What Did NOT Ship (and why)
 
-<!--
-  Be specific — vague "in progress" entries are worse than nothing.
-  Each item should say WHY it didn't land and what changes for Sprint 2.
--->
-
-- _TODO_ — _reason / carry-over plan_
+- **#2 Wireframe Main Mobile Designs.** No comments and no commits
+  from the assignee. Without wireframes the implementation team has
+  nothing concrete to build against. **Carry to Sprint 2 as a
+  Must-do.**
+- **#3 Wireframe Landing Page.** Empty branch, no commits. **Carry
+  to Sprint 2 as a Must-do.**
+- **#11 Testing + Linting Infrastructure.** Unassigned, no movement.
+  Partly blocked on TA approval for dev dependencies. **Carry to
+  Sprint 2 with an explicit assignee and bring the dep request to
+  the TA meeting.**
+- **PR reviews.** Three of the four PRs opened this sprint (#12,
+  #13, #14) are still open and unmerged. The work was done but the
+  review loop didn't close — they sat overnight without anyone
+  picking them up. **Carry to Sprint 2: review-within-24h rule.**
+- **`#10 Baseline Code` is only partial.** Only `index.html` exists;
+  `style.css` and `app.js` are still owed.
 
 ## Retrospective
 
 ### What Went Well
 
-- **Clear MVP direction agreed early.** The team aligned on the
-  "functionality first, refinement after" approach during the planning
-  meeting, so nobody is debating scope.
-- **Process scaffolding landed.** Commit format, SemVer, `.gitignore`,
-  issue template, and the label scheme are all in the repo. That's a
-  big chunk of CSE 110's process requirements already satisfied.
-- **Functional task split.** Splitting issues across `design`,
-  `devops`, `AI`, and `QA` made it easy for people to pick work that
-  matched their interest.
-- **Migrated from Slack to GitHub Issues mid-sprint.** Recognized the
-  audit-trail gap and corrected it inside the same sprint instead of
-  letting it persist.
+- **Substantial design and exploration shipped.** Design brief,
+  three personas, user stories, five tested prompt templates, and a
+  working AI face-swap prototype with guardrail tests. Real
+  engagement with the problem space, not just process scaffolding.
+- **PR practice actually started this sprint.** Four PRs opened
+  (#12, #13, #14, #15). That gets us past "we've never used PRs"
+  before any > 300 LoC changes hit, which is a hard CSE 110
+  requirement.
+- **CI/CD workflow file written** even though it's not deployed
+  yet. Sprint 2 starts with that already drafted instead of from
+  zero.
+- **Process scaffolding is solid in `main`.** Conventional Commits,
+  SemVer, `.gitignore`, issue template, and labels are all merged.
+  A big chunk of CSE 110's process requirements is already off the
+  list.
+- **Functional task split** (`design` / `devops` / `AI` / `QA`)
+  gave everyone a clear lane and matched the spec's expectations.
+- **AI prototype validated the PG-13 guardrail.** The "mean prompt"
+  rejection test directly satisfies the acceptance criterion from
+  issue #7. That's not just exploration — it's evidence we can
+  hit a spec constraint.
 
 ### What Didn't Go Well
 
-- **Early task assignment happened in Slack with no audit trail.**
-  Tasks were discussed and split over chat, then later mirrored into
-  GitHub Issues. For the early discussion there is no record in the
-  repo, which is exactly the kind of opacity the spec grades against.
 - **Only 2 team meetings this sprint** (planning + 1 Zoom standup).
-  The spec requires **≥ 3 standups per week** — we missed that target.
-- **No pull requests opened all sprint.** Even small doc changes were
-  committed directly. The team has not practiced the PR review workflow
-  yet, which becomes mandatory at > 300 LoC changes.
-- **No ADRs (Architectural Decision Records) yet** even though we made
-  real technical decisions (vanilla-only stack constraint, deployment
-  target implied, MVP scope locked).
+  The spec requires ≥ 3 standups per week — we missed that target.
+- **Three of four PRs sat open without review.** PRs #12, #13, #14
+  were opened but didn't get reviewed or merged before the sprint
+  ended. The work happened in isolation rather than feeding back
+  into `main`.
+- **Two design issues had zero movement** (#2 wireframes — mobile,
+  #3 wireframes — landing). Both have assignees and both are
+  Week-6-gate items, which made this the most important sprint to
+  hit them.
+- **Early task assignment happened in Slack** with no GitHub audit
+  trail until later. Hard for the TA to grade work that doesn't
+  trace back to an issue.
+- **No ADRs** despite making real technical decisions (vanilla-only
+  stack, AI prototype approach, deployment direction).
 - **No TA meeting captured** in `docs/meetings/ta/` yet.
-- **No retrospective scheduled in advance.** This retro is happening
-  because we noticed it was missing, not because the team's cadence
-  produced it.
+- **No retro scheduled in advance.** This retro exists because we
+  noticed it was missing — Sprint 2 needs the retro on the calendar
+  from day one.
 
 ### What We'll Try Next Sprint
 
-These become **action items**, owned, in the next section.
+These map directly to the action items below.
 
-- All task assignment goes through **GitHub Issues from the start of
-  Sprint 2**. Slack is fine for discussion but the assignment itself
-  lands as an issue with assignee and label before work begins.
-- Standups **3 times per week on a fixed cadence**: Mon / Wed / Fri.
-  Mon and Fri can be Slack-async; Wed is a quick Zoom sync. Each
-  standup gets its own file in `docs/meetings/standups/`.
-- **Every meeting produces a file** in `docs/meetings/...` using the
-  templates. No file = it didn't happen.
-- **One person owns notes per meeting**, rotating each meeting (not
-  each sprint).
-- **First PR opened by mid-Sprint 2.** Even the doc branches go via PR
-  from now on so we build a review trail.
-- **At least one ADR per major technical decision** (vanilla stack,
-  deployment target, AI provider, testing tooling). MADR format.
-- **Roles assigned at Sprint 2 planning**: Scrum Master, GitHub
-  Wrangler, TA Liaison, Tech Lead, rotating Note-taker.
-- **Retro + sprint planning scheduled on the calendar** for every
-  Sunday from here on, so we never have to "remember" to do them.
+- **Standups Mon / Wed / Fri** on a fixed cadence. Mon and Fri can
+  be Slack async; Wed is a quick Zoom sync. Each standup → a file
+  in `docs/meetings/standups/`.
+- **PR review SLA: 24 hours.** Anyone with an open PR pings the team
+  in Slack; team aims to review within a day. No PR sits open for a
+  whole sprint again.
+- **All task assignment via GitHub Issues from the start.** Slack
+  is fine for discussion; assignment itself must land on the issue
+  with the right label.
+- **Every meeting produces a file** under `docs/meetings/...` using
+  the templates. No file = it didn't happen.
+- **Roles assigned at Sprint 2 planning** and rotated per sprint:
+  Scrum Master, GitHub Wrangler, Tech Lead, TA Liaison.
+- **ADRs for major decisions** (vanilla stack, deployment, AI
+  provider). MADR format under `docs/adr/`.
+- **Retro + planning on the calendar** every Sunday going forward.
 
 ## Action Items (carry into Sprint 2)
 
-- [ ] Each Sprint 1 issue owner posts a status comment on their issue
-      (done / not done / carry over) — _due before Sprint 2 planning_.
-- [ ] Close issue #4 (Versioning Protocol Setup) — all AC met.
-      _Owner: GitHub Wrangler_.
-- [ ] Create **Sprint 2** milestone and assign carry-over issues to it.
-      _Owner: GitHub Wrangler_.
-- [ ] Schedule recurring meetings on calendar: Sun planning + retro,
-      Mon / Wed / Fri standups, weekly TA meeting.
-      _Owner: Scrum Master_.
-- [ ] Add `docs/process/team-cadence.md` and link it from the README.
-      _Owner: Tech Lead_.
-- [ ] Draft **ADR-0001** ("Use vanilla HTML / CSS / JS — no
-      frameworks") in MADR format. _Owner: Tech Lead_.
-- [ ] Draft **ADR-0002** ("Deployment target: Cloudflare Pages vs
+- [ ] **Merge PRs #12, #13, #14** within 24h of Sprint 2 kickoff so
+      design + AI + CI work lands on `main`.
+- [ ] **Open a PR for the `prompt-engineering` branch** (issue #7
+      work) — not yet PR'd.
+- [ ] **Close issue #4** (Versioning Protocol Setup) — all AC met.
+- [ ] **Finish wireframes #2 and #3** (carry-over). _Owners:
+      nakazawak (#2) and Fariba-Tokhi (#3)._
+- [ ] **Assign an owner for #11** (Testing + Linting Infrastructure)
+      and bring the dep batch to the TA. _Owner: Scrum Master to
+      assign._
+- [ ] **Complete #10 baseline code** (`style.css` + `app.js`).
+- [ ] **Create the Sprint 2 milestone** on GitHub and tag the
+      carry-overs.
+- [ ] **Open a PR for `docs/sprint-1-process`** → `main` (includes
+      planning notes, meeting templates, this retro, team cadence,
+      Sprint 2 planning script). _Owner: whoever runs the planning
+      meeting._
+- [ ] **Schedule recurring meetings on calendar**: Sun planning +
+      retro, Mon / Wed / Fri standups, weekly TA meeting.
+- [ ] **Draft ADR-0001** ("Use vanilla HTML / CSS / JS — no
+      frameworks") in MADR format.
+- [ ] **Draft ADR-0002** ("Deployment target: Cloudflare Pages vs
       GitHub Pages") and bring it to the TA meeting for sign-off.
-      _Owner: TA Liaison + Tech Lead_.
-- [ ] Open a PR template at `.github/PULL_REQUEST_TEMPLATE.md`.
-      _Owner: GitHub Wrangler_.
-- [ ] Open the **first PR** by merging `docs/sprint-1-process` →
-      `main`. _Owner: whoever opens this branch's PR_.
-- [ ] Bring the **dependency batch approval** request to the next TA
+- [ ] **Open a PR template** at `.github/PULL_REQUEST_TEMPLATE.md`.
+- [ ] **Enable branch protection on `main`** (require PR review).
+- [ ] **Bring the dependency batch-approval request** to the TA
       meeting (ESLint, Prettier, Jest, Playwright, AI SDK).
-      _Owner: TA Liaison_.
 
 ## Evidence of Incorporation (from previous retro)
 

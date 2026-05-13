@@ -1,217 +1,98 @@
 # Sprint 2 Planning Meeting
 
-<!--
-  THIS IS A WORKING DOC — fill it in LIVE during the meeting.
-  Read the [PROMPT] lines out loud. Fill the [FILL] slots with what
-  the team says. Check the [DECIDE] checkboxes when each output is
-  locked. Save and commit this file right after the meeting.
--->
-
 - **Date:** 2026-05-11 (Monday)
 - **Sprint:** 2 (Week 7)
-- **Type:** Sprint 2 Planning (follows Sprint 1 retrospective)
-- **Attendees:** _[FILL — list everyone present]_
-- **Note-taker:** _[FILL — not the facilitator]_
-- **Facilitator:** _[FILL]_
-
----
-
-## Sprint 1 Retro Recap (skip if retro already merged)
-
-If the Sprint 1 retro doc is still open, finish it here first. Otherwise
-skip straight to "Sprint 2 Goal" below.
-
-- Link to retro:
-  [`sprint-1-retro-2026-05-10.md`](../retrospectives/sprint-1-retro-2026-05-10.md)
-
----
-
-## Part 1 — Sprint 2 Goal (5 min)
-
-**[PROMPT]** *"In one sentence — what does the end of next Sunday look
-like if this sprint goes well?"*
-
-**[FILL] Sprint 2 Goal:**
-
-> _Type the agreed one-sentence goal here. Example:
-> "Land all carry-over design artifacts (personas, wireframes) and
-> open the first implementation PR with the vanilla HTML/CSS/JS
-> skeleton."_
-
-**[DECIDE]**
-
-- [ ] Goal is one sentence
-- [ ] Goal is achievable in one week
-- [ ] Everyone agreed (no silent "ummm" — ask each person directly)
-
----
-
-## Part 2 — Sprint 2 Scope (10 min)
-
-Open the GitHub issues board. Go through each open issue and decide:
-**carry over to Sprint 2 / new issue needed / backlog / close**.
-
-### Carry-overs from Sprint 1
-
-| Issue # | Title | Status | Action |
-| --- | --- | --- | --- |
-| #1 | Draft Core Design Artifacts | _[FILL — done / partial / not started]_ | _[carry / close / backlog]_ |
-| #2 | Wireframe Main Mobile Designs | _[FILL]_ | _[carry / close / backlog]_ |
-| #3 | Wireframe Landing Page | _[FILL]_ | _[carry / close / backlog]_ |
-| #4 | Versioning Protocol Setup | ✅ Done (all AC met) | **Close** |
-| #5 | CI/CD Pipeline Skeleton | _[FILL]_ | _[carry / close / backlog]_ |
-| #7 | Prompt Engineering | _[FILL]_ | _[carry / close / backlog]_ |
-| #8 | AI Architecture Research | _[FILL]_ | _[carry / close / backlog]_ |
-| #10 | Baseline Code | _[FILL]_ | _[carry / close / backlog]_ |
-| #11 | Testing + Linting Infrastructure | _[FILL]_ | _[carry / close / backlog]_ |
-
-### New issues to create for Sprint 2
-
-Suggested — adapt to what came up in the retro:
-
-- [ ] **ADR-0001** — "Use vanilla HTML / CSS / JS — no frameworks" (MADR format, `docs/adr/0001-vanilla-stack.md`)
-- [ ] **ADR-0002** — "Deployment target: Cloudflare Pages vs GitHub Pages" (gated on TA answer)
-- [ ] **README rewrite** — replace the one-line placeholder with real project info
-- [ ] **PR template** — add `.github/PULL_REQUEST_TEMPLATE.md`
-- [ ] **Branch protection on `main`** — require 1 PR review before merge
-- [ ] **`docs/dependencies.md`** — batch list of deps to request from TA (ESLint, Prettier, Jest, Playwright, AI SDK)
-- [ ] _[FILL — anything else the team wants]_
-
-### Tiered commitment (be honest about capacity)
-
-Move issues into tiers so the team commits realistically.
-
-**Must-do (sprint fails if these don't land):**
-
-- _[FILL — paste issue numbers + titles]_
-
-**Should-do (we want these but the must-dos come first):**
-
-- _[FILL]_
-
-**Nice-to-have (only if we finish everything else):**
-
-- _[FILL]_
-
-**[DECIDE]**
-
-- [ ] Every issue in "Must-do" has an assignee (no orphan issues)
-- [ ] The Sprint 2 milestone on GitHub is populated with the Must-do + Should-do issues
-- [ ] "Nice-to-have" items stay in the backlog without a milestone
-
----
-
-## Part 3 — Roles (5 min)
-
-Each role rotates per sprint. Read the descriptions from
-[`docs/process/team-cadence.md`](../../process/team-cadence.md) if anyone
-asks what a role does.
-
-**[PROMPT]** *"Four roles for Sprint 2. They rotate so this isn't
-permanent. Who wants Scrum Master?"* — repeat per role.
-
-| Role | Sprint 2 Owner |
-| --- | --- |
-| **Scrum Master** | _[FILL]_ |
-| **GitHub Wrangler** | _[FILL]_ |
-| **Tech Lead** | _[FILL]_ |
-| **TA Liaison** | _[FILL]_ |
-
-**[DECIDE]**
-
-- [ ] Each role has exactly one owner
-- [ ] No one person has more than one role (unless team agreed and
-      it's documented why)
-
----
-
-## Part 4 — Cadence Buy-in (3 min)
-
-Pull up [`docs/process/team-cadence.md`](../../process/team-cadence.md)
-and share the screen.
-
-**[PROMPT]** *"This is the proposed cadence. Standups Monday, Wednesday,
-Friday. Sunday is planning + retro. Weekly TA meeting. Does this work
-for everyone? Any amendments?"*
-
-**[FILL] Amendments (if any):**
-
-- _e.g., "Move Wed standup to Thursday because of class conflict"_
-
-**[DECIDE]**
-
-- [ ] Team agreed on Mon / Wed / Fri standups
-- [ ] Team agreed on Sunday planning + retro
-- [ ] Team agreed on weekly TA meeting
-- [ ] Any amendments are recorded above
-
----
-
-## Part 5 — TA Meeting Prep (5 min)
-
-**[PROMPT]** *"We need to talk to Omair this week. Four questions to
-bring. Who can join the meeting?"*
-
-**Questions for the TA:**
-
-1. Did our Sprint 1 design+prototyping clear the Week 6 gate, or do we
-   need to redo design+prototyping this week?
-2. Can we get batch approval for our tooling deps (ESLint, Prettier,
-   Jest, Playwright, an AI SDK)?
-3. Cloudflare Pages vs GitHub Pages — any preference given the AI
-   proxy need?
-4. When is it OK to split into front-end / back-end sub-teams?
-
-**[FILL]**
-
-- **TA meeting day/time:** _[FILL]_
-- **Going to TA meeting:** _[FILL — 2+ team members]_
-
-**[DECIDE]**
-
-- [ ] TA meeting is on the calendar
-- [ ] Attendees are named
-- [ ] TA Liaison will post the agenda in Slack ≥ 24h before the meeting
-
----
-
-## Part 6 — Close (3 min)
-
-**[PROMPT]** *"Recap before we end — Sprint 2 goal is [X], we
-committed to [N] must-do issues, [role owners], first standup is
-[when], TA meeting is [when]. Anything else?"*
-
-**[FILL] Anything raised at the close:**
-
-- _e.g., "Reminder to add new deps to docs/dependencies.md not the
-  repo directly"_
-
----
-
-## Action Items (carried into Sprint 2)
-
-Compiled from the discussion above — these are the "homework" everyone
-walks away with.
-
-- [ ] _[FILL — action]_ — _[FILL — owner]_ — _[due date]_
-- [ ] _[FILL]_ — _[FILL]_ — _[date]_
-- [ ] _[FILL]_ — _[FILL]_ — _[date]_
-
-### Standing action items (don't forget these)
-
-- [ ] **Scrum Master** — schedules recurring calendar invites for
-      Mon/Wed/Fri standups + Sunday planning/retro by Tuesday EOD.
-- [ ] **GitHub Wrangler** — creates the Sprint 2 milestone today,
-      adds the PR template, enables branch protection by Tuesday EOD.
-- [ ] **Tech Lead** — drafts ADR-0001 (vanilla stack) by Wednesday
-      standup; starts `docs/dependencies.md` for TA approval batch.
-- [ ] **TA Liaison** — books the TA meeting; posts the 4 questions
-      in Slack as the agenda ≥ 24h before.
-
----
+- **Type:** Sprint Planning
+- **Attendees:** Yuval, Jordan, Fariba, Jenny, Koji, Alec, Angelo
+- **Note-taker:** Yuval Pesok
+- **Facilitator:** Yuval Pesok
+
+## Agenda
+
+1. Sprint 1 carry-overs and current PR status
+2. Sprint 2 goal
+3. Scope (must-do, should-do, nice-to-have)
+4. Cadence confirmation (standups, planning/retro, TA meeting)
+5. TA meeting prep
+6. Close and action items
+
+## Discussion
+
+### Sprint 1 Carry-overs
+
+Status as of Tue 2026-05-12. PRs #12 and #16 merged Mon evening, PR #17 was opened overnight by Fariba.
+
+| Issue # | Title                            | Status                                              | Action                                         |
+| ------- | -------------------------------- | --------------------------------------------------- | ---------------------------------------------- |
+| #1      | Draft Core Design Artifacts      | Done, PR #13 open                                   | Review and merge PR #13, then close issue      |
+| #2      | Wireframe Main Mobile Designs    | Not started (nakazawak)                             | Carry, must-do (sprint 1's biggest miss)       |
+| #3      | Wireframe Landing Page           | Shipped, PR #17 open                                | Review and merge PR #17, then close issue      |
+| #4      | Versioning Protocol Setup        | Done (all AC met)                                   | Close issue                                    |
+| #5      | CI/CD Pipeline Skeleton          | PR #14 open, Pages not yet enabled                  | Review and merge PR #14, enable Pages          |
+| #7      | Prompt Engineering               | Closed, PR #16 merged 2026-05-11                    | None, already closed                           |
+| #8      | AI Architecture Research         | Closed, PR #12 merged 2026-05-11                    | None, already closed                           |
+| #10     | Baseline Code                    | Partial, only index.html on main                    | Carry, must-do (add style.css and app.js)      |
+| #11     | Testing + Linting Infrastructure | Not started, unassigned, blocked on TA dep approval | Carry, assign owner, get TA dep approval first |
+
+### MVP Skeleton Plan
+
+The main build target for sprint 2 is the mobile-first MVP skeleton on github pages: upload button, text input, template picker, preview area. No AI integration yet, that comes after the skeleton works end to end.
+
+### Sprint 1 Lessons Carried Forward
+
+Sprint 1's biggest problem was three PRs sitting open all weekend without review. Sprint 2 adopts a 24h review SLA: anyone with an open PR pings the team in slack, team aims to review within a day.
+
+The functional groups from sprint 1 (design, devops, AI, QA) stay as the task lanes. We are adding a lead per lane plus an overall project lead so that with 11 people every area has a clear owner. Roles are fixed for now but can swap mid quarter if someone wants to try a different lane.
+
+## Sprint Goal
+
+> Finish all the sprint 1 PRS, inclduding the wireframes and MVP page, create a mobile-first MVP skeleton that allows upload, text, and selection of template wiht no AI usage yet accessible by github pages.
+
+## Scope (committed for this sprint)
+
+- Merge PR #13, #14, #17 (closes issues #1, #3, #5).
+- Enable github pages in repo settings so #14 actually deploys.
+- Close issue #4 (versioning, all AC met).
+- Finish #2 mobile wireframes (nakazawak).
+- Finish #10 baseline code: add style.css and app.js to main.
+- Build the MVP skeleton on github pages (mobile-first, upload + text input + template picker + preview area, no AI).
+- Assign an owner for #11 testing and linting infra, bring the dep batch to the TA first.
+- Add a PR template at `.github/PULL_REQUEST_TEMPLATE.md`.
+- Turn on branch protection on main (require 1 PR review before merge).
+- Start `docs/dependencies.md` for the TA batch approval list.
+- ADR-0001: vanilla HTML / CSS / JS, no frameworks (MADR format under `docs/adr/`).
+
+## Out of Scope (explicitly deferred)
+
+- README rewrite. Deferred because we want something real to describe first.
+- ADR-0002 (cloudflare pages vs github pages). Gated on the TA answer at this week's meeting.
+- Any AI integration. Saved for sprint 3 after the no-AI skeleton works end to end.
+- Splitting into frontend / backend sub-teams. Per the TA's earlier guidance, hold off until week 6 and 7 are cleared.
+
+## Decisions
+
+- Sprint 2 ends Sunday 2026-05-17.
+- Standups are tues / wed / thurs. Tues and thurs in person after class (~6:20pm), wed zoom at 1pm.
+- Sunday is sprint planning + retro, whole team.
+- Weekly TA meeting is Wednesdays at 10:30. Team leads usually join, anyone is free to join.
+- 24h PR review SLA going forward.
+- Functional area leads: project lead, design lead, devops lead, AI lead, QA lead. Fixed for now, can swap mid quarter. Assign at this meeting and record in [`team-roster.md`](../../process/team-roster.md).
+- No front-end / back-end split this sprint per the TA's earlier guidance.
+
+## Action Items
+
+- [ ] Push the `docs/sprint-1-process` branch and open a PR so the retro, templates, and cadence land on main. Yuval, Tue 5/12.
+- [ ] Slack the team a 24h review ping for PR #13, #14, #17. Yuval, Tue 5/12.
+- [ ] Close issue #4 on github (versioning, all AC met). Tue 5/12.
+- [ ] Create the Sprint 2 milestone on github and attach the must-do issues. Tue 5/12.
+- [ ] Assign owners for issues #10 (Baseline Code) and #11 (Testing + Linting Infrastructure) by EOD Tuesday so nothing is orphan.
+- [ ] Assign the 5 lead roles (project, design, devops, AI, QA) at this meeting and record in `docs/process/team-roster.md`.
+- [ ] Log today's standup as `docs/meetings/standups/standup-2026-05-12.md`. Tue 5/12.
+- [ ] Post the 4 TA questions in slack as Wednesday's TA meeting agenda by Tuesday night.
 
 ## Next Up
 
-- **Next standup:** Wednesday 2026-05-13 — Zoom or async Slack
-- **Next planning + retro:** Sunday 2026-05-17 — whole team
-- **This sprint ends:** Sunday 2026-05-17
+- **Next standup:** Tuesday 2026-05-12 (in person after class) or Wednesday 2026-05-13 (Zoom 1pm) depending on when this meeting is held.
+- **TA meeting:** Wednesday 2026-05-13 at 10:30.
+- **Sprint review + retrospective:** Sunday 2026-05-17.
+- **This sprint ends:** Sunday 2026-05-17.
