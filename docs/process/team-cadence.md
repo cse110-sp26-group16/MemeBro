@@ -11,14 +11,14 @@ from the CSE 110 spec: the way we work is what we're graded on.
 
 ## Weekly Meeting Schedule
 
-| Day | Event | Format | Length | Who attends |
-| --- | --- | --- | --- | --- |
-| **Sunday** | Sprint Retrospective (prior sprint) + Sprint Planning (next sprint) | Zoom or in-person | 45–60 min | Whole team (required) |
-| **Monday** | Standup #1 | Slack async thread | ~10 min | Whole team |
-| **Wednesday** | Standup #2 | Zoom (quick sync) | ~10 min | Whole team |
-| **Friday** | Standup #3 + TA meeting prep | Slack async thread | ~10 min | Whole team |
-| **Weekly (any day)** | TA Meeting | Zoom or in-person | ~20 min | ≥ 2 team members + TA |
-| **Once before end of quarter** | Prof Meeting | Whoever can attend | ~20 min | ≥ 2 team members + Prof |
+| Day                            | Event                                                               | Format                      | Time           | Who attends                                |
+| ------------------------------ | ------------------------------------------------------------------- | --------------------------- | -------------- | ------------------------------------------ |
+| **Sunday**                     | Sprint Retrospective (prior sprint) + Sprint Planning (next sprint) | Zoom or in-person           | ~45–60 min     | Whole team (required)                      |
+| **Tuesday**                    | Standup #1                                                          | In person after class       | ~10 min, 6:20pm | Whole team                                 |
+| **Wednesday**                  | TA Meeting                                                          | Zoom or in-person           | 10:30 am       | Team leads usually, anyone welcome, with TA |
+| **Wednesday**                  | Standup #2                                                          | Zoom                        | 1:00 pm        | Whole team                                 |
+| **Thursday**                   | Standup #3                                                          | In person after class       | ~10 min, 6:20pm | Whole team                                 |
+| **Once before end of quarter** | Prof Meeting                                                        | Whoever can attend          | ~20 min        | ≥ 2 team members + Prof                    |
 
 **Rule:** every meeting produces a Markdown file using the matching
 template in `docs/meetings/templates/`. **No file = it didn't happen**
@@ -65,20 +65,22 @@ Always use **`YYYY-MM-DD`** in filenames so they sort chronologically.
 
 ## Roles
 
-Roles rotate each sprint unless noted. Assign at Sunday planning and
-record in that sprint's planning notes.
+The team is organized around five lead roles: one per functional lane
+plus a project lead overall. Roles are fixed for now but can swap mid
+quarter if someone wants to try a different lane. Lead assignments live
+in [`team-roster.md`](./team-roster.md).
 
-| Role | Responsibilities | Rotation |
-| --- | --- | --- |
-| **Scrum Master** | Schedules meetings, posts standup prompts in Slack, ensures every meeting gets a file. | Each sprint |
-| **GitHub Wrangler** | Owns the issue board: labels, milestones, closes finished issues, manages branch protection. | Each sprint |
-| **Tech Lead** | Owns ADRs, dependency-approval requests to the TA, technical direction. | Could be fixed for the quarter |
-| **TA Liaison** | Books the weekly TA meeting, posts agenda 24h ahead, files the notes. | Pair, rotates each sprint |
-| **Note-taker** | Takes the notes for a single meeting. | **Each meeting**, not each sprint |
+| Role             | Owns                                                                                                                 |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------- |
+| **Project Lead** | Overall facilitator. Schedules meetings, runs sprint planning and retros, makes sure standups happen and get a file. |
+| **Design Lead**  | Wireframes, personas, user stories, UX flow.                                                                         |
+| **DevOps Lead**  | CI/CD, deployment, github pages, branch protection, repo health.                                                     |
+| **AI Lead**      | AI integration, prompts, guardrails, anything model facing.                                                          |
+| **QA Lead**      | Testing infrastructure, linting, baseline code health, e2e tests.                                                    |
 
-Until Week 6 + 7 is fully cleared with the TA, **do not split the team
-into front-end / back-end sub-teams**. Per Omair's explicit advice,
-that's the single biggest failure mode for this course.
+In addition, **note-taker** rotates per meeting (not per sprint).
+Whoever volunteers to write up a given meeting is the note-taker for
+that meeting only.
 
 ---
 
@@ -90,7 +92,7 @@ These are non-negotiable for the project:
    code, and documentation all live in this repo.
 2. **All task assignment happens via GitHub Issues.** Slack is fine
    for discussion, but the assignment itself must land as an issue
-   with an owner and label *before* work begins.
+   with an owner and label _before_ work begins.
 3. **Branching.** Use feature branches off `main`. Branch names follow
    `<type>/<short-description>` (e.g., `feat/upload-screen`,
    `docs/sprint-2-process`). Type matches the Conventional Commit
@@ -118,18 +120,18 @@ These are non-negotiable for the project:
 
 This cadence directly satisfies these required artifacts:
 
-- ✅ Sprint planning meeting before each sprint — Sunday.
-- ✅ Standups ≥ 3× per week — Mon / Wed / Fri.
-- ✅ Sprint review + retrospective ≥ 2× this quarter — every Sunday
+- Sprint planning meeting before each sprint — Sunday.
+- Standups ≥ 3× per week — Tue / Wed / Thu.
+- Sprint review + retrospective ≥ 2× this quarter — every Sunday
   alternating sprints (we'll easily exceed 2).
-- ✅ Weekly TA meeting captured.
-- ✅ ≥ 1 Prof meeting before end of quarter (book early — office
+- Weekly TA meeting captured.
+- ≥ 1 Prof meeting before end of quarter (book early — office
   hours fill up).
-- ✅ All work captured in GitHub incrementally.
-- ✅ PR path for changes > 300 LoC, reviewed by a teammate.
-- ✅ Conventional Commits + SemVer + `CHANGELOG.md`.
-- ✅ ADRs in MADR format for major decisions.
-- ✅ Branching demonstrated continuously.
+- All work captured in GitHub incrementally.
+- PR path for changes > 300 LoC, reviewed by a teammate.
+- Conventional Commits + SemVer + `CHANGELOG.md`.
+- ADRs in MADR format for major decisions.
+- Branching demonstrated continuously.
 
 ---
 
