@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Memebro — Library</title>
+<link rel="stylesheet" href="library/tokens.css"/>
+
+<template id="__bundler_thumbnail">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+    <rect width="200" height="200" fill="#f6efde"/>
+    <rect x="36" y="42" width="56" height="56" rx="10" fill="#e3691a"/>
+    <text x="64" y="80" font-family="Geist, sans-serif" font-size="32" font-weight="700" text-anchor="middle" fill="#fff">M</text>
+    <rect x="104" y="42" width="60" height="26" rx="6" fill="#fce6c8" stroke="#e3691a" stroke-width="1.5"/>
+    <rect x="104" y="76" width="40" height="22" rx="6" fill="#1f1408"/>
+    <rect x="36" y="110" width="128" height="50" rx="10" fill="#fcf8ee" stroke="#e6d6b0"/>
+    <text x="100" y="178" font-family="Instrument Serif, serif" font-style="italic" font-size="20" text-anchor="middle" fill="#1f1408">memebro</text>
+  </svg>
+</template>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel" src="library/templates.jsx"></script>
+<script type="text/babel" src="library/shell.jsx"></script>
+<script type="text/babel" src="library/screen-home.jsx"></script>
+<script type="text/babel" src="library/screen-search.jsx"></script>
+<script type="text/babel" src="library/screen-conjure.jsx"></script>
+<script type="text/babel" src="library/screen-editor.jsx"></script>
+<script type="text/babel" src="library/screen-history.jsx"></script>
+<script type="text/babel" src="library/screen-export.jsx"></script>
+<script type="text/babel" src="library/app.jsx"></script>
+</body>
+</html>
