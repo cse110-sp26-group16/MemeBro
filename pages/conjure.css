@@ -1,0 +1,249 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Helvetica",
+    "Arial", sans-serif;
+  background-color: #f5f5f5;
+  padding: 20px;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 500px;
+  margin: 0 auto;
+  background-color: #faf7f2;
+  border-radius: 40px;
+  padding: 30px 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border: 2px solid #333;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  gap: 15px;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-title {
+  font-size: 24px;
+  font-weight: 600;
+  font-style: italic;
+  flex: 1;
+}
+
+.credits {
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.prompt-section {
+  margin-bottom: 25px;
+}
+
+.prompt-input {
+  width: 100%;
+  padding: 15px;
+  border: 2px solid #333;
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 14px;
+  resize: vertical;
+  min-height: 80px;
+  background-color: #fff;
+  font-style: italic;
+}
+
+.prompt-input::placeholder {
+  color: #999;
+  font-style: italic;
+}
+
+.reference-section {
+  margin-bottom: 25px;
+  padding: 25px;
+  border: 2px dashed #999;
+  border-radius: 12px;
+  text-align: center;
+  cursor: pointer;
+  background-color: #fff;
+  transition: background-color 0.2s;
+}
+
+.reference-section:hover {
+  background-color: #f9f9f9;
+}
+
+.reference-text {
+  font-size: 14px;
+  color: #666;
+  font-style: italic;
+}
+
+.section-label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  color: #333;
+}
+
+.style-section {
+  margin-bottom: 25px;
+}
+
+.style-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.layout-section {
+  margin-bottom: 25px;
+}
+
+.layout-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.btn {
+  padding: 12px 20px;
+  border: 2px solid #333;
+  border-radius: 25px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  background-color: #fff;
+  color: #333;
+}
+
+.btn:hover {
+  transform: scale(1.02);
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn.active {
+  background-color: #333;
+  color: #fff;
+}
+
+.generate-btn {
+  width: 100%;
+  padding: 18px;
+  margin-top: 30px;
+  background-color: #d97e4a;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.generate-btn:hover {
+  background-color: #c66d3a;
+  transform: scale(1.02);
+}
+
+.generate-btn:active {
+  transform: scale(0.98);
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 15px;
+  }
+
+  .container {
+    border-radius: 30px;
+    padding: 20px 15px;
+  }
+
+  .header {
+    margin-bottom: 20px;
+  }
+
+  .header-title {
+    font-size: 20px;
+  }
+
+  .credits {
+    font-size: 12px;
+  }
+
+  .prompt-input {
+    padding: 12px;
+    font-size: 13px;
+    min-height: 70px;
+  }
+
+  .reference-section {
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+
+  .style-grid,
+  .layout-grid {
+    gap: 8px;
+  }
+
+  .btn {
+    padding: 10px 16px;
+    font-size: 12px;
+  }
+
+  .generate-btn {
+    padding: 16px;
+    font-size: 15px;
+    margin-top: 25px;
+  }
+}
+
+@media (max-width: 360px) {
+  .container {
+    padding: 15px 12px;
+  }
+
+  .header {
+    gap: 10px;
+  }
+
+  .header-title {
+    font-size: 18px;
+  }
+
+  .style-grid,
+  .layout-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
