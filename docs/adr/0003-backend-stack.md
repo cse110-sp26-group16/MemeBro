@@ -1,8 +1,8 @@
 # ADR-0003: Backend stack for the AI proxy
 
-- **Status:** Proposed
+- **Status:** Proposed (TA-approved 2026-05-20, awaiting team ratification at sprint planning 2026-05-24)
 - **Date:** 2026-05-19
-- **Deciders:** Whole team, with TA input pending
+- **Deciders:** Whole team, with TA sign-off from Omair Qazi
 
 ## Context
 
@@ -38,4 +38,11 @@ Until ratified, #26 stays paused. The AI Prompt Function in #27 can still land a
 
 ## Consequences
 
-Pending until the team ratifies. Will be documented once decided.
+The defer decision has the following effects once the team ratifies:
+
+- **#26 (Cloudflare Worker for AI proxy) stays BLOCKED** until ADR-0002 lands and the team picks a concrete backend platform (likely at the sprint planning that schedules the slow flow, sprint 3 at earliest). Jordan should redirect effort to the data layer for the quick flow until then.
+- **#27 (AI Prompt Function) is partially unblocked.** The prompt-builder helper (pure JS string assembly, no network call) can land now. The network call to the AI provider waits on the platform pick.
+- **No code lands on any backend platform** until the team ratifies ADR-0003 and (where applicable) Omair approves the chosen platform as a dependency per process rule 8.
+- **Follow-up ADR expected.** Per Omair's guidance on 2026-05-20, once the slow flow is queued and ADR-0002 has landed, the team files a follow-up ADR picking the concrete platform (likely ADR-0004) and brings it to him for dependency approval.
+
+TA sign-off captured in [`docs/meetings/ta/ta-meeting-2026-05-20.md`](../meetings/ta/ta-meeting-2026-05-20.md).
