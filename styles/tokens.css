@@ -1,0 +1,85 @@
+/* MemeBro design tokens, ported from the Library Grid hi-fi.
+   Single source of truth for color, spacing, type, and chrome dimensions.
+   Never hardcode a value that exists here as a token.
+   Light is the default. Dark theme via data-theme="dark" on <html>. */
+
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap');
+
+:root {
+  /* warm light palette */
+  --bg: #f6efde;
+  --bg-2: #efe5cd;
+  --surface: #fcf8ee;
+  --surface-2: #fbf3df;
+  --line: #e6d6b0;
+  --line-strong: #d4be8e;
+  --ink: #1f1408;
+  --ink-2: #4a3a26;
+  --ink-3: #8a7958;
+  --ink-4: #b8a878;
+
+  --orange: #e3691a;
+  --orange-2: #f08838;
+  --orange-soft: #fad8b4;
+  --orange-wash: #fce6c8;
+  --orange-deep: #b04c0c;
+
+  --accent-mint: #6fb89c;
+  --accent-rose: #d97384;
+  --accent-blue: #6a8fb8;
+
+  --shadow-sm: 0 1px 2px rgba(60,40,12,0.06);
+  --shadow-md: 0 4px 14px rgba(60,40,12,0.08), 0 1px 2px rgba(60,40,12,0.06);
+  --shadow-lg: 0 10px 32px rgba(60,40,12,0.12), 0 2px 6px rgba(60,40,12,0.08);
+
+  --radius-sm: 8px;
+  --radius: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+
+  /* chrome dimensions */
+  --sidebar-w: 244px;
+  --topbar-h: 56px;
+
+  font-family: 'Geist', system-ui, -apple-system, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+}
+
+[data-theme="dark"] {
+  --bg: #1a120a;
+  --bg-2: #221810;
+  --surface: #251a10;
+  --surface-2: #2c2014;
+  --line: #3a2a1a;
+  --line-strong: #4a3624;
+  --ink: #faf4e6;
+  --ink-2: #e0d3b8;
+  --ink-3: #a89a7b;
+  --ink-4: #6e6044;
+
+  --orange: #f08838;
+  --orange-2: #fda85a;
+  --orange-soft: #4a2f15;
+  --orange-wash: #3a230f;
+  --orange-deep: #fcb56e;
+
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.4);
+  --shadow-md: 0 4px 14px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.3);
+  --shadow-lg: 0 10px 32px rgba(0,0,0,0.55), 0 2px 6px rgba(0,0,0,0.3);
+}
+
+/* base resets so the design system applies cleanly across the app */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; min-height: 100vh; background: var(--bg); color: var(--ink); }
+body {
+  font-family: 'Geist', system-ui, sans-serif;
+  font-feature-settings: "ss01", "cv11";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+button { font-family: inherit; cursor: pointer; }
+input, textarea { font-family: inherit; }
+
+::selection { background: var(--orange-soft); color: var(--ink); }

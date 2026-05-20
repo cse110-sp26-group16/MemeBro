@@ -16,7 +16,7 @@ Options considered:
 
 ## Decision
 
-Use vanilla HTML, CSS, and JavaScript. No frontend framework, no bundler. The only build step is whatever the eventual AI integration needs (likely a server proxy for the AI api key, decided in ADR-0002).
+Use vanilla HTML, CSS, and JavaScript. No frontend framework, no bundler. The only build step is whatever the eventual AI integration needs (likely a server proxy for the AI api key, decided in a future ADR).
 
 ## Consequences
 
@@ -33,4 +33,4 @@ Negative:
 - Less ergonomic for complex state. We will feel this if the AI integration UI gets stateful.
 - No component reuse beyond plain functions and templates.
 
-If the team hits a wall with the vanilla approach, we will write ADR-0003 to revisit and document why.
+If the team hits a wall with the vanilla approach, we will write a follow-up ADR to revisit and document why.
