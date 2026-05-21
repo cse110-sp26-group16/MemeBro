@@ -1,1 +1,3 @@
-#Placeholder for now, please delete when first change is written.
+# Changelog
+
+- Added the Library Home layout with a pinned search top bar and mobile Conjure action for issue #24.

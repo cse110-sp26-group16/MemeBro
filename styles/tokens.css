@@ -41,6 +41,24 @@
   --sidebar-w: 244px;
   --topbar-h: 56px;
 
+  --bottom-nav-h: 72px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 2rem;
+  --tracking-wide: 0.08em;
+  --leading-tight: 1.05;
+
   font-family: 'Geist', system-ui, -apple-system, sans-serif;
   color: var(--ink);
   background: var(--bg);
