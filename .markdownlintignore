@@ -1,0 +1,8 @@
+node_modules/
+.git/
+.github/
+dist/
+build/
+coverage/
+research/ai-prototypes/outputs/
+Design/screens/

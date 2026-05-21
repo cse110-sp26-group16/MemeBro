@@ -1,0 +1,17 @@
+node_modules/
+.git/
+.github/
+dist/
+build/
+coverage/
+.next/
+out/
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+research/ai-prototypes/outputs/
+research/ai-prototypes/package-lock.json
+package-lock.json
+index.html
