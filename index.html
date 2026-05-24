@@ -1,15 +1,180 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MemeBro</title>
-  <link rel="stylesheet" href="./styles/tokens.css" />
-  <script type="module" src="./js/components/template-gallery.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MemeBro</title>
+    <link rel="stylesheet" href="styles/tokens.css">
+    <link rel="stylesheet" href="styles/home.css">
 </head>
 <body>
-  <main>
-    <memebro-template-gallery></memebro-template-gallery>
-  </main>
+    <div class="home-shell">
+        <aside class="home-sidebar" aria-label="Library navigation">
+            <a class="home-sidebar__brand" href="index.html" aria-label="MemeBro home">
+                <span class="home-sidebar__mark" aria-hidden="true">M</span>
+                <span>memebro.</span>
+            </a>
+            <nav class="home-sidebar__nav" aria-label="Template library">
+                <section class="home-sidebar__group" aria-labelledby="library-heading">
+                    <h2 id="library-heading">Library</h2>
+                    <a class="home-sidebar__link home-sidebar__link--active" href="#all">
+                        <span>All templates</span>
+                        <span>10,482</span>
+                    </a>
+                    <a class="home-sidebar__link" href="#favorites">
+                        <span>Favorites</span>
+                        <span>12</span>
+                    </a>
+                     <a class="home-sidebar__link" href="#recent">Recent</a>
+                </section>
+                <section class="home-sidebar__group" aria-labelledby="categories-heading">
+                    <h2 id="categories-heading">Categories</h2>
+                    <a class="home-sidebar__link" href="#reaction">
+                        <span>Reaction</span>
+                        <span>2,340</span>
+                    </a>
+                    <a class="home-sidebar__link" href="#classic">
+                         <span>Classic</span>
+                         <span>1,820</span>
+                    </a>
+                    <a class="home-sidebar__link" href="#four-panel">
+                        <span>4-panel</span>
+                        <span>640</span>
+                    </a>
+                    <a class="home-sidebar__link" href="#video">
+                        <span>Video / GIF</span>
+                        <span>1,402</span>
+                    </a>
+                    <a class="home-sidebar__link" href="#dev-humor">
+                        <span>Dev humor</span>
+                        <span>894</span>
+                    </a>
+                </section>
+
+                <section class="home-sidebar__group" aria-labelledby="mine-heading">
+                    <h2 id="mine-heading">Mine</h2>
+                    <a class="home-sidebar__link" href="#mine">
+                        <span>My memes</span>
+                        <span>24</span>
+                    </a>
+                    <a class="home-sidebar__link" href="#conjured">
+                        <span>Conjured ✦</span>
+                        <span>6</span>
+                    </a>
+                </section>
+            </nav>
+            <a class="home-sidebar__conjure" href="#conjure">
+                <strong>✦ Conjure with AI</strong>
+                <span>Generate a brand-new template from a prompt.</span>
+                <small>4 of 5 credits left</small>
+            </a>
+        </aside>
+        <main class="home-page" id="library">
+            <header class="home-topbar">
+                <div class="home-topbar__left">
+                    <button class="home-icon-button" type="button" aria-label="Open menu">☰</button>
+                    <span class="home-topbar__layers" aria-hidden="true">▧</span>
+                    <span class="home-topbar__brand">memebro</span>
+                    <span class="home-topbar__crumb">/ all templates</span>
+                </div>
+                <form class="home-search" role="search">
+                    <label class="home-search__label" for="template-search">Search templates</label>
+                    <input
+                        id="template-search"
+                        class="home-search__input"
+                        type="search"
+                        placeholder="Search templates or describe a meme"
+                        autocomplete="off"
+                    >
+                    <span class="home-search__shortcut" aria-hidden="true">⌘K</span>
+                </form>
+                <div class="home-topbar__actions">
+                    <button class="home-icon-button home-icon-button--desktop" type="button" aria-label="Toggle theme">◐</button>
+                    <a class="home-desktop-conjure" href="#conjure">✦ Conjure</a>
+                </div>
+            </header>
+            <section class="home-hero" aria-label="Create a meme">
+                <article class="home-hero-card home-hero-card--dark">
+                    <h1>The fastest way to ship a <em>meme.</em></h1>
+                    <p>10,000+ templates ready to go. Or describe what you wish existed — we’ll conjure it.</p>
+                    <div class="home-hero-card__actions">
+                        <a href="#trending">Trending</a>
+                        <a href="#conjure">✶ Conjure new</a>
+                    </div>
+                </article>
+                <a class="home-hero-card home-hero-card--orange" href="#conjure">
+                    <h2>Conjure a <em>brand-new</em> template</h2>
+                    <p>From a prompt + optional reference image. ~8 sec, 4 options.</p>
+                    <span>Try it — 4 / 5 credits</span>
+                </a>
+            </section>
+            <section class="home-library" aria-labelledby="templates-heading">
+                <div class="home-section-header">
+                    <div>
+                        <h2 id="templates-heading">All templates <span>20</span></h2>
+                        <p>Tap a template to start. Hover for actions.</p>
+                    </div>
+                    <label class="home-sort">
+                        <span>Sort templates</span>
+                        <select>
+                            <option>Sort: Popular</option>
+                            <option>Sort: Recent</option>
+                            <option>Sort: Trending</option>
+                        </select>
+                    </label>
+                </div>
+                <nav class="home-chip-row" aria-label="Template filters">
+                    <a class="home-chip home-chip--active" href="#all">All</a>
+                    <a class="home-chip" href="#trending">Trending</a>
+                    <a class="home-chip" href="#reaction">Reaction</a>
+                    <a class="home-chip" href="#classic">Classic</a>
+                    <a class="home-chip" href="#four-panel">4-panel</a>
+                    <a class="home-chip" href="#video">Video</a>
+                    <a class="home-chip" href="#dev-humor">Dev humor</a>
+                    <a class="home-chip" href="#wholesome">Wholesome</a>
+                </nav>
+                <section class="home-recent" aria-labelledby="recent-heading">
+                    <h3 id="recent-heading">Recent</h3>
+                    <div class="home-recent__strip">
+                        <article class="home-thumb home-thumb--drake">Drake</article>
+                        <article class="home-thumb home-thumb--twd">TWD</article>
+                        <article class="home-thumb home-thumb--distracted">Distracted</article>
+                        <article class="home-thumb home-thumb--expanding">Expanding</article>
+                        <article class="home-thumb home-thumb--orange">Change</article>
+                    </div>
+                </section>
+                <section class="home-browse" aria-labelledby="browse-heading">
+                    <h3 id="browse-heading">Browse</h3>
+                    <div class="home-template-grid" aria-label="Template gallery placeholder">
+                        <article class="home-template-card home-template-card--wide">NO<br>YES</article>
+                        <article class="home-template-card home-template-card--split"></article>
+                        <article class="home-template-card home-template-card--yellow"></article>
+                        <article class="home-template-card home-template-card--tall"></article>
+                        <article class="home-template-card home-template-card--pink"></article>
+                        <article class="home-template-card"></article>
+                    </div>
+                </section>
+            </section>
+        </main>
+        <nav class="home-bottom-nav" aria-label="Primary navigation">
+            <a class="home-bottom-nav__item home-bottom-nav__item--active" href="#library">
+                <span aria-hidden="true">▦</span>
+                Library
+            </a>
+            <a class="home-bottom-nav__item" href="#mine">
+                <span aria-hidden="true">♙</span>
+                Mine
+            </a>
+            <a class="home-bottom-nav__item" href="#search">
+                <span aria-hidden="true">⌕</span>
+                Search
+            </a>
+            <a class="home-bottom-nav__item" href="#settings">
+                <span aria-hidden="true">⚙</span>
+                 Settings
+            </a>
+        </nav>
+        <a id="conjure" class="home-conjure-fab" href="#conjure" aria-label="Conjure a new meme template">✦</a>
+    </div>
 </body>
 </html>
