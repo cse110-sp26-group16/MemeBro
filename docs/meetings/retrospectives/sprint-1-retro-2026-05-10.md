@@ -183,32 +183,32 @@ These map directly to the action items below.
 
 ## Action Items (carry into Sprint 2)
 
-- [ ] **Merge PRs #12, #13, #14** within 24h of Sprint 2 kickoff so
+- [x] **Merge PRs #12, #13, #14** within 24h of Sprint 2 kickoff so
       design + AI + CI work lands on `main`.
-- [ ] **Open a PR for the `prompt-engineering` branch** (issue #7
+- [x] **Open a PR for the `prompt-engineering` branch** (issue #7
       work) — not yet PR'd.
-- [ ] **Close issue #4** (Versioning Protocol Setup) — all AC met.
-- [ ] **Finish wireframes #2 and #3** (carry-over). _Owners:
+- [x] **Close issue #4** (Versioning Protocol Setup) — all AC met.
+- [x] **Finish wireframes #2 and #3** (carry-over). _Owners:
       nakazawak (#2) and Fariba-Tokhi (#3)._
-- [ ] **Assign an owner for #11** (Testing + Linting Infrastructure)
+- [x] **Assign an owner for #11** (Testing + Linting Infrastructure)
       and bring the dep batch to the TA. _Owner: Scrum Master to
       assign._
-- [ ] **Complete #10 baseline code** (`style.css` + `app.js`).
-- [ ] **Create the Sprint 2 milestone** on GitHub and tag the
+- [x] **Complete #10 baseline code** (`style.css` + `app.js`).
+- [x] **Create the Sprint 2 milestone** on GitHub and tag the
       carry-overs.
-- [ ] **Open a PR for `docs/sprint-1-process`** → `main` (includes
+- [x] **Open a PR for `docs/sprint-1-process`** → `main` (includes
       planning notes, meeting templates, this retro, team cadence,
       Sprint 2 planning script). _Owner: whoever runs the planning
       meeting._
-- [ ] **Schedule recurring meetings on calendar**: Sun planning +
+- [x] **Schedule recurring meetings on calendar**: Sun planning +
       retro, Mon / Wed / Fri standups, weekly TA meeting.
-- [ ] **Draft ADR-0001** ("Use vanilla HTML / CSS / JS — no
+- [x] **Draft ADR-0001** ("Use vanilla HTML / CSS / JS — no
       frameworks") in MADR format.
-- [ ] **Draft ADR-0002** ("Deployment target: Cloudflare Pages vs
+- [x] **Draft ADR-0002** ("Deployment target: Cloudflare Pages vs
       GitHub Pages") and bring it to the TA meeting for sign-off.
-- [ ] **Open a PR template** at `.github/PULL_REQUEST_TEMPLATE.md`.
-- [ ] **Enable branch protection on `main`** (require PR review).
-- [ ] **Bring the dependency batch-approval request** to the TA
+- [x] **Open a PR template** at `.github/PULL_REQUEST_TEMPLATE.md`.
+- [x] **Enable branch protection on `main`** (require PR review).
+- [x] **Bring the dependency batch-approval request** to the TA
       meeting (ESLint, Prettier, Jest, Playwright, AI SDK).
 
 ## Evidence of Incorporation (from previous retro)
