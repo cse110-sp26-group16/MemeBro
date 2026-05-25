@@ -6,6 +6,7 @@ test("home page has correct title", async ({ page }) => {
 });
 
 test("home page shows the brand name", async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 667 });
   await page.goto("/");
   await expect(page.locator(".home-topbar__brand")).toBeVisible();
 });
