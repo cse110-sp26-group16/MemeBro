@@ -1,0 +1,19 @@
+{
+  "name": "memebro",
+  "version": "1.0.0",
+  "description": "A meme generation platform with AI-powered face-swapping",
+  "private": true,
+  "scripts": {
+    "test:meme": "node test-meme.js",
+    "test:unit": "vitest run",
+    "test:unit:watch": "vitest"
+  },
+  "dependencies": {
+    "canvas": "^3.2.3",
+    "replicate": "^1.4.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.60.0",
+    "serve": "^14.2.6"
+  }
+}
