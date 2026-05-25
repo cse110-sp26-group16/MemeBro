@@ -1,0 +1,16 @@
+{
+  "name": "memebro",
+  "private": true,
+  "scripts": {
+    "test:meme": "node test-meme.js",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "canvas": "^3.2.3",
+    "replicate": "^1.4.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.60.0",
+    "serve": "^14.2.6"
+  }
+}
