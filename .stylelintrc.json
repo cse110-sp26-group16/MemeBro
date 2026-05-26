@@ -1,0 +1,8 @@
+{
+  "extends": ["stylelint-config-standard"],
+  "rules": {
+    "no-descending-specificity": true,
+    "declaration-empty-line-before": null,
+    "rule-empty-line-before": null
+  }
+}
