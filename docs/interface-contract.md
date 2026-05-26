@@ -121,9 +121,34 @@ Modules under `js/api/` expose async functions and know nothing about the DOM. S
 | --- | --- | --- |
 | `js/api/imgflip-api.js` | Template search and popular list (#21) | `getPopularTemplates(): Promise<Template[]>`, `searchTemplates(query: string): Promise<Template[]>` |
 | `js/api/storage.js` | `localStorage` wrapper | `getMemes(): Meme[]`, `saveMeme(meme: Meme): void`, `deleteMeme(id: string): void`, `getTheme(): 'light'\|'dark'`, `setTheme(theme): void` |
+| `js/api/ai-api.js` | Pure prompt builder (#27) | `buildAIPrompt(inputs: ConjureInputs): string` |
 | `js/api/conjure.js` | AI generation, BLOCKED on [ADR-0003](adr/0003-backend-stack.md) (#27) | `conjureMeme(prompt: string): Promise<Meme>` |
 
 These signatures are the agreement so other lanes can stub against them while the real module is in flight. The owning issue locks the final signatures in its PR.
+
+### ConjureInputs
+
+The parameter object for `buildAIPrompt`. Passed through to `conjureMeme` as the `prompt` argument once the backend lands.
+
+```js
+/**
+ * @typedef {'photo'|'cartoon'|'3d-render'|'retro'|'painted'|'screenshot'} MemeStyle
+ * @typedef {'1-panel'|'2-panel'|'3-panel'|'4-panel'} MemeLayout
+ *
+ * @typedef {Object} ConjureInputs
+ * @property {string}      concept          User's description of the meme situation or joke (required)
+ * @property {string}      [memeFormat]     Named meme template (e.g. "Drake Hotline Bling"). Omit to let the model choose.
+ * @property {MemeStyle}   [style]          Visual style. Defaults to 'photo'.
+ * @property {MemeLayout}  [layout]         Panel layout. Defaults to '1-panel'.
+ * @property {string}      [referenceImage] Base64 data URL of the user's reference photo (optional).
+ */
+```
+
+`buildAIPrompt` returns a JSON string `{ "system": "...", "user": "..." }`. The backend passes each key to the AI provider in the correct role slot. The user section always ends with a `Return:` line specifying the expected output schema:
+
+- **With `memeFormat`:** `{"top_text": "...", "bottom_text": "...", "image_treatment": "..."}`
+- **Without `memeFormat`:** `{"suggested_format": "...", "top_text": "...", "bottom_text": "...", "image_treatment": "..."}`
+- **Refusal (any template):** `{"refusal": "<friendly reason>"}`
 
 ## Routing
 
