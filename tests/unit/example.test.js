@@ -12,6 +12,6 @@ describe('Example test suite', () => {
   });
 
   it('should perform a basic assertion', () => {
-    expect(1 + 1).toBe(2);
+    expect(1 + 1).toBe(999);
   });
 });
