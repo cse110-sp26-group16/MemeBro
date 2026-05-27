@@ -13,5 +13,5 @@ research/ai-prototypes/outputs/
 .env
 .env.local
 .env.*.local
-research/ai-prototypes/
+research/
 test-results/

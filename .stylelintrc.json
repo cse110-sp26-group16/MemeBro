@@ -3,6 +3,12 @@
   "rules": {
     "no-descending-specificity": true,
     "declaration-empty-line-before": null,
-    "rule-empty-line-before": null
+    "rule-empty-line-before": null,
+    "selector-class-pattern": [
+      "^[a-z][a-z0-9]*(-[a-z0-9]+)*(__[a-z][a-z0-9]*(-[a-z0-9]+)*)?(--[a-z][a-z0-9]*(-[a-z0-9]+)*)?$",
+      {
+        "message": "Class names use kebab-case BEM: block, block__element, block--modifier (see AGENTS.md)"
+      }
+    ]
   }
 }

@@ -6,13 +6,12 @@ The way you write your `CHANGELOG.md` ‘s updates show other developers how sig
 
 ## The Semantic Versioning Format
 
-| Code Status | Stage		| Rule	    | Example Version |
-| :---        |    :----:   |    :----:     |			---: |
-| First release     | New product      | Start with 1.0.0  | 1.0.0                                     |
-| Backward compatible bug fixes  | Patch release       | Increment the third digit     | 1.0.1		     |
-| Backward compatible new features   | Minor release       | Increment the middle digit and reset last digit to zero      | 1.1.0		     |
-| Changes that break backward compatibility   | Major release       | Increment the first digit and reset middle and last digits to zero     | 2.0.0 |  
-
+| Code Status                               |     Stage     |                                Rule                                | Example Version |
+| :---------------------------------------- | :-----------: | :----------------------------------------------------------------: | --------------: |
+| First release                             |  New product  |                          Start with 1.0.0                          |           1.0.0 |
+| Backward compatible bug fixes             | Patch release |                     Increment the third digit                      |           1.0.1 |
+| Backward compatible new features          | Minor release |      Increment the middle digit and reset last digit to zero       |           1.1.0 |
+| Changes that break backward compatibility | Major release | Increment the first digit and reset middle and last digits to zero |           2.0.0 |
 
 ## Semantic Versioning Specifics
 
@@ -27,10 +26,9 @@ The way you write your `CHANGELOG.md` ‘s updates show other developers how sig
 9. A pre-release version MAY be denoted by appending a hyphen and a series of dot separated identifiers immediately following the patch version. Identifiers MUST comprise only ASCII alphanumerics and hyphens [0-9A-Za-z-]. Identifiers MUST NOT be empty. Numeric identifiers MUST NOT include leading zeroes. Pre-release versions have a lower precedence than the associated normal version. A pre-release version indicates that the version is unstable and might not satisfy the intended compatibility requirements as denoted by its associated normal version. Examples: 1.0.0-alpha, 1.0.0-alpha.1, 1.0.0-0.3.7, 1.0.0-x.7.z.92, 1.0.0-x-y-z.--.
 10. Build metadata MAY be denoted by appending a plus sign and a series of dot separated identifiers immediately following the patch or pre-release version. Identifiers MUST comprise only ASCII alphanumerics and hyphens [0-9A-Za-z-]. Identifiers MUST NOT be empty. Build metadata MUST be ignored when determining version precedence. Thus two versions that differ only in the build metadata, have the same precedence. Examples: 1.0.0-alpha+001, 1.0.0+20130313144700, 1.0.0-beta+exp.sha.5114f85, 1.0.0+21AF26D3----117B344092BD.
 11. Precedence refers to how versions are compared to each other when ordered.
-  - Precedence MUST be calculated by separating the version into major, minor, patch and pre-release identifiers in that order (Build metadata does not figure into precedence).
-  - Precedence is determined by the first difference when comparing each of these identifiers from left to right as follows: Major, minor, and patch versions are always compared numerically.
-      - Ex.  1.0.0 < 2.0.0 < 2.1.0 < 2.1.1.
-  - When major, minor, and patch are equal, a pre-release version has lower precedence than a normal version:
-      - Ex. 1.0.0-alpha < 1.0.0.
 
-
+- Precedence MUST be calculated by separating the version into major, minor, patch and pre-release identifiers in that order (Build metadata does not figure into precedence).
+- Precedence is determined by the first difference when comparing each of these identifiers from left to right as follows: Major, minor, and patch versions are always compared numerically.
+  - Ex. 1.0.0 < 2.0.0 < 2.1.0 < 2.1.1.
+- When major, minor, and patch are equal, a pre-release version has lower precedence than a normal version:
+  - Ex. 1.0.0-alpha < 1.0.0.
