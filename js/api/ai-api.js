@@ -1,5 +1,5 @@
-**
- * @fileoverview Pure helper that builds the AI prompt string for meme generation.
+/**
+ * @file Pure helper that builds the AI prompt string for meme generation.
  * No network calls live here — the actual API request is handled by js/api/conjure.js
  * once the backend platform is decided (ADR-0003).
  */
@@ -10,7 +10,7 @@
  */
 
 /**
- * @typedef {Object} ConjureInputs
+ * @typedef {object} ConjureInputs
  * @property {string}      concept         User's description of the meme situation or joke
  * @property {string}      [memeFormat]    Named template (e.g. "Drake Hotline Bling"). Omit to let the model choose.
  * @property {MemeStyle}   [style]         Visual style. Defaults to 'photo'.
@@ -39,23 +39,19 @@ Rules:
  * @throws {Error} If `inputs.concept` is missing or not a non-empty string
  */
 export function buildAIPrompt(inputs) {
-  if (!inputs || typeof inputs.concept !== 'string' || inputs.concept.trim() === '') {
-    throw new Error('buildAIPrompt: inputs.concept is required and must be a non-empty string');
+  if (!inputs || typeof inputs.concept !== "string" || inputs.concept.trim() === "") {
+    throw new Error("buildAIPrompt: inputs.concept is required and must be a non-empty string");
   }
 
   const {
     concept,
     memeFormat = null,
-    style = 'photo',
-    layout = '1-panel',
+    style = "photo",
+    layout = "1-panel",
     referenceImage = null,
   } = inputs;
 
-  const lines = [
-    `Concept: ${concept.trim()}`,
-    `Style: ${style}`,
-    `Layout: ${layout}`,
-  ];
+  const lines = [`Concept: ${concept.trim()}`, `Style: ${style}`, `Layout: ${layout}`];
 
   if (memeFormat) {
     lines.push(`Format: ${memeFormat}`);
@@ -69,7 +65,7 @@ export function buildAIPrompt(inputs) {
     ? '{"top_text": "...", "bottom_text": "...", "image_treatment": "..."}'
     : '{"suggested_format": "...", "top_text": "...", "bottom_text": "...", "image_treatment": "..."}';
 
-  lines.push('', `Return: ${outputSchema}`);
+  lines.push("", `Return: ${outputSchema}`);
 
-  return JSON.stringify({ system: SYSTEM_PROMPT, user: lines.join('\n') });
+  return JSON.stringify({ system: SYSTEM_PROMPT, user: lines.join("\n") });
 }

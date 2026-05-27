@@ -15,12 +15,12 @@ If you need something not specified here, propose it via PR against this file. D
 
 ## Pages and mount points
 
-| Screen | File | Mount element | Issue |
-| --- | --- | --- | --- |
-| Home (landing, popular templates) | `index.html` | `<main id="home-root">` | #24 |
-| Gallery (browse and search templates) | `index.html` (toggled section) | `<section id="gallery-root">` | #22 |
-| Conjure (AI prompt to generate meme) | `pages/conjure.html` | `<main id="conjure-root">` | #25 |
-| History (saved memes) | `pages/history.html` | `<main id="history-root">` | TBD |
+| Screen                                | File                           | Mount element                 | Issue |
+| ------------------------------------- | ------------------------------ | ----------------------------- | ----- |
+| Home (landing, popular templates)     | `index.html`                   | `<main id="home-root">`       | #24   |
+| Gallery (browse and search templates) | `index.html` (toggled section) | `<section id="gallery-root">` | #22   |
+| Conjure (AI prompt to generate meme)  | `pages/conjure.html`           | `<main id="conjure-root">`    | #25   |
+| History (saved memes)                 | `pages/history.html`           | `<main id="history-root">`    | TBD   |
 
 Each screen is a web component (e.g. `<memebro-home>`) that mounts inside its root element and owns its shadow DOM. The host page is a thin shell, it sets up the mount root and pulls in the component module, nothing else.
 
@@ -83,11 +83,11 @@ A template plus the user's edits.
 
 `localStorage` is the only client-side store for sprint 2. No IndexedDB, no cookies for app data.
 
-| Key | Type | Notes |
-| --- | --- | --- |
-| `memebro:memes` | `Meme[]` | The saved meme list. History reads, Editor writes. |
-| `memebro:schema-version` | `number` | Currently `1`. Bump and add a migration if you change a shape above. |
-| `memebro:theme` | `'light' \| 'dark'` | Persisted theme choice. Foundation JS reads on load. |
+| Key                      | Type                | Notes                                                                |
+| ------------------------ | ------------------- | -------------------------------------------------------------------- |
+| `memebro:memes`          | `Meme[]`            | The saved meme list. History reads, Editor writes.                   |
+| `memebro:schema-version` | `number`            | Currently `1`. Bump and add a migration if you change a shape above. |
+| `memebro:theme`          | `'light' \| 'dark'` | Persisted theme choice. Foundation JS reads on load.                 |
 
 All storage access goes through `js/api/storage.js`. Components do not call `localStorage` directly. That keeps the schema-version check in one place.
 
@@ -95,34 +95,36 @@ All storage access goes through `js/api/storage.js`. Components do not call `loc
 
 Components talk to each other by dispatching custom events that bubble up through the DOM. Names use the `memebro:` prefix in kebab-case.
 
-| Event | `detail` shape | Fired by | Listened by |
-| --- | --- | --- | --- |
-| `memebro:template-selected` | `{ template: Template }` | Home, Gallery | Editor (when it lands), Conjure |
-| `memebro:meme-created` | `{ meme: Meme }` | Editor, Conjure | Storage layer |
-| `memebro:meme-saved` | `{ meme: Meme }` | Storage layer | History |
-| `memebro:meme-deleted` | `{ id: string }` | History | Storage layer |
-| `memebro:theme-changed` | `{ theme: 'light' \| 'dark' }` | Theme toggle | Foundation, persistence |
+| Event                       | `detail` shape                 | Fired by        | Listened by                     |
+| --------------------------- | ------------------------------ | --------------- | ------------------------------- |
+| `memebro:template-selected` | `{ template: Template }`       | Home, Gallery   | Editor (when it lands), Conjure |
+| `memebro:meme-created`      | `{ meme: Meme }`               | Editor, Conjure | Storage layer                   |
+| `memebro:meme-saved`        | `{ meme: Meme }`               | Storage layer   | History                         |
+| `memebro:meme-deleted`      | `{ id: string }`               | History         | Storage layer                   |
+| `memebro:theme-changed`     | `{ theme: 'light' \| 'dark' }` | Theme toggle    | Foundation, persistence         |
 
 Always fire with `bubbles: true` and `composed: true` so the event escapes the shadow DOM:
 
 ```js
-this.dispatchEvent(new CustomEvent('memebro:template-selected', {
-  detail: { template },
-  bubbles: true,
-  composed: true,
-}));
+this.dispatchEvent(
+  new CustomEvent("memebro:template-selected", {
+    detail: { template },
+    bubbles: true,
+    composed: true,
+  })
+);
 ```
 
 ## API modules
 
 Modules under `js/api/` expose async functions and know nothing about the DOM. Screens import and call them.
 
-| Module | Purpose | Target exports |
-| --- | --- | --- |
-| `js/api/imgflip-api.js` | Template search and popular list (#21) | `getPopularTemplates(): Promise<Template[]>`, `searchTemplates(query: string): Promise<Template[]>` |
-| `js/api/storage.js` | `localStorage` wrapper | `getMemes(): Meme[]`, `saveMeme(meme: Meme): void`, `deleteMeme(id: string): void`, `getTheme(): 'light'\|'dark'`, `setTheme(theme): void` |
-| `js/api/ai-api.js` | Pure prompt builder (#27) | `buildAIPrompt(inputs: ConjureInputs): string` |
-| `js/api/conjure.js` | AI generation, BLOCKED on [ADR-0003](adr/0003-backend-stack.md) (#27) | `conjureMeme(prompt: string): Promise<Meme>` |
+| Module                  | Purpose                                                               | Target exports                                                                                                                             |
+| ----------------------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `js/api/imgflip-api.js` | Template search and popular list (#21)                                | `getPopularTemplates(): Promise<Template[]>`, `searchTemplates(query: string): Promise<Template[]>`                                        |
+| `js/api/storage.js`     | `localStorage` wrapper                                                | `getMemes(): Meme[]`, `saveMeme(meme: Meme): void`, `deleteMeme(id: string): void`, `getTheme(): 'light'\|'dark'`, `setTheme(theme): void` |
+| `js/api/ai-api.js`      | Pure prompt builder (#27)                                             | `buildAIPrompt(inputs: ConjureInputs): string`                                                                                             |
+| `js/api/conjure.js`     | AI generation, BLOCKED on [ADR-0003](adr/0003-backend-stack.md) (#27) | `conjureMeme(prompt: string): Promise<Meme>`                                                                                               |
 
 These signatures are the agreement so other lanes can stub against them while the real module is in flight. The owning issue locks the final signatures in its PR.
 
