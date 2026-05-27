@@ -7,7 +7,7 @@ help build the meme.
 - **Live site:** <https://cse110-sp26-group16.github.io/MemeBro/>
 - **Status Check 1 video:** <https://youtu.be/CxGFtt9xntI>
 
-CSE 110, Spring 2026, Group 16.
+Built by **Cutie Devs** (Group 16), CSE 110, Spring 2026.
 
 ## Two flows
 
@@ -89,6 +89,6 @@ All work is tracked in GitHub Issues; changes land via reviewed PRs against
 
 ## Team
 
-Group 16, 11 members. See [`docs/process/team-roster.md`](docs/process/team-roster.md)
+Cutie Devs (Group 16), 11 members. See [`docs/process/team-roster.md`](docs/process/team-roster.md)
 for names and GitHub handles, and [`docs/process/team-cadence.md`](docs/process/team-cadence.md)
 for the meeting schedule and process rules.
