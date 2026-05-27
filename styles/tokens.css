@@ -3,7 +3,7 @@
    Never hardcode a value that exists here as a token.
    Light is the default. Dark theme via data-theme="dark" on <html>. */
 
-@import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap");
 
 :root {
   /* warm light palette */
@@ -17,21 +17,17 @@
   --ink-2: #4a3a26;
   --ink-3: #8a7958;
   --ink-4: #b8a878;
-
   --orange: #e3691a;
   --orange-2: #f08838;
   --orange-soft: #fad8b4;
   --orange-wash: #fce6c8;
   --orange-deep: #b04c0c;
-
   --accent-mint: #6fb89c;
   --accent-rose: #d97384;
   --accent-blue: #6a8fb8;
-
-  --shadow-sm: 0 1px 2px rgba(60,40,12,0.06);
-  --shadow-md: 0 4px 14px rgba(60,40,12,0.08), 0 1px 2px rgba(60,40,12,0.06);
-  --shadow-lg: 0 10px 32px rgba(60,40,12,0.12), 0 2px 6px rgba(60,40,12,0.08);
-
+  --shadow-sm: 0 1px 2px rgb(60 40 12 / 6%);
+  --shadow-md: 0 4px 14px rgb(60 40 12 / 8%), 0 1px 2px rgb(60 40 12 / 6%);
+  --shadow-lg: 0 10px 32px rgb(60 40 12 / 12%), 0 2px 6px rgb(60 40 12 / 8%);
   --radius-sm: 8px;
   --radius: 12px;
   --radius-lg: 18px;
@@ -40,7 +36,6 @@
   /* chrome dimensions */
   --sidebar-w: 244px;
   --topbar-h: 56px;
-
   --bottom-nav-h: 72px;
   --space-1: 4px;
   --space-2: 8px;
@@ -59,7 +54,11 @@
   --tracking-wide: 0.08em;
   --leading-tight: 1.05;
 
-  font-family: 'Geist', system-ui, -apple-system, sans-serif;
+  font-family:
+    Geist,
+    system-ui,
+    -apple-system,
+    sans-serif;
   color: var(--ink);
   background: var(--bg);
 }
@@ -75,29 +74,47 @@
   --ink-2: #e0d3b8;
   --ink-3: #a89a7b;
   --ink-4: #6e6044;
-
   --orange: #f08838;
   --orange-2: #fda85a;
   --orange-soft: #4a2f15;
   --orange-wash: #3a230f;
   --orange-deep: #fcb56e;
-
-  --shadow-sm: 0 1px 2px rgba(0,0,0,0.4);
-  --shadow-md: 0 4px 14px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.3);
-  --shadow-lg: 0 10px 32px rgba(0,0,0,0.55), 0 2px 6px rgba(0,0,0,0.3);
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 40%);
+  --shadow-md: 0 4px 14px rgb(0 0 0 / 40%), 0 1px 2px rgb(0 0 0 / 30%);
+  --shadow-lg: 0 10px 32px rgb(0 0 0 / 55%), 0 2px 6px rgb(0 0 0 / 30%);
 }
 
 /* base resets so the design system applies cleanly across the app */
-*, *::before, *::after { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; min-height: 100vh; background: var(--bg); color: var(--ink); }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html,
 body {
-  font-family: 'Geist', system-ui, sans-serif;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--ink);
+}
+body {
+  font-family: Geist, system-ui, sans-serif;
   font-feature-settings: "ss01", "cv11";
   -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
+  text-rendering: optimizelegibility;
 }
 
-button { font-family: inherit; cursor: pointer; }
-input, textarea { font-family: inherit; }
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+input,
+textarea {
+  font-family: inherit;
+}
 
-::selection { background: var(--orange-soft); color: var(--ink); }
+::selection {
+  background: var(--orange-soft);
+  color: var(--ink);
+}

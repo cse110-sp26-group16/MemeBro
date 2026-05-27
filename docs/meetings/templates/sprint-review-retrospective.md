@@ -5,10 +5,12 @@
     docs/meetings/retrospectives/sprint-<N>-retro-YYYY-MM-DD.md
   Then delete this HTML comment and fill in the sections below.
 
-  Per CSE 110, we need at least 2 retros in the remaining quarter,
-  and there must be evidence the retro outcomes were acted on. Track
-  that evidence in the "Evidence of Incorporation" section below in
-  the following sprint's retro.
+  Per spec, we need at least 2 retros in the remaining quarter, and
+  there must be evidence the retro outcomes were acted on. Track that
+  evidence in the "Evidence of Incorporation" section below in the
+  following sprint's retro.
+
+  Spec also says retros must be attended by all team members.
 -->
 
 - **Date:** YYYY-MM-DD (Weekday)
@@ -25,12 +27,17 @@ _Restate the sprint goal from the planning meeting._
 
 ### Demo / What Shipped
 
-- _Feature / change demoed_
-- _Issue # — status_
+<!--
+  Link the evidence. PR numbers, deployed URLs, screenshots, short
+  video clips. The grader and future maintainers should be able to
+  click through to see what shipped.
+-->
+
+- _Feature / change — PR #N, issue #N, deployed at <url>_
 
 ### What Did NOT Ship (and why)
 
-- _Item — reason / carry-over plan_
+- _Item — reason / carry-over plan / which sprint it moves to_
 
 ## Retrospective
 
@@ -49,6 +56,24 @@ _Restate the sprint goal from the planning meeting._
 - _Concrete change 1_
 - _Concrete change 2_
 
+## Cross-team Review Feedback (when applicable)
+
+<!--
+  Spec includes a week 9 code review swap with another team in the
+  cohort. They use your software, look at your code, evaluate, and
+  give product + code feedback. Capture their feedback here in the
+  retro where it overlaps with the swap. Leave the section out on
+  sprints where there is no swap.
+-->
+
+### Their feedback to us
+
+- _Item — proposed action_
+
+### Our feedback to them
+
+- _Item — already shared with them via <channel>_
+
 ## Action Items (carry-forward)
 
 - [ ] _Action_ — _owner_ — _by date_
@@ -56,9 +81,10 @@ _Restate the sprint goal from the planning meeting._
 ## Evidence of Incorporation (from previous retro)
 
 <!--
-  In Sprint 2's retro, list how the action items from Sprint 1's retro
-  were addressed (or why they weren't). This is the "evidence of
-  incorporation" the spec asks for.
+  List how the action items from the previous retro were addressed
+  (or why they were not). This is the "evidence of incorporation"
+  the spec asks for. Link the PRs / commits / issues that show the
+  change actually landed.
 -->
 
-- _Previous action_ — _what was done this sprint to address it_
+- _Previous action — what was done this sprint to address it (PR #N, issue #N)_
