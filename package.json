@@ -6,7 +6,15 @@
   "scripts": {
     "test:meme": "node test-meme.js",
     "test:unit": "vitest run",
-    "test:unit:watch": "vitest"
+    "test:unit:watch": "vitest",
+    "lint:js": "eslint . --ext .js --ignore-path .eslintignore",
+    "lint:css": "stylelint \"**/*.css\" --ignore-path .stylelintignore",
+    "lint:html": "htmlhint --format unix index.html",
+    "lint:markdown": "markdownlint \"**/*.md\" --ignore-path .markdownlintignore --config .markdownlint.json",
+    "lint:json": "node scripts/validate-json.js",
+    "format:check": "prettier --check .",
+    "lint": "npm run lint:js && npm run lint:css && npm run lint:html && npm run lint:markdown && npm run lint:json",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "canvas": "^3.2.3",
@@ -14,8 +22,18 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.60.0",
+    "eslint": "^8.57.0",
+    "eslint-plugin-jsdoc": "^48.2.3",
+    "htmlhint": "^1.1.4",
     "jsdom": "^29.1.1",
+    "markdownlint-cli": "^0.39.0",
+    "prettier": "^3.2.5",
     "serve": "^14.2.6",
+    "stylelint": "^16.3.1",
+    "stylelint-config-standard": "^36.0.0",
     "vitest": "^4.1.7"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

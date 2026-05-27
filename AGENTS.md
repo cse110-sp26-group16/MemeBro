@@ -15,19 +15,19 @@ MemeBro is a vanilla HTML, CSS, and JS web app deployed to GitHub Pages at `http
 
 ## Folder structure
 
-| Path | Purpose |
-| --- | --- |
-| `index.html` | Main entry, the landing page |
-| `pages/` | Additional HTML pages (e.g. `pages/conjure.html`) |
-| `styles/` | All CSS |
-| `styles/tokens.css` | Design tokens, single source of truth for color, spacing, type |
-| `js/` | JavaScript modules |
-| `js/api/` | API client modules (e.g. `js/api/imgflip-api.js`) |
-| `js/components/` | Web components |
-| `assets/` | Images, fonts |
-| `Design/` | Design references |
-| `docs/` | Process docs, ADRs, conventions |
-| `tests/` | Unit and E2E tests (path firmed up when test framework lands per #36, #37) |
+| Path                | Purpose                                                                    |
+| ------------------- | -------------------------------------------------------------------------- |
+| `index.html`        | Main entry, the landing page                                               |
+| `pages/`            | Additional HTML pages (e.g. `pages/conjure.html`)                          |
+| `styles/`           | All CSS                                                                    |
+| `styles/tokens.css` | Design tokens, single source of truth for color, spacing, type             |
+| `js/`               | JavaScript modules                                                         |
+| `js/api/`           | API client modules (e.g. `js/api/imgflip-api.js`)                          |
+| `js/components/`    | Web components                                                             |
+| `assets/`           | Images, fonts                                                              |
+| `Design/`           | Design references                                                          |
+| `docs/`             | Process docs, ADRs, conventions                                            |
+| `tests/`            | Unit and E2E tests (path firmed up when test framework lands per #36, #37) |
 
 ## Design tokens
 
@@ -81,7 +81,9 @@ Example:
  * @returns {Promise<Template[]>} popular templates, newest first
  * @throws {Error} if the network request fails or the response is malformed
  */
-export async function getPopularTemplates() { /* ... */ }
+export async function getPopularTemplates() {
+  /* ... */
+}
 ```
 
 Linter enforcement lands with [#35](https://github.com/cse110-sp26-group16/MemeBro/issues/35) via `eslint-plugin-jsdoc`. Until then, reviewers enforce in PR review. Full style guide with worked examples lives at [#30 Wiki Coding Standards](https://github.com/cse110-sp26-group16/MemeBro/issues/30).
