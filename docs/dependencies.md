@@ -1,0 +1,51 @@
+# Dependencies
+
+The ledger of MemeBro's external dependencies and their TA-approval status.
+
+Per process rule 8, any new dependency needs TA approval before code that relies
+on it lands. This file is where that approval is recorded. ADRs that introduce a
+dependency link here (see [ADR-0003](adr/0003-backend-stack.md)).
+
+## Runtime / shipped
+
+The frontend ships no framework, bundler, or runtime library
+([ADR-0001](adr/0001-vanilla-stack.md)) — it's plain HTML, CSS, and ES6 modules.
+The only external things the running app touches are services, below.
+
+## External services and APIs
+
+| Service                                  | Used for                                      | Secret?        | Status                                                                                                                       |
+| ---------------------------------------- | --------------------------------------------- | -------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| ImgFlip API (public endpoints)           | Popular templates + search for the quick flow | No key         | OK — public data, no approval needed                                                                                         |
+| Cloudflare Workers                       | Serverless backend / AI proxy                 | N/A (platform) | Approved by TA, week of 2026-05-19 (per team leads); to be formalized in the [ADR-0003](adr/0003-backend-stack.md) successor |
+| AI model provider (Replicate, candidate) | Conjure flow generation                       | Yes (API key)  | Pending — not yet approved; blocked on the AI-provider ADR                                                                   |
+
+> Secret keys never ship to the browser. Any provider requiring a key is called
+> through the backend (Cloudflare Worker), never directly from the frontend.
+
+## Dev tooling (not shipped to the browser)
+
+Introduced via the lint pipeline work (#31) and recorded in
+[ADR-0008](adr/0008-frontend-linting-toolchain.md). These are dev-only and carry
+no runtime or secret-handling impact.
+
+| Package                              | Purpose                        |
+| ------------------------------------ | ------------------------------ |
+| eslint, eslint-plugin-jsdoc          | JS linting + JSDoc enforcement |
+| prettier                             | Formatting                     |
+| stylelint, stylelint-config-standard | CSS linting                    |
+| htmlhint                             | HTML linting                   |
+| markdownlint-cli                     | Markdown linting               |
+
+In flight (land with their ADRs and PRs):
+
+| Package          | Purpose      | Status                                                     |
+| ---------------- | ------------ | ---------------------------------------------------------- |
+| vitest, jsdom    | Unit testing | In PR #51 / [ADR-0005](adr/0005-unit-testing-framework.md) |
+| @playwright/test | E2E testing  | In PR #50 / [ADR-0004](adr/0004-e2e-testing-framework.md)  |
+
+## When this file changes
+
+Update it whenever a dependency is added, removed, or approved. New dependencies
+should be raised at the TA meeting and the outcome recorded here before the
+dependent code merges.
