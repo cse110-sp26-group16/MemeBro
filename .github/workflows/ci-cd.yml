@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: CI
 
 on:
   pull_request:
@@ -10,21 +10,32 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: pages
-  cancel-in-progress: false
 
 jobs:
-  test:
-    name: Run Dummy Test
+  lint:
+    name: Lint and format
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Run dummy test
-        run: echo "Dummy test passed successfully!"
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint (JS, CSS, HTML, Markdown, JSON)
+        run: npm run lint
+
+      - name: Check formatting
+        run: npm run format:check
+
+  # Unit/E2E tests run once their frameworks land:
+  #   - Vitest unit tests  (PR #51, ADR-0005)
+  #   - Playwright E2E      (PR #50, ADR-0004)
+  # Add a `test` job here that runs `npm test` after those merge.
