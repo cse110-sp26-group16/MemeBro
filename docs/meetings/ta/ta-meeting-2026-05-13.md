@@ -54,10 +54,10 @@ We had 4 process questions queued on the dock (week 6 gate sign-off, dep batch a
 
 ## Action Items
 
-- [ ] Open sprint 2 github issues for the new subteams (frontend, backend, testing/docs/PR, design), have members self-select. Yuval, Wed 5/13.
-- [ ] Update wireframes for the quick flow (template search + click + text edit + popular templates list on landing). Fariba, Koji.
+- [x] Open sprint 2 github issues for the new subteams (frontend, backend, testing/docs/PR, design), have members self-select. Yuval, Wed 5/13.
+- [x] Update wireframes for the quick flow (template search + click + text edit + popular templates list on landing). Fariba, Koji.
 - [ ] Wire the image flip top 100 templates API as the data source for the quick flow. Backend group.
-- [ ] Each lane prep something to show for the Thursday 5/21 presentation video. All leads.
+- [x] Each lane prep something to show for the Thursday 5/21 presentation video. All leads.
 - [ ] Coordinate the code review swap with another MemBro team for the weekend of 5/23 and 5/24. Yuval.
-- [ ] Check the dock for Omair's written answers to the 4 process questions later today. Yuval, Jordan.
+- [x] Check the dock for Omair's written answers to the 4 process questions later today. Yuval, Jordan.
 - [ ] Mix in 2 to 3 user-fronted product questions for next week's TA meeting agenda (carrying forward 5/06 guidance).

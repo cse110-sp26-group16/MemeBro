@@ -1,37 +1,46 @@
-# TA Meeting — 2026-05-20
+# TA Meeting, 2026-05-20
 
 - **Date:** 2026-05-20 (Wednesday)
 - **TA:** Omair Qazi
-- **Attendees from team:** Yuval Pesok (project lead)
-- **Sprint:** 2
+- **Attendees from team:** Yuval
+- **Sprint:** 3
 
 ## Agenda
 
-1. Status check on sprint 2 progress
-2. ADR-0003 (backend stack for the AI proxy) walkthrough and approval
-3. Open questions about the project or the presentation due today
+1. Quick status update on how the project is going
+2. Plans for completing the presentation video
+3. Backend ADR for Cloudflare Pages
 
-## Questions for TA
+## Discussion
 
-- Are you OK with us going with Cloudflare Workers for the AI proxy backend (ADR-0003, PR #34)?
-- Any concerns about how sprint 2 is shaping up so far?
-- Anything we should adjust for the presentation due today?
+Short meeting overall. We gave Omair a quick update on where things stand and our plans for finishing the video.
+
+### Video deadline
+
+Omair said he is lenient on the video submission. It does not have to be in at exactly 12 am, so we have some flexibility on the exact submit time.
+
+### Backend ADR (Cloudflare Pages)
+
+We walked Omair through the backend ADR for using Cloudflare Pages for the AI proxy. He approved it. He also showed us Digital Ocean as another option to consider, but we are leaning towards Cloudflare Pages for now since it bundles with the hosting and keeps things simple.
 
 ## TA Feedback / Answers
 
-Short meeting overall. Omair asked if things were going well and whether we had any questions about the project or the presentation due today.
+- Video submission deadline is flexible, does not need to be at exactly 12 am.
+- Backend ADR for Cloudflare Pages approved.
+- Digital Ocean is another viable option if Cloudflare Pages does not work out.
 
-On ADR-0003 specifically: Omair approved Cloudflare Workers as the backend for the AI proxy, and was fine with us proceeding on the Worker setup. The general process (ADR first, TA approval logged before code lands) stays in place.
+## ADRs reviewed
 
-No other blockers raised on either side.
+| ADR | Status before | TA response | Status after |
+| --- | --- | --- | --- |
+| ADR-0003 (backend stack) | Proposed | Approved | Proposed (TA-approved, awaiting team ratification) |
 
 ## Decisions / Approvals
 
-- **ADR-0003 (PR #34):** Omair approved **Cloudflare Workers** as the backend stack for the AI proxy. The team ratifies at Sunday sprint planning and the decision is captured in an ADR (Workers chosen).
-- **Process unchanged:** ADR first, TA approval logged before code lands.
+- Backend ADR (ADR-0003) for Cloudflare Pages approved by Omair.
+- Video deadline has some flexibility on exact submission time.
 
 ## Action Items
 
-- [ ] Record the Cloudflare Workers decision in an ADR and ratify at Sunday sprint planning — Yuval — by 2026-05-24
-- [ ] #26 (Jordan, Worker setup) is unblocked — proceed with the Cloudflare Worker — Jordan
-- [ ] Deliver the presentation due today — whole team — by EOD 2026-05-20
+- [x] Finish and submit the presentation video — whole team — by 2026-05-21
+- [ ] Ratify ADR-0003 at sprint planning — Yuval — by 2026-05-24
