@@ -30,13 +30,13 @@ All 11 active team members have admin permissions on the repo. Only Omair (TA) d
 
 Lead assignments per [`team-cadence.md`](./team-cadence.md). Fixed for now, can swap mid quarter if someone wants a different lane.
 
-| Role             | Lead                                |
-| ---------------- | ----------------------------------- |
-| **Project Lead** | _TBD, assign at sprint 2 planning_  |
-| **Design Lead**  | _TBD, assign at sprint 2 planning_  |
-| **DevOps Lead**  | _TBD, assign at sprint 2 planning_  |
-| **AI Lead**      | _TBD, assign at sprint 2 planning_  |
-| **QA Lead**      | _TBD, assign at sprint 2 planning_  |
+| Role             | Lead                               |
+| ---------------- | ---------------------------------- |
+| **Project Lead** | _TBD, assign at sprint 2 planning_ |
+| **Design Lead**  | _TBD, assign at sprint 2 planning_ |
+| **DevOps Lead**  | _TBD, assign at sprint 2 planning_ |
+| **AI Lead**      | _TBD, assign at sprint 2 planning_ |
+| **QA Lead**      | _TBD, assign at sprint 2 planning_ |
 
 ## Notes
 

@@ -6,4 +6,5 @@ build/
 coverage/
 .next/
 out/
-research/ai-prototypes/outputs/
+research/
+test-results/
