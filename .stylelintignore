@@ -1,0 +1,10 @@
+node_modules/
+.git/
+.github/
+dist/
+build/
+coverage/
+.next/
+out/
+research/
+test-results/

@@ -1,0 +1,46 @@
+# CODEOWNERS
+#
+# GitHub auto-requests the listed owners as reviewers whenever a PR touches a
+# matching path. This makes review assignment automatic instead of relying on a
+# manual Slack ping (see AGENTS.md).
+#
+# Rules of thumb:
+# - GitHub uses the LAST matching pattern, so the specific lanes below override
+#   the catch-all at the top.
+# - GitHub never requests the PR author, even if they own the path. That is why
+#   most lanes list at least two owners, so an author's own PR still routes to
+#   someone.
+# - Yuval (@ypesok28) and Jordan (@JordanJunaidi) are the team leads and the
+#   backstop reviewers for everything via the default rule.
+# - Lane owners are a starting point. Roles shift on this team, so update this
+#   file via PR when someone moves lanes.
+
+# Default: anything not matched below goes to the team leads.
+*                            @ypesok28 @JordanJunaidi
+
+# --- Frontend: screens, components, styles ---
+/index.html                  @jenniferrzhu @lurany @timhaotongwu @ypesok28
+/pages/                      @jenniferrzhu @lurany @timhaotongwu @ypesok28
+/js/                         @jenniferrzhu @lurany @timhaotongwu @ypesok28
+/styles/                     @jenniferrzhu @lurany @timhaotongwu @ypesok28
+
+# --- Data / API client modules (more specific than /js/, so listed after) ---
+/js/api/                     @Flimgees @lurany @JordanJunaidi
+
+# --- Backend / serverless (paths pre-claimed; land with the Worker PR) ---
+/api/                        @JordanJunaidi @ypesok28
+/workers/                    @JordanJunaidi @ypesok28
+/backend/                    @JordanJunaidi @ypesok28
+
+# --- AI: prompt building + model research ---
+/research/ai-architecture/   @Endless1010 @JordanJunaidi
+/research/ai-prototypes/     @Endless1010 @JordanJunaidi
+
+# --- CI / DevOps / tooling config ---
+/.github/                    @ypesok28 @AlecLichtenberger
+
+# --- Process docs, ADRs, meeting notes ---
+/docs/                       @ypesok28 @JordanJunaidi @nakazawak
+
+# --- Design artifacts ---
+/Design/                     @Fariba-Tokhi @jenniferrzhu

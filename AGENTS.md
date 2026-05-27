@@ -15,19 +15,19 @@ MemeBro is a vanilla HTML, CSS, and JS web app deployed to GitHub Pages at `http
 
 ## Folder structure
 
-| Path | Purpose |
-| --- | --- |
-| `index.html` | Main entry, the landing page |
-| `pages/` | Additional HTML pages (e.g. `pages/conjure.html`) |
-| `styles/` | All CSS |
-| `styles/tokens.css` | Design tokens, single source of truth for color, spacing, type |
-| `js/` | JavaScript modules |
-| `js/api/` | API client modules (e.g. `js/api/imgflip-api.js`) |
-| `js/components/` | Web components |
-| `assets/` | Images, fonts |
-| `Design/` | Design references |
-| `docs/` | Process docs, ADRs, conventions |
-| `tests/` | Unit and E2E tests (path firmed up when test framework lands per #36, #37) |
+| Path                | Purpose                                                                    |
+| ------------------- | -------------------------------------------------------------------------- |
+| `index.html`        | Main entry, the landing page                                               |
+| `pages/`            | Additional HTML pages (e.g. `pages/conjure.html`)                          |
+| `styles/`           | All CSS                                                                    |
+| `styles/tokens.css` | Design tokens, single source of truth for color, spacing, type             |
+| `js/`               | JavaScript modules                                                         |
+| `js/api/`           | API client modules (e.g. `js/api/imgflip-api.js`)                          |
+| `js/components/`    | Web components                                                             |
+| `assets/`           | Images, fonts                                                              |
+| `Design/`           | Design references                                                          |
+| `docs/`             | Process docs, ADRs, conventions                                            |
+| `tests/`            | Unit and E2E tests (path firmed up when test framework lands per #36, #37) |
 
 ## Design tokens
 
@@ -56,10 +56,39 @@ MemeBro is a vanilla HTML, CSS, and JS web app deployed to GitHub Pages at `http
 
 - ES6 modules. One module per file.
 - `const` by default, `let` when reassigning, never `var`.
-- JSDoc on every exported function: parameter types, return type, one-line description. See [#30 Wiki Coding Standards](https://github.com/cse110-sp26-group16/MemeBro/issues/30) for the full JSDoc style.
 - Pure functions where possible. Side effects are explicit.
 - Async work with `async` / `await`, not raw promise chains.
 - No `console.log` in committed code. Use it while debugging, remove before PR.
+
+## JSDoc, required
+
+JSDoc is how we get types, autocomplete, generated docs, and a paper trail without adding TypeScript to the stack. It is required, not optional.
+
+Document:
+
+- Every exported function. `@param` for each argument with a type, `@returns` with a type, one-line description of what the function does.
+- Every exported `@typedef`. Shared data shapes live in [`docs/interface-contract.md`](docs/interface-contract.md), mirror them as `@typedef` blocks in the module that consumes them so editors get the types.
+- Every custom element class. One block at the top: what it does, what events it dispatches, what attributes it observes, what slots it accepts.
+- Any internal function complex enough that the next reader has to think. Heuristic: more than ~15 lines of non-trivial logic, or any function whose name does not fully explain its behavior.
+
+Use `@throws` when a function can throw, and type the resolved value of a Promise (`@returns {Promise<Meme[]>}`).
+
+Example:
+
+```js
+/**
+ * Fetch the imgflip popular templates list, normalized to the Template shape.
+ * @returns {Promise<Template[]>} popular templates, newest first
+ * @throws {Error} if the network request fails or the response is malformed
+ */
+export async function getPopularTemplates() {
+  /* ... */
+}
+```
+
+Linter enforcement lands with [#35](https://github.com/cse110-sp26-group16/MemeBro/issues/35) via `eslint-plugin-jsdoc`. Until then, reviewers enforce in PR review. Full style guide with worked examples lives at [#30 Wiki Coding Standards](https://github.com/cse110-sp26-group16/MemeBro/issues/30).
+
+Why we care: vanilla JS means no compile step catches a wrong argument shape. JSDoc is the lightest tool that gives editor warnings on misuse, generated reference docs for new contributors, and an honest paper trail for what each function expects.
 
 ## Web components
 
