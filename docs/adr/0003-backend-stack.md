@@ -1,6 +1,6 @@
 # ADR-0003: Backend stack for the AI proxy
 
-- **Status:** Proposed (TA-approved 2026-05-20, awaiting team ratification at sprint planning 2026-05-24)
+- **Status:** Superseded by [ADR-0009](0009-backend-platform.md)
 - **Date:** 2026-05-19
 - **Deciders:** Whole team, with TA sign-off from Omair Qazi
 

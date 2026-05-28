@@ -5,12 +5,13 @@ relevant file, rename it per the convention below, and fill it in.
 
 ## Templates
 
-| Template                                                             | When to use                                  | Save copy to                                                                                   |
-| -------------------------------------------------------------------- | -------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| [`sprint-planning.md`](./sprint-planning.md)                         | Before starting work each sprint             | `docs/meetings/sprint-planning/sprint-<N>-planning-YYYY-MM-DD.md`                              |
-| [`standup.md`](./standup.md)                                         | Each standup (≥ 3× per week)                 | `docs/meetings/standups/standup-YYYY-MM-DD.md`                                                 |
-| [`sprint-review-retrospective.md`](./sprint-review-retrospective.md) | End of each sprint (≥ 2 total this quarter)  | `docs/meetings/retrospectives/sprint-<N>-retro-YYYY-MM-DD.md`                                  |
-| [`ta-meeting.md`](./ta-meeting.md)                                   | Weekly TA meeting (and the ≥ 1 Prof meeting) | `docs/meetings/ta/ta-meeting-YYYY-MM-DD.md` (or `docs/meetings/prof/...` for the Prof meeting) |
+| Template                                                             | When to use                                 | Save copy to                                                      |
+| -------------------------------------------------------------------- | ------------------------------------------- | ----------------------------------------------------------------- |
+| [`sprint-planning.md`](./sprint-planning.md)                         | Before starting work each sprint            | `docs/meetings/sprint-planning/sprint-<N>-planning-YYYY-MM-DD.md` |
+| [`standup.md`](./standup.md)                                         | Each standup (≥ 3× per week)                | `docs/meetings/standups/standup-YYYY-MM-DD.md`                    |
+| [`sprint-review-retrospective.md`](./sprint-review-retrospective.md) | End of each sprint (≥ 2 total this quarter) | `docs/meetings/retrospectives/sprint-<N>-retro-YYYY-MM-DD.md`     |
+| [`ta-meeting.md`](./ta-meeting.md)                                   | Weekly TA meeting                           | `docs/meetings/ta/ta-meeting-YYYY-MM-DD.md`                       |
+| [`prof-meeting.md`](./prof-meeting.md)                               | The ≥ 1 Prof meeting before end of quarter  | `docs/meetings/prof/prof-meeting-YYYY-MM-DD.md`                   |
 
 ## Naming Convention
 

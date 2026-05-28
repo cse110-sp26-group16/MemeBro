@@ -1,4 +1,4 @@
-name: CI
+name: CI/CD Pipeline
 
 on:
   pull_request:
@@ -10,6 +10,12 @@ on:
 
 permissions:
   contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
 
 jobs:
   lint:
@@ -35,7 +41,45 @@ jobs:
       - name: Check formatting
         run: npm run format:check
 
-  # Unit/E2E tests run once their frameworks land:
-  #   - Vitest unit tests  (PR #51, ADR-0005)
-  #   - Playwright E2E      (PR #50, ADR-0004)
-  # Add a `test` job here that runs `npm test` after those merge.
+  test-unit:
+    name: Run Unit Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run unit tests
+        run: npm run test:unit
+
+  test-e2e:
+    name: Run E2E Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Run E2E tests
+        run: npm run test:e2e

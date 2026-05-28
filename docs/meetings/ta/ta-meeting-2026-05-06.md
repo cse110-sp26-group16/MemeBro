@@ -34,5 +34,5 @@ Omair's main guidance: he's the customer for this project, treat him that way. T
 
 ## Action Items
 
-- [ ] Frame future TA meeting questions as user-fronted (what would a user want, how would they react, what would they expect) rather than process-only.
-- [ ] Carry this framing into the next TA meeting (Wednesday 2026-05-13 at 10:30).
+- [x] Frame future TA meeting questions as user-fronted (what would a user want, how would they react, what would they expect) rather than process-only.
+- [x] Carry this framing into the next TA meeting (Wednesday 2026-05-13 at 10:30).
