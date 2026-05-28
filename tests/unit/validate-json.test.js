@@ -4,13 +4,12 @@ import { tmpdir } from "node:os";
 import path from "node:path";
 import { promisify } from "node:util";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-// Vitest handles importing CommonJS modules via default interop imports flawlessly
 import validateJson from "../../scripts/validate-json.js";
 
 const execFileAsync = promisify(execFile);
 const { findJsonFiles, validateJsonFile } = validateJson;
 
-// Resolve the script location relative to this test file
+//Script location relative to this test file
 const repoRoot = path.resolve(__dirname, "../..");
 const scriptPath = path.join(repoRoot, "scripts", "validate-json.js");
 
@@ -31,7 +30,7 @@ async function writeFixture(relativePath, content) {
 }
 
 beforeEach(async () => {
-  // Acceptance Criteria: Secure a completely isolated tmp directory workspace
+  //The acceptance criteria is to secure a completely isolated tmp directory workspace
   workspace = await mkdtemp(path.join(tmpdir(), "memebro-json-test-"));
 });
 
@@ -46,7 +45,6 @@ describe("findJsonFiles", () => {
     await writeFixture("research/ai-prototypes/outputs/bad.json", "{}");
     await writeFixture(".git/config.json", "{}");
 
-    // Valid target targets
     const rootJson = await writeFixture("valid-root.json", "{}");
 
     const matchedFiles = findJsonFiles(workspace, [
@@ -88,13 +86,13 @@ describe("validate-json script execution", () => {
     await writeFixture("good.json", '{"valid": true}');
     const brokenFile = await writeFixture("nested/folder/broken.json", '{"valid": false, ,}');
 
-    // Spawn the actual script runner as a child process against the tmp workspace
+    //spawn the actual script runner as a child process against the tmp workspace
     await expect(
       execFileAsync(process.execPath, [scriptPath], { cwd: workspace })
     ).rejects.toMatchObject({
-      // Confirms Node bubbles up the status code 1 failure
+      //confirms the the node bubbles up the status code 1 failure
       code: 1,
-      // Ensures the error logs explicitly surface the broken file path
+      //ensures the error logs explicitly surface the broken file path
       stderr: expect.stringContaining(brokenFile),
     });
   });
