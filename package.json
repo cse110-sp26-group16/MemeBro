@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "test:meme": "node test-meme.js",
+    "test:e2e": "playwright test",
     "test:unit": "vitest run",
     "test:unit:watch": "vitest",
     "lint:js": "eslint . --ext .js --ignore-path .eslintignore",
