@@ -31,9 +31,9 @@ We walked Omair through the backend ADR for using Cloudflare Pages for the AI pr
 
 ## ADRs reviewed
 
-| ADR | Status before | TA response | Status after |
-| --- | --- | --- | --- |
-| ADR-0003 (backend stack) | Proposed | Approved | Proposed (TA-approved, awaiting team ratification) |
+| ADR                      | Status before | TA response | Status after                                       |
+| ------------------------ | ------------- | ----------- | -------------------------------------------------- |
+| ADR-0003 (backend stack) | Proposed      | Approved    | Proposed (TA-approved, awaiting team ratification) |
 
 ## Decisions / Approvals
 

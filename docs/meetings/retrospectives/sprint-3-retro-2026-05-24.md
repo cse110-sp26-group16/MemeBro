@@ -94,6 +94,20 @@ Code review swap with another team scheduled for the weekend of 5/23 and 5/24. F
 - [ ] Prep repo for cross-team code review swap.
 - [ ] Sprint 4 planning tomorrow (2026-05-25).
 
+## Follow-up (as of 2026-05-27)
+
+Status of the carry-over action items, captured at the Wednesday 2026-05-27 standup and Sprint 4 planning meeting.
+
+- **Lint pipeline (#31).** Merged 2026-05-26. Done.
+- **Backend platform.** Team confirmed Cloudflare (Pages plus Workers) at Sprint 4 planning. ADR-0009 written to supersede the ADR-0003 defer, open as PR #62. Resolved, pending merge.
+- **Koji wiki home (#29).** Wiki home page finished and committed directly to main (wiki pages cannot go through PRs). Done.
+- **Alec wiki coding standards (#30).** Wiki pages completed. Done.
+- **Conjure page (#33).** Jennifer finished the PR and it is approved, awaiting merge. Carries the last step into Sprint 4.
+- **Cross-team code review swap.** Swap is with Team 19, code review in progress. Feedback still pending.
+- **Sprint 4 planning.** Held 2026-05-27 rather than 2026-05-25. Notes in `docs/meetings/sprint-planning/sprint-4-planning-2026-05-27.md`.
+
+Still open and carried into Sprint 4: PRs #33 (Conjure), #48 (ImgFlip fetch), #49 (Cloudflare Worker), #50 (e2e), #51 (unit), plus the new process PRs #60 (CI lint and format gate) and #62 (ADR-0009). The recurring theme is the same as the retro flagged: the PR review backlog and the 24h SLA still need enforcing. The Sprint 4 plan addresses it by getting the open PRs reviewed and merged before piling on new work.
+
 ## Evidence of Incorporation (from Sprint 2 retro)
 
 - **"Shorter sprint scope"** — Sprint 3 focused on merging the UI PRs and testing infra rather than adding new features. Scope was more realistic.

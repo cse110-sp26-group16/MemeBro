@@ -152,3 +152,7 @@ vite.config.ts.timestamp-*
 Thumbs.db
 ehthumbs.db
 Desktop.ini
+
+# Playwright
+test-results/
+playwright-report/

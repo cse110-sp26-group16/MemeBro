@@ -40,9 +40,9 @@
   deps get logged in docs/dependencies.md after the meeting.
 -->
 
-| Dependency | Needed for | Justification | TA decision |
-| --- | --- | --- | --- |
-| _package_ | _issue #..._ | _why this one_ | _approved / deferred / rejected_ |
+| Dependency | Needed for   | Justification  | TA decision                      |
+| ---------- | ------------ | -------------- | -------------------------------- |
+| _package_  | _issue #..._ | _why this one_ | _approved / deferred / rejected_ |
 
 ## ADRs reviewed
 
@@ -52,9 +52,9 @@
   ratification time. Link the PR for the ADR.
 -->
 
-| ADR | Status before | TA response | Status after |
-| --- | --- | --- | --- |
-| _ADR-000X (PR #N)_ | _Proposed_ | _approved / pushed back / asked for changes_ | _Proposed (TA-approved) / Accepted / Revised_ |
+| ADR                | Status before | TA response                                  | Status after                                  |
+| ------------------ | ------------- | -------------------------------------------- | --------------------------------------------- |
+| _ADR-000X (PR #N)_ | _Proposed_    | _approved / pushed back / asked for changes_ | _Proposed (TA-approved) / Accepted / Revised_ |
 
 ## Decisions / Approvals
 
