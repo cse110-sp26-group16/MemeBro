@@ -56,8 +56,8 @@ Negative:
 
 ## Dependencies
 
-| Package | Purpose |
-| --- | --- |
-| `vitest` | Unit test runner and assertions |
-| `@vitest/coverage-v8` (optional) | Code coverage reporting |
-| `jsdom` (optional) | DOM environment for unit testing DOM helpers |
+| Package                          | Purpose                                      |
+| -------------------------------- | -------------------------------------------- |
+| `vitest`                         | Unit test runner and assertions              |
+| `@vitest/coverage-v8` (optional) | Code coverage reporting                      |
+| `jsdom` (optional)               | DOM environment for unit testing DOM helpers |

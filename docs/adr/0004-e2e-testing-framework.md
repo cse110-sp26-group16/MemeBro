@@ -52,7 +52,7 @@ Negative:
 
 ## Dependencies
 
-| Package | Purpose |
-| --- | --- |
-| `@playwright/test` | E2E test runner and assertions |
+| Package            | Purpose                                |
+| ------------------ | -------------------------------------- |
+| `@playwright/test` | E2E test runner and assertions         |
 | `serve` (dev only) | Local static file server for test runs |
