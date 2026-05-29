@@ -68,29 +68,36 @@ function validateJsonFile(filePath) {
 // Ignore patterns
 const ignorePatterns = ["node_modules", "research/ai-prototypes/outputs", ".git"];
 
-// Find all JSON files
-const jsonFiles = findJsonFiles(process.cwd(), ignorePatterns);
+// Guard to ensure automation only runs during CLI execution, not testing import
+if (require.main === module) {
+  const jsonFiles = findJsonFiles(process.cwd(), ignorePatterns);
 
-if (jsonFiles.length === 0) {
-  console.log("No JSON files found.");
-  process.exit(0);
-}
+  if (jsonFiles.length === 0) {
+    console.log("No JSON files found.");
+    process.exit(0);
+  }
 
-console.log(`Validating ${jsonFiles.length} JSON file(s)...\n`);
+  console.log(`Validating ${jsonFiles.length} JSON file(s)...\n`);
 
-let failCount = 0;
+  let failCount = 0;
+  for (const file of jsonFiles) {
+    const isValid = validateJsonFile(file);
+    if (isValid) {
+      console.log(`✓ ${file}`);
+    } else {
+      failCount++;
+    }
+  }
 
-for (const file of jsonFiles) {
-  const isValid = validateJsonFile(file);
-  if (isValid) {
-    console.log(`✓ ${file}`);
-  } else {
-    failCount++;
+  console.log(`\n${jsonFiles.length - failCount}/${jsonFiles.length} files valid.`);
+
+  if (failCount > 0) {
+    process.exit(1);
   }
 }
 
-console.log(`\n${jsonFiles.length - failCount}/${jsonFiles.length} files valid.`);
-
-if (failCount > 0) {
-  process.exit(1);
-}
+// Export functions for Vitest unit testing
+module.exports = {
+  findJsonFiles,
+  validateJsonFile,
+};
