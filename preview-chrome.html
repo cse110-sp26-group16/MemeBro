@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chrome preview · #74</title>
+    <link rel="stylesheet" href="styles/tokens.css" />
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+      .preview-body {
+        flex: 1;
+        padding: var(--space-6);
+        max-width: 480px;
+        margin: 0 auto;
+        width: 100%;
+      }
+      .controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-2);
+        margin-bottom: var(--space-6);
+      }
+      .controls button {
+        border: 1px solid var(--line);
+        background: var(--surface);
+        color: var(--ink);
+        border-radius: var(--radius);
+        padding: var(--space-2) var(--space-3);
+      }
+      /* sample slotted content (light DOM, styled by the page) */
+      .crumb {
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+        color: var(--ink-3);
+        font-size: var(--text-sm);
+      }
+      .icon-btn {
+        border: 1px solid var(--line);
+        background: var(--surface);
+        color: var(--ink);
+        border-radius: var(--radius-sm);
+        padding: var(--space-1) var(--space-2);
+      }
+      .search-field {
+        width: 100%;
+        border: 1px solid var(--line);
+        background: var(--surface);
+        color: var(--ink-2);
+        border-radius: var(--radius-xl);
+        padding: var(--space-2) var(--space-3);
+        outline: none;
+      }
+      .conjure {
+        border: none;
+        background: var(--orange);
+        color: #fff;
+        border-radius: var(--radius);
+        padding: var(--space-2) var(--space-3);
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- TOP BAR -->
+    <memebro-top-bar>
+      <div class="crumb" slot="breadcrumb">
+        <button class="icon-btn" aria-label="Open menu">☰</button>
+        <button class="icon-btn" aria-label="Layers">▧</button>
+        <span>memebro / all templates</span>
+      </div>
+      <input
+        class="search-field"
+        slot="search-input"
+        type="search"
+        placeholder="Search templates or describe a meme"
+      />
+      <div slot="actions">
+        <button class="icon-btn" aria-label="Toggle theme">◐</button>
+        <button class="conjure">✦ Conjure</button>
+      </div>
+    </memebro-top-bar>
+
+    <main class="preview-body">
+      <h1>Chrome preview</h1>
+      <p>Top bar above, tab bar pinned below. Use the buttons to test behavior.</p>
+      <div class="controls">
+        <button data-active="library">Active: Library</button>
+        <button data-active="mine">Active: Mine</button>
+        <button data-active="search">Active: Search</button>
+        <button data-active="settings">Active: Settings</button>
+        <button id="theme">Toggle dark</button>
+      </div>
+      <p>
+        Clicking a tab navigates via real <code>&lt;a href&gt;</code> (Library →
+        index.html, Search → pages/search.html, etc.), so the page will change.
+      </p>
+    </main>
+
+    <!-- BOTTOM TAB BAR -->
+    <memebro-tab-bar active="library"></memebro-tab-bar>
+
+    <script type="module">
+      import "./js/components/top-bar.js";
+      import "./js/components/tab-bar.js";
+
+      const tabBar = document.querySelector("memebro-tab-bar");
+      document.querySelectorAll("[data-active]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          tabBar.active = btn.dataset.active;
+        });
+      });
+      document.getElementById("theme").addEventListener("click", () => {
+        const root = document.documentElement;
+        root.setAttribute(
+          "data-theme",
+          root.getAttribute("data-theme") === "dark" ? "" : "dark",
+        );
+      });
+    </script>
+  </body>
+</html>
