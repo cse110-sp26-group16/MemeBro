@@ -292,7 +292,7 @@ class MemebroTemplateGallery extends HTMLElement {
 
   /**
    * Escapes a value for safe interpolation into HTML attributes and text content.
-   * @param {*} value
+   * @param {*} value - The value to escape.
    * @returns {string}
    */
   escapeHtml(value) {

@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it } from "vitest";
 import "../../js/components/template-gallery.js";
 
 const SAFE = {
@@ -9,10 +9,17 @@ const SAFE = {
   isAi: false,
 };
 
+/**
+ * Creates a gallery element, appends it to the DOM, and optionally sets its data.
+ * @param {object[]|null|undefined} templates - Templates to pass to the data setter.
+ * @returns {HTMLElement} The mounted gallery element.
+ */
 function mount(templates) {
   const el = document.createElement("memebro-template-gallery");
   document.body.appendChild(el);
-  if (templates !== undefined) el.data = templates;
+  if (templates !== undefined) {
+    el.data = templates;
+  }
   return el;
 }
 
@@ -83,9 +90,7 @@ describe("MemebroTemplateGallery – XSS protection", () => {
 
   it("escapes & in template.name to an HTML entity in text content", () => {
     el = mount([{ ...SAFE, name: "Tom & Jerry" }]);
-    expect(el.shadowRoot.querySelector(".template-name").innerHTML.trim()).toBe(
-      "Tom &amp; Jerry"
-    );
+    expect(el.shadowRoot.querySelector(".template-name").innerHTML.trim()).toBe("Tom &amp; Jerry");
   });
 
   it("does not create a <script> element when imageUrl contains tags", () => {
