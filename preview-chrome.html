@@ -96,8 +96,8 @@
         <button id="theme">Toggle dark</button>
       </div>
       <p>
-        Clicking a tab navigates via real <code>&lt;a href&gt;</code> (Library →
-        index.html, Search → pages/search.html, etc.), so the page will change.
+        Clicking a tab navigates via real <code>&lt;a href&gt;</code> (Library → index.html, Search
+        → pages/search.html, etc.), so the page will change.
       </p>
     </main>
 
@@ -116,10 +116,7 @@
       });
       document.getElementById("theme").addEventListener("click", () => {
         const root = document.documentElement;
-        root.setAttribute(
-          "data-theme",
-          root.getAttribute("data-theme") === "dark" ? "" : "dark",
-        );
+        root.setAttribute("data-theme", root.getAttribute("data-theme") === "dark" ? "" : "dark");
       });
     </script>
   </body>
