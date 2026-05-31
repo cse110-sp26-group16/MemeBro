@@ -6,14 +6,6 @@
     <title>MemeBro</title>
     <link rel="stylesheet" href="styles/tokens.css">
     <link rel="stylesheet" href="styles/home.css">
-    <style>
-        /* preview-only: the shared <memebro-top-bar> now sits in normal flow,
-           so remove the top offset that home.css reserved for the old
-           position:fixed top bar. This belongs in #70 when Home integrates. */
-        .home-page {
-            padding-top: var(--space-4);
-        }
-    </style>
 </head>
 <body>
     <div class="home-shell">
@@ -78,14 +70,14 @@
             </a>
         </aside>
         <main class="home-page" id="library">
-            <memebro-top-bar>
-                <div class="home-topbar__left" slot="breadcrumb">
+            <header class="home-topbar">
+                <div class="home-topbar__left">
                     <button class="home-icon-button" type="button" aria-label="Open menu">☰</button>
                     <span class="home-topbar__layers" aria-hidden="true">▧</span>
                     <span class="home-topbar__brand">memebro</span>
                     <span class="home-topbar__crumb">/ all templates</span>
                 </div>
-                <form class="home-search" role="search" slot="search-input">
+                <form class="home-search" role="search">
                     <label class="home-search__label" for="template-search">Search templates</label>
                     <input
                         id="template-search"
@@ -96,11 +88,11 @@
                     >
                     <span class="home-search__shortcut" aria-hidden="true">⌘K</span>
                 </form>
-                <div class="home-topbar__actions" slot="actions">
+                <div class="home-topbar__actions">
                     <button class="home-icon-button home-icon-button--desktop" type="button" aria-label="Toggle theme">◐</button>
                     <a class="home-desktop-conjure" href="#conjure">✦ Conjure</a>
                 </div>
-            </memebro-top-bar>
+            </header>
             <section class="home-hero" aria-label="Create a meme">
                 <article class="home-hero-card home-hero-card--dark">
                     <h1>The fastest way to ship a <em>meme.</em></h1>
@@ -164,10 +156,25 @@
                 </section>
             </section>
         </main>
-        <memebro-tab-bar active="library"></memebro-tab-bar>
+        <nav class="home-bottom-nav" aria-label="Primary navigation">
+            <a class="home-bottom-nav__item home-bottom-nav__item--active" href="#library">
+                <span aria-hidden="true">▦</span>
+                Library
+            </a>
+            <a class="home-bottom-nav__item" href="#mine">
+                <span aria-hidden="true">♙</span>
+                Mine
+            </a>
+            <a class="home-bottom-nav__item" href="#search">
+                <span aria-hidden="true">⌕</span>
+                Search
+            </a>
+            <a class="home-bottom-nav__item" href="#settings">
+                <span aria-hidden="true">⚙</span>
+                 Settings
+            </a>
+        </nav>
         <a id="conjure" class="home-conjure-fab" href="#conjure" aria-label="Conjure a new meme template">✦</a>
     </div>
-    <script type="module" src="js/components/top-bar.js"></script>
-    <script type="module" src="js/components/tab-bar.js"></script>
 </body>
 </html>
