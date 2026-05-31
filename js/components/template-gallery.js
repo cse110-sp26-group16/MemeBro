@@ -291,35 +291,52 @@ class MemebroTemplateGallery extends HTMLElement {
   }
 
   /**
+   * Escapes a value for safe interpolation into HTML attributes and text content.
+   * @param {*} value
+   * @returns {string}
+   */
+  escapeHtml(value) {
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  /**
    * Builds the HTML string for a single template card.
    * @param {object} template - A template with `imageUrl`, `name`, `useCount`, and `isAi` fields.
    * @returns {string} the card's HTML markup.
    */
   renderCard(template) {
+    const name = this.escapeHtml(template.name);
+    const imageUrl = this.escapeHtml(template.imageUrl);
+    const useCount = this.escapeHtml(template.useCount);
     return `
       <article class="template-card">
         <div class="image-wrap">
           <img
             class="template-image"
-            src="${template.imageUrl}"
-            alt="${template.name} meme template"
+            src="${imageUrl}"
+            alt="${name} meme template"
             loading="lazy"
           />
 
           <button
             class="favorite"
             type="button"
-            aria-label="Favorite ${template.name}"
+            aria-label="Favorite ${name}"
           >
             ♥
           </button>
         </div>
 
         <div class="card-body">
-          <h2 class="template-name">${template.name}</h2>
+          <h2 class="template-name">${name}</h2>
 
           <div class="meta">
-            <span>${template.useCount} uses</span>
+            <span>${useCount} uses</span>
             ${template.isAi ? '<span class="badge">AI</span>' : ""}
           </div>
         </div>
