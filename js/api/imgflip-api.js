@@ -6,31 +6,87 @@
  * @returns {Promise<Array<object>>} A Promise that resolves to the top 100 memes
  *   ordered by how many times they were captioned in the last 30 days.
  */
-export async function getMemes(type = "image") {
+async function getMemes(type) {
+  
   const apiURL = "https://api.imgflip.com/get_memes";
   const url = new URL(apiURL);
 
-  let typeParameter;
+  let typeParameter= "image";
 
-  if (Array.isArray(type)) {
+  if(type)
+  {
+    if (Array.isArray(type)) 
+    {
     typeParameter = type.join(",");
-  } else {
+    } 
+
+
+    else 
+    {
     typeParameter = type;
+    }
   }
+
+  
 
   url.searchParams.append("type", typeParameter);
 
   const response = await fetch(url);
 
   if (!response.ok) {
-    throw new Error(`HTTP error! Status: ${response.status}`);
+    throw new Error("HTTP Error! Status: " + response.status);
   }
 
   const jsonMemes = await response.json();
 
   if (jsonMemes.success && jsonMemes.data && Array.isArray(jsonMemes.data.memes)) {
-    return jsonMemes.data.memes;
+    return jsonMemes.data.memes.map(meme => ({
+
+      id: meme.id,
+      name: meme.name,
+      imageUrl: meme.url,
+      width: meme.width,
+      height: meme.height
+    }));
   }
 
   throw new Error("The ImgFlip API has returned an unsuccessful response.");
 }
+
+
+/**
+ * Calls ImgFlip's get_memes function and returns an array of ImgFlip's most
+ * popular meme templates at the current moment.
+ * 
+ * @returns {Promise<Array<object>>} A Promise that resolves to the top 100 memes
+ *   ordered by how many times they were captioned in the last 30 days.
+ */
+
+export async function getPopularTemplates() {
+  const popTemplates = await getMemes("image");
+  return popTemplates;
+}
+
+/**
+ * Calls ImgFlip's get_memes function and returns an array.
+ * @param {string} [query] The name of a meme to search for in the name of the 
+ *                         meme templates 
+ * @returns {Promise<Array<object>>} A Promise that resolves to an array of 
+ *                                   matching meme templates
+ */
+
+export async function searchTemplates(query) {
+
+  const topTemplates = await getMemes("image")
+
+  const filteredMemes = topTemplates.filter(function (template) {
+
+    const memeNameLC = template.name.toLowerCase();
+    const queryLC = query.toLowerCase();
+    return memeNameLC.includes(queryLC);
+  });
+
+  return filteredMemes;
+
+}
+
