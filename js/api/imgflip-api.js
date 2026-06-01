@@ -40,7 +40,14 @@ async function getMemes(type) {
   const jsonMemes = await response.json();
 
   if (jsonMemes.success && jsonMemes.data && Array.isArray(jsonMemes.data.memes)) {
-    return jsonMemes.data.memes.map(meme => ({
+    return jsonMemes.data.memes.map(
+      /**
+      * @param {object} meme The meme object from the ImgFlip API. Contains top 100 most used templates.
+      * @returns {{id:string, name: string, imageUrl: string, width: number, height: number}}
+      * This is the formatted meme template.
+      */
+      
+      meme => ({
 
       id: meme.id,
       name: meme.name,
@@ -79,7 +86,18 @@ export async function searchTemplates(query) {
 
   const topTemplates = await getMemes("image")
 
-  const filteredMemes = topTemplates.filter(function (template) {
+  const filteredMemes = topTemplates.filter(
+
+    /**
+     * Checks if a meme template's name includes the search query (case-insensitive).
+     * @param {object} template - A formatted meme template.
+     * @param {string} template.name - The name of the meme template to evaluate.
+     * @returns {boolean} returns true if the template name matches the query, false otherwise.
+     */
+
+    
+    
+    function (template) {
 
     const memeNameLC = template.name.toLowerCase();
     const queryLC = query.toLowerCase();
