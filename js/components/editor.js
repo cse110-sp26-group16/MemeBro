@@ -1,4 +1,4 @@
-import { getPopularTemplates } from '../services/templates.js';
+import { getPopularTemplates } from '../api/imgflip-api.js';
 
 class MemebroEditor extends HTMLElement {
 
@@ -11,14 +11,14 @@ class MemebroEditor extends HTMLElement {
 
     async connectedCallback(){
     const params = new URLSearchParams(window.location.search);
-        this.templateID = params.get('templateID');
+        this.templateId = params.get('templateId');
         await this.resolveTemplate();
         this.render();
     }
 
     async resolveTemplate(){
         const templates = await getPopularTemplates();
-        this.template = templates.find(t => t.id === this.templateID) || null;
+        this.template = templates.find(t => t.id === this.templateId) || null;
     }
 
     render(){
