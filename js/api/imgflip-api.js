@@ -6,7 +6,7 @@
  * @returns {Promise<Array<object>>} A Promise that resolves to the top 100 memes
  *   ordered by how many times they were captioned in the last 30 days.
  */
-async function getMemes(type) {
+export async function getMemes(type) {
   const apiURL = "https://api.imgflip.com/get_memes";
   const url = new URL(apiURL);
 
