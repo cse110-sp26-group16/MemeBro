@@ -46,7 +46,6 @@ async function getMemes(type) {
       * @returns {{id:string, name: string, imageUrl: string, width: number, height: number}}
       * This is the formatted meme template.
       */
-      
       meme => ({
 
       id: meme.id,
@@ -68,7 +67,6 @@ async function getMemes(type) {
  * @returns {Promise<Array<object>>} A Promise that resolves to the top 100 memes
  *   ordered by how many times they were captioned in the last 30 days.
  */
-
 export async function getPopularTemplates() {
   const popTemplates = await getMemes("image");
   return popTemplates;
@@ -81,7 +79,6 @@ export async function getPopularTemplates() {
  * @returns {Promise<Array<object>>} A Promise that resolves to an array of 
  *                                   matching meme templates
  */
-
 export async function searchTemplates(query) {
 
   const topTemplates = await getMemes("image")
@@ -94,9 +91,6 @@ export async function searchTemplates(query) {
      * @param {string} template.name - The name of the meme template to evaluate.
      * @returns {boolean} returns true if the template name matches the query, false otherwise.
      */
-
-    
-    
     function (template) {
 
     const memeNameLC = template.name.toLowerCase();
