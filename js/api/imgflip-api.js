@@ -34,3 +34,21 @@ export async function getMemes(type = "image") {
 
   throw new Error("The ImgFlip API has returned an unsuccessful response.");
 }
+
+/**
+ * Fetch popular ImgFlip templates and normalize them to the shared Template shape.
+ * @returns {Promise<Array<object>>} Popular templates normalized for app components.
+ * @throws {Error} If the ImgFlip API request fails or returns an invalid response.
+ */
+export async function getPopularTemplates() {
+  const memes = await getMemes("image");
+
+  return memes.map((template) => ({
+    id: String(template.id),
+    name: template.name,
+    imageUrl: template.url,
+    width: Number(template.width),
+    height: Number(template.height),
+    popular: true,
+  }));
+}

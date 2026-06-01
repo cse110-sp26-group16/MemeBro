@@ -20,6 +20,7 @@ Sprint 2: foundation and quick flow skeleton.
 
 - ADR-0001 cross-references fixed, ADR-0002 (GitHub Pages deployment) accepted (#41)
 - JSDoc promoted from recommended to required, with lint enforcement planned (#41)
+- Polished the library home browse grid to render real popular templates from the ImgFlip API and route selected templates to the editor (#70)
 
 ### Documentation
 

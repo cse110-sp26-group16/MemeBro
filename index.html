@@ -145,14 +145,7 @@
                 </section>
                 <section class="home-browse" aria-labelledby="browse-heading">
                     <h3 id="browse-heading">Browse</h3>
-                    <div class="home-template-grid" aria-label="Template gallery placeholder">
-                        <article class="home-template-card home-template-card--wide">NO<br>YES</article>
-                        <article class="home-template-card home-template-card--split"></article>
-                        <article class="home-template-card home-template-card--yellow"></article>
-                        <article class="home-template-card home-template-card--tall"></article>
-                        <article class="home-template-card home-template-card--pink"></article>
-                        <article class="home-template-card"></article>
-                    </div>
+                    <memebro-template-gallery id="popular-template-gallery"></memebro-template-gallery>
                 </section>
             </section>
         </main>
@@ -176,5 +169,19 @@
         </nav>
         <a id="conjure" class="home-conjure-fab" href="#conjure" aria-label="Conjure a new meme template">✦</a>
     </div>
+    <script type="module">
+        import { getPopularTemplates } from "./js/api/imgflip-api.js";
+        import "./js/components/template-gallery.js";
+        const gallery = document.querySelector("#popular-template-gallery");
+        gallery.addEventListener("memebro:template-selected", (event) => {
+            const templateId = event.detail.template.id;
+            window.location.href = `pages/editor.html?templateId=${encodeURIComponent(templateId)}`;
+        });
+        try {
+            gallery.data = await getPopularTemplates();
+        } catch {
+            gallery.data = [];
+        }
+    </script>   
 </body>
 </html>
