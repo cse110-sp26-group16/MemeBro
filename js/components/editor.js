@@ -33,8 +33,14 @@ class MemebroEditor extends HTMLElement {
             }
         </style>
         <div>
-            <!-- Editor content goes here -->
+            <input type="text" placeholder="Top text" />
+            <img src="${this.template ? this.template.url : ''}" alt="${this.template ? this.template.name : 'No template selected'}" />
+            <input type="text" placeholder="Bottom text" />
         </div>
         `;
     }    
+
 }
+
+customElements.define('memebro-editor', MemebroEditor);
+export { MemebroEditor };
