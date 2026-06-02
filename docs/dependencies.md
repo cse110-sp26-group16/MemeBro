@@ -14,11 +14,11 @@ The only external things the running app touches are services, below.
 
 ## External services and APIs
 
-| Service                                  | Used for                                      | Secret?        | Status                                                                                                                                           |
-| ---------------------------------------- | --------------------------------------------- | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| ImgFlip API (public endpoints)           | Popular templates + search for the quick flow | No key         | OK — public data, no approval needed                                                                                                             |
-| Cloudflare (Workers / Pages Functions)   | Serverless backend / AI proxy                 | N/A (platform) | Approved by TA 2026-05-20; formalized in [ADR-0009](adr/0009-backend-platform.md) (supersedes ADR-0003). Started as a standalone Worker (PR #49) |
-| AI model provider (Replicate, candidate) | Conjure flow generation                       | Yes (API key)  | Pending — not yet approved; blocked on the AI-provider ADR                                                                                       |
+| Service                                    | Used for                                                          | Secret?        | Status                                                                                                                                           |
+| ------------------------------------------ | ----------------------------------------------------------------- | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| ImgFlip API (public endpoints)             | Popular templates + search for the quick flow                     | No key         | OK — public data, no approval needed                                                                                                             |
+| Cloudflare (Workers / Pages Functions)     | Serverless backend / AI proxy                                     | N/A (platform) | Approved by TA 2026-05-20; formalized in [ADR-0009](adr/0009-backend-platform.md) (supersedes ADR-0003). Started as a standalone Worker (PR #49) |
+| AI model provider (TBD — pending ADR-0010) | AI-ranked template search (`/api/search` via `search-ranking.js`) | Yes (API key)  | Pending — provider decision tracked in #76. Key will be stored as a Cloudflare Worker secret once ADR-0010 is accepted.                          |
 
 > Secret keys never ship to the browser. Any provider requiring a key is called
 > through the backend (Cloudflare Worker), never directly from the frontend.

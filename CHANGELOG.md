@@ -7,6 +7,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/) and [Semantic Ver
 
 ### Added
 
+- AI-powered template ranking module (`memebro-api/src/search-ranking.js`); backs the `/api/search` route once ADR-0010 (#76) picks the provider (#77)
+- Worker test CI job — `memebro-api` tests now run on every PR (#75)
 - Shared `<memebro-top-bar>` and `<memebro-tab-bar>` chrome web components for the Library → Search → Editor slice (#74)
 
 ## [0.1.0] - 2026-05-24

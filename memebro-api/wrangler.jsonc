@@ -5,4 +5,10 @@
   "observability": {
     "enabled": true,
   },
+  // Secret bindings required at runtime (never commit real values here).
+  // Set via: wrangler secret put <KEY_NAME>
+  // Local dev: copy .dev.vars.example → .dev.vars and fill in your key.
+  //
+  // AI_API_KEY  — AI provider API key used by search-ranking.js for GET /api/search.
+  //               Provider and exact key name confirmed in ADR-0010 (#76).
 }
