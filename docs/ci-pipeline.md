@@ -23,7 +23,8 @@ Dependabot keeps dependencies and Actions current.
 | `.github/dependabot.yml`       | Dependabot       | weekly                                            | npm (`/`), npm (`/memebro-api`), github-actions (`/`)                                    |
 
 The standalone `deploy.yml` was removed; deployment is now a gated job inside
-`ci-cd.yml`.
+`ci-cd.yml`. Its old manual `workflow_dispatch` trigger was not carried over, so
+Pages now deploys only on a push to `main`.
 
 ## How it runs
 
@@ -81,6 +82,11 @@ flowchart TD
     PR -.->|pull_request / push| CQ[codeql.yml: analyze]:::info
     classDef info fill:#eef,stroke:#66a,stroke-dasharray:4;
 ```
+
+> The merge gate is only enforced once branch protection is set to require the
+> `ci-success` check. That is a one-time repo Settings change (see
+> [`adr/0010-gate-deploy-on-ci.md`](adr/0010-gate-deploy-on-ci.md)); until that is
+> done, the gate shown at the merge step is advisory, not enforced.
 
 ## Job by job
 
