@@ -17,6 +17,7 @@ code.
 - [`../AGENTS.md`](../AGENTS.md) — binding code conventions and folder structure
 - [`interface-contract.md`](interface-contract.md) — mount points, shared data
   shapes, and cross-module events
+- [`ci-pipeline.md`](ci-pipeline.md) — how CI/CD runs and where the gaps are
 - [`COMMITFORMAT.md`](COMMITFORMAT.md) — Conventional Commits
 - [`SemVerInfo.md`](SemVerInfo.md) — versioning
 
