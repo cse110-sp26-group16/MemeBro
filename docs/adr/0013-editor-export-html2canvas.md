@@ -1,4 +1,4 @@
-# ADR-0012: Export edited memes by rasterizing the DOM with html2canvas
+# ADR-0013: Export edited memes by rasterizing the DOM with html2canvas
 
 - **Status:** Accepted
 - **Date:** 2026-06-03
