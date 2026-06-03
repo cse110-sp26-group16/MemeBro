@@ -58,6 +58,7 @@ class MemebroTemplateGallery extends HTMLElement {
     super();
     this.attachShadow({ mode: "open" });
     this.templates = mockTemplates;
+    this.handleClick = this.handleClick.bind(this);
   }
 
   /**
@@ -73,7 +74,51 @@ class MemebroTemplateGallery extends HTMLElement {
    * Renders the gallery once the element is connected to the DOM.
    */
   connectedCallback() {
+    this.shadowRoot.addEventListener("click", this.handleClick);
     this.render();
+  }
+
+  /**
+   * Removes event listeners when disconnected.
+   */
+  disconnectedCallback() {
+    this.shadowRoot.removeEventListener("click", this.handleClick);
+  }
+
+  /**
+   * Dispatches the template-selected event when a template card is clicked.
+   * @param {Event} event Click event from the shadow root.
+   */
+  handleClick(event) {
+    const target = event.target;
+
+    if (!(target instanceof Element)) {
+      return;
+    }
+
+    if (target.closest(".favorite")) {
+      return;
+    }
+
+    const card = target.closest(".template-card");
+
+    if (!(card instanceof HTMLElement)) {
+      return;
+    }
+
+    const template = this.templates.find((item) => item.id === card.dataset.templateId);
+
+    if (!template) {
+      return;
+    }
+
+    this.dispatchEvent(
+      new CustomEvent("memebro:template-selected", {
+        detail: { template },
+        bubbles: true,
+        composed: true,
+      })
+    );
   }
 
   /**
@@ -310,11 +355,12 @@ class MemebroTemplateGallery extends HTMLElement {
    * @returns {string} the card's HTML markup.
    */
   renderCard(template) {
+    const id = this.escapeHtml(template.id);
     const name = this.escapeHtml(template.name);
     const imageUrl = this.escapeHtml(template.imageUrl);
     const useCount = this.escapeHtml(template.useCount);
     return `
-      <article class="template-card">
+      <article class="template-card" data-template-id="${id}">
         <div class="image-wrap">
           <img
             class="template-image"
