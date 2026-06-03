@@ -3,7 +3,7 @@
  */
 
 /**
- * @typedef {Object} Caption
+ * @typedef {object} Caption
  * @property {string} text
  * @property {number} x        Position from left as a 0–1 ratio of image width
  * @property {number} y        Position from top as a 0–1 ratio of image height
@@ -12,7 +12,7 @@
  */
 
 /**
- * @typedef {Object} Meme
+ * @typedef {object} Meme
  * @property {string}             id               UUID generated client-side
  * @property {string}             templateId       Matches Template.id
  * @property {string}             templateImageUrl Cached image URL
@@ -22,13 +22,23 @@
  */
 
 import { getPopularTemplates } from "../api/imgflip-api.js";
+import html2canvas from "../vendor/html2canvas.esm.js";
+
+/**
+ * Editor screen: renders a template with editable, ratio-positioned caption
+ * overlays and exports the result as a downloadable PNG.
+ * @augments {HTMLElement}
+ */
 class MemeBroEditor extends HTMLElement {
+  /**
+   * Sets up the shadow root and the default caption + style state.
+   */
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
     this.template = null;
     /** @type {'classic'|'serif'|'type'|'glitch'|'bubble'} */
-    this.activeStyle = 'classic';
+    this.activeStyle = "classic";
     /** @type {Caption[]} */
     this.captions = [
       { text: "", x: 0.5, y: 0.05, fontSize: 0.06, color: "#ffffff" },
@@ -36,6 +46,10 @@ class MemeBroEditor extends HTMLElement {
     ];
   }
 
+  /**
+   * Reads the templateId from the URL, resolves it, then renders and wires up.
+   * @returns {Promise<void>}
+   */
   async connectedCallback() {
     const params = new URLSearchParams(window.location.search);
     this.templateId = params.get("templateId");
@@ -44,11 +58,19 @@ class MemeBroEditor extends HTMLElement {
     this.attachListeners();
   }
 
+  /**
+   * Looks up the active template by id from the popular-templates list.
+   * @returns {Promise<void>}
+   */
   async resolveTemplate() {
     const templates = await getPopularTemplates();
     this.template = templates.find((t) => t.id === this.templateId) || null;
   }
 
+  /**
+   * Renders the meme canvas, caption inputs, style chips, and download button.
+   * @returns {void}
+   */
   render() {
     const imageUrl = this.template ? this.template.imageUrl : "";
     const ratio = this.template ? `${this.template.width} / ${this.template.height}` : "1 / 1";
@@ -59,7 +81,7 @@ class MemeBroEditor extends HTMLElement {
       .map(
         (cap, i) =>
           `<span
-            class="meme-canvas-caption ${styleClass}${cap.text ? '' : ' meme-canvas-caption--placeholder'}"
+            class="meme-canvas-caption ${styleClass}${cap.text ? "" : " meme-canvas-caption--placeholder"}"
             data-caption-index="${i}"
             aria-hidden="true"
             style="left:${cap.x * 100}%;top:${cap.y * 100}%;font-size:calc(${cap.fontSize} * 100cqw);color:${cap.color};"
@@ -231,10 +253,57 @@ class MemeBroEditor extends HTMLElement {
           paint-order: stroke fill;
           text-shadow: none;
         }
+
+        .download-button {
+          width: 100%;
+          max-width: 480px;
+          padding: var(--space-3);
+          border: none;
+          border-radius: var(--radius);
+          background: var(--orange);
+          color: var(--surface);
+          font-family: Geist, system-ui, sans-serif;
+          font-size: var(--text-base);
+          font-weight: 600;
+          cursor: pointer;
+        }
+
+        .download-button:hover {
+          background: var(--orange-2);
+        }
+
+        .editor-error {
+          position: fixed;
+          top: var(--space-4);
+          left: 50%;
+          transform: translateX(-50%);
+          z-index: 10;
+          display: flex;
+          align-items: center;
+          gap: var(--space-3);
+          max-width: 90%;
+          padding: var(--space-3) var(--space-4);
+          background: var(--surface);
+          border: 1px solid var(--accent-rose);
+          border-radius: var(--radius);
+          box-shadow: var(--shadow-lg);
+          color: var(--ink);
+          font-family: Geist, system-ui, sans-serif;
+          font-size: var(--text-sm);
+        }
+
+        .editor-error__close {
+          border: none;
+          background: transparent;
+          color: var(--ink-3);
+          font-size: var(--text-base);
+          line-height: 1;
+          cursor: pointer;
+        }
       </style>
 
       <div class="meme-canvas">
-        <img class="meme-canvas-img" src="${imageUrl}" alt="${altText}" />
+        <img class="meme-canvas-img" src="${imageUrl}" alt="${altText}" crossorigin="anonymous" />
         ${captionOverlaysHtml}
       </div>
       <div class="input-panels" id="input-panels">
@@ -250,13 +319,14 @@ class MemeBroEditor extends HTMLElement {
       <div class="style-row">
         <p class="style-row__label">Style</p>
         <div class="style-row__chips" role="group" aria-label="Caption style">
-          <button class="style-chip" data-style="classic" aria-pressed="${this.activeStyle === 'classic'}">classic</button>
-          <button class="style-chip" data-style="serif"   aria-pressed="${this.activeStyle === 'serif'}">serif</button>
-          <button class="style-chip" data-style="type"    aria-pressed="${this.activeStyle === 'type'}">type</button>
-          <button class="style-chip" data-style="glitch"  aria-pressed="${this.activeStyle === 'glitch'}">glitch</button>
-          <button class="style-chip" data-style="bubble"  aria-pressed="${this.activeStyle === 'bubble'}">bubble</button>
+          <button class="style-chip" data-style="classic" aria-pressed="${this.activeStyle === "classic"}">classic</button>
+          <button class="style-chip" data-style="serif"   aria-pressed="${this.activeStyle === "serif"}">serif</button>
+          <button class="style-chip" data-style="type"    aria-pressed="${this.activeStyle === "type"}">type</button>
+          <button class="style-chip" data-style="glitch"  aria-pressed="${this.activeStyle === "glitch"}">glitch</button>
+          <button class="style-chip" data-style="bubble"  aria-pressed="${this.activeStyle === "bubble"}">bubble</button>
         </div>
-      </div>`;
+      </div>
+      <button class="download-button" type="button">Download meme</button>`;
   }
 
   /**
@@ -304,6 +374,94 @@ class MemeBroEditor extends HTMLElement {
         });
       });
     });
+
+    const downloadButton = this.shadowRoot.querySelector(".download-button");
+    if (downloadButton) {
+      downloadButton.addEventListener("click", () => this.downloadMeme());
+    }
+  }
+
+  /**
+   * Assembles a Meme object from the current template and caption state.
+   * @returns {Meme} The meme described by the loaded template and captions.
+   */
+  buildMeme() {
+    return {
+      id: crypto.randomUUID(),
+      templateId: this.template ? this.template.id : "",
+      templateImageUrl: this.template ? this.template.imageUrl : "",
+      captions: this.captions,
+      source: "quick",
+      createdAt: new Date().toISOString(),
+    };
+  }
+
+  /**
+   * Exports the current meme as a PNG and announces the download.
+   *
+   * Rasterizes the `.meme-canvas` node (template image + caption overlays) with
+   * html2canvas, downloads the resulting PNG, then dispatches
+   * `memebro:meme-downloaded` ({ meme, format: 'png' }) so listeners can react.
+   * Surfaces a dismissible error popup if rasterizing or export fails.
+   * @returns {Promise<void>}
+   */
+  async downloadMeme() {
+    try {
+      const node = this.shadowRoot.querySelector(".meme-canvas");
+      const canvas = await html2canvas(node, { useCORS: true });
+      const blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/png"));
+
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = this.downloadFilename();
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+
+      this.dispatchEvent(
+        new CustomEvent("memebro:meme-downloaded", {
+          detail: { meme: this.buildMeme(), format: "png" },
+          bubbles: true,
+          composed: true,
+        })
+      );
+    } catch {
+      this.showError("Couldn't export your meme. Please try again.");
+    }
+  }
+
+  /**
+   * Builds a filesystem-safe PNG filename from the template name and a timestamp.
+   * @returns {string} e.g. "memebro-drake-hotline-bling-1717000000000.png"
+   */
+  downloadFilename() {
+    const slug = (this.template ? this.template.name : "meme")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "");
+    return `memebro-${slug || "meme"}-${Date.now()}.png`;
+  }
+
+  /**
+   * Shows a small dismissible error popup over the editor.
+   * @param {string} message The message to display.
+   * @returns {void}
+   */
+  showError(message) {
+    const existing = this.shadowRoot.querySelector(".editor-error");
+    if (existing) {
+      existing.remove();
+    }
+
+    const popup = document.createElement("div");
+    popup.className = "editor-error";
+    popup.setAttribute("role", "alert");
+    popup.innerHTML = `<span class="editor-error__msg"></span><button class="editor-error__close" type="button" aria-label="Dismiss">✕</button>`;
+    popup.querySelector(".editor-error__msg").textContent = message;
+    popup.querySelector(".editor-error__close").addEventListener("click", () => popup.remove());
+    this.shadowRoot.appendChild(popup);
   }
 }
 

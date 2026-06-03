@@ -8,9 +8,18 @@ dependency link here (see [ADR-0003](adr/0003-backend-stack.md)).
 
 ## Runtime / shipped
 
-The frontend ships no framework, bundler, or runtime library
+The frontend ships no framework and no bundler
 ([ADR-0001](adr/0001-vanilla-stack.md)) — it's plain HTML, CSS, and ES6 modules.
-The only external things the running app touches are services, below.
+Single-file utility libraries that ship as one self-contained ES module (not a
+framework) are permitted: they're vendored into `js/vendor/` and imported
+directly. Per the TA, frontend-only libraries are exempt from the rule-8 approval
+that backend/secret dependencies need; they only have to be recorded here.
+
+| Library     | Version | Vendored at                    | Used for                                                     |
+| ----------- | ------- | ------------------------------ | ------------------------------------------------------------ |
+| html2canvas | 1.4.1   | `js/vendor/html2canvas.esm.js` | Rasterize the editor meme canvas to a PNG for download (#73) |
+
+The only other external things the running app touches are services, below.
 
 ## External services and APIs
 
