@@ -3,6 +3,12 @@
 All notable changes to MemeBro will be documented in this file.
 Format follows [Keep a Changelog](https://keepachangelog.com/) and [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+
+- Shared `<memebro-top-bar>` and `<memebro-tab-bar>` chrome web components for the Library → Search → Editor slice (#74)
+
 ## [0.1.0] - 2026-05-24
 
 Sprint 2: foundation and quick flow skeleton.

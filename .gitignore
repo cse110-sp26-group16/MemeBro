@@ -156,3 +156,6 @@ Desktop.ini
 # Playwright
 test-results/
 playwright-report/
+
+# husky generated internals (the committed hooks live in .husky/ directly)
+.husky/_/

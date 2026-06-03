@@ -39,10 +39,11 @@ no runtime or secret-handling impact.
 
 In flight (land with their ADRs and PRs):
 
-| Package          | Purpose      | Status                                                     |
-| ---------------- | ------------ | ---------------------------------------------------------- |
-| vitest, jsdom    | Unit testing | In PR #51 / [ADR-0005](adr/0005-unit-testing-framework.md) |
-| @playwright/test | E2E testing  | In PR #50 / [ADR-0004](adr/0004-e2e-testing-framework.md)  |
+| Package            | Purpose                           | Status                                                           |
+| ------------------ | --------------------------------- | ---------------------------------------------------------------- |
+| vitest, jsdom      | Unit testing                      | In PR #51 / [ADR-0005](adr/0005-unit-testing-framework.md)       |
+| @playwright/test   | E2E testing                       | In PR #50 / [ADR-0004](adr/0004-e2e-testing-framework.md)        |
+| husky, lint-staged | Pre-commit lint/format (dev-only) | Pending TA approval — raise at next TA meeting (CI-hardening PR) |
 
 ## When this file changes
 

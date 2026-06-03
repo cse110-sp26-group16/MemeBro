@@ -1,6 +1,7 @@
 node_modules/
 .git/
 .github/
+.husky/
 dist/
 build/
 coverage/

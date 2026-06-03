@@ -6,16 +6,18 @@
  * @returns {Promise<Array<object>>} A Promise that resolves to the top 100 memes
  *   ordered by how many times they were captioned in the last 30 days.
  */
-export async function getMemes(type = "image") {
+export async function getMemes(type) {
   const apiURL = "https://api.imgflip.com/get_memes";
   const url = new URL(apiURL);
 
-  let typeParameter;
+  let typeParameter = "image";
 
-  if (Array.isArray(type)) {
-    typeParameter = type.join(",");
-  } else {
-    typeParameter = type;
+  if (type) {
+    if (Array.isArray(type)) {
+      typeParameter = type.join(",");
+    } else {
+      typeParameter = type;
+    }
   }
 
   url.searchParams.append("type", typeParameter);
@@ -23,32 +25,66 @@ export async function getMemes(type = "image") {
   const response = await fetch(url);
 
   if (!response.ok) {
-    throw new Error(`HTTP error! Status: ${response.status}`);
+    throw new Error("HTTP Error! Status: " + response.status);
   }
 
   const jsonMemes = await response.json();
 
   if (jsonMemes.success && jsonMemes.data && Array.isArray(jsonMemes.data.memes)) {
-    return jsonMemes.data.memes;
+    return jsonMemes.data.memes.map(
+      /**
+       * @param {object} meme The meme object from the ImgFlip API. Contains top 100 most used templates.
+       * @returns {{id:string, name: string, imageUrl: string, width: number, height: number}}
+       * This is the formatted meme template.
+       */
+      (meme) => ({
+        id: meme.id,
+        name: meme.name,
+        imageUrl: meme.url,
+        width: meme.width,
+        height: meme.height,
+      })
+    );
   }
 
   throw new Error("The ImgFlip API has returned an unsuccessful response.");
 }
 
 /**
- * Fetch popular ImgFlip templates and normalize them to the shared Template shape.
- * @returns {Promise<Array<object>>} Popular templates normalized for app components.
- * @throws {Error} If the ImgFlip API request fails or returns an invalid response.
+ * Calls ImgFlip's get_memes function and returns an array of ImgFlip's most
+ * popular meme templates at the current moment.
+ *
+ * @returns {Promise<Array<object>>} A Promise that resolves to the top 100 memes
+ *   ordered by how many times they were captioned in the last 30 days.
  */
 export async function getPopularTemplates() {
-  const memes = await getMemes("image");
+  const popTemplates = await getMemes("image");
+  return popTemplates;
+}
 
-  return memes.map((template) => ({
-    id: String(template.id),
-    name: template.name,
-    imageUrl: template.url,
-    width: Number(template.width),
-    height: Number(template.height),
-    popular: true,
-  }));
+/**
+ * Calls ImgFlip's get_memes function and returns an array.
+ * @param {string} [query] The name of a meme to search for in the name of the
+ *                         meme templates
+ * @returns {Promise<Array<object>>} A Promise that resolves to an array of
+ *                                   matching meme templates
+ */
+export async function searchTemplates(query) {
+  const topTemplates = await getMemes("image");
+
+  const filteredMemes = topTemplates.filter(
+    /**
+     * Checks if a meme template's name includes the search query (case-insensitive).
+     * @param {object} template - A formatted meme template.
+     * @param {string} template.name - The name of the meme template to evaluate.
+     * @returns {boolean} returns true if the template name matches the query, false otherwise.
+     */
+    function (template) {
+      const memeNameLC = template.name.toLowerCase();
+      const queryLC = query.toLowerCase();
+      return memeNameLC.includes(queryLC);
+    }
+  );
+
+  return filteredMemes;
 }
