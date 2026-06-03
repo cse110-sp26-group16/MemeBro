@@ -1,0 +1,25 @@
+version: 2
+updates:
+  # Frontend / root tooling
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      # Collapse dev-tooling bumps into one PR to cut review noise.
+      dev-dependencies:
+        dependency-type: development
+
+  # Cloudflare Worker backend
+  - package-ecosystem: npm
+    directory: /memebro-api
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+
+  # The GitHub Actions used by our workflows
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly

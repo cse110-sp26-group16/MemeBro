@@ -1,4 +1,4 @@
-# ADR-0010: AI provider for template search ranking
+# ADR-0011: AI provider for template search ranking
 
 - **Status:** Proposed <!-- pending TA sign-off; no dependency added in this PR -->
 - **Date:** 2026-06-01
