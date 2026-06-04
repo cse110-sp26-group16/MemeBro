@@ -110,3 +110,40 @@ describe("MemebroTemplateGallery – XSS protection", () => {
     expect(meta.querySelector("b")).toBeNull();
   });
 });
+
+describe("MemebroTemplateGallery – defaults and lifecycle", () => {
+  let el;
+
+  afterEach(() => el.remove());
+
+  it("attaches an open shadow root", () => {
+    el = mount();
+    expect(el.shadowRoot).not.toBeNull();
+  });
+
+  it("renders the 6 default template cards when no data is set", () => {
+    el = mount();
+    expect(el.shadowRoot.querySelectorAll(".template-card").length).toBe(6);
+  });
+
+  it("renders default template image, alt, and name correctly", () => {
+    el = mount();
+    const img = el.shadowRoot.querySelector(".template-image");
+    const name = el.shadowRoot.querySelector(".template-name");
+    expect(img.src).toContain("30b1gx.jpg");
+    expect(img.alt).toBe("Drake Hotline Bling meme template");
+    expect(name.textContent).toBe("Drake Hotline Bling");
+  });
+
+  it("shows AI badges only for the default AI templates", () => {
+    el = mount();
+    expect(el.shadowRoot.querySelectorAll(".badge").length).toBe(2);
+  });
+
+  it("replaces the default cards when data is set after mount", () => {
+    el = mount();
+    el.data = [SAFE];
+    expect(el.shadowRoot.querySelectorAll(".template-card").length).toBe(1);
+    expect(el.shadowRoot.querySelector(".count").textContent).toContain("1");
+  });
+});
