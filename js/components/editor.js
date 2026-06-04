@@ -21,6 +21,8 @@
  * @property {string}             createdAt        ISO 8601 timestamp
  */
 
+import html2canvas from "https://esm.sh/html2canvas@1.4.1";
+import "./top-bar.js";
 import { getPopularTemplates } from "../api/imgflip-api.js";
 class MemeBroEditor extends HTMLElement {
   constructor() {
@@ -271,11 +273,59 @@ class MemeBroEditor extends HTMLElement {
           color: var(--ink-3);
           letter-spacing: var(--tracking-wide);
         }
+
+        .top-bar-back {
+          background: transparent;
+          border: none;
+          padding: var(--space-2);
+          color: var(--ink);
+          font-size: var(--text-xl);
+          line-height: 1;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          font-family: Geist, system-ui, sans-serif;
+          min-height: 44px;
+        }
+
+        .top-bar-title {
+          font-size: var(--text-sm);
+          font-family: Geist, system-ui, sans-serif;
+          color: var(--ink);
+          font-weight: 500;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          max-width: 100%;
+        }
+
+        .download-btn {
+          background: var(--orange);
+          color: #fff;
+          border: none;
+          border-radius: var(--radius);
+          padding: var(--space-2) var(--space-4);
+          font-size: var(--text-sm);
+          font-weight: 600;
+          font-family: Geist, system-ui, sans-serif;
+          cursor: pointer;
+          min-height: 36px;
+          letter-spacing: 0.01em;
+        }
+
+        .download-btn:active {
+          background: var(--orange-deep);
+        }
       </style>
 
+      <memebro-top-bar>
+        <button class="top-bar-back" slot="breadcrumb" aria-label="Go back">&#8592;</button>
+        <span class="top-bar-title" slot="search-input">${this.template ? this.template.name : ''}</span>
+        <button class="download-btn" slot="actions" aria-label="Download PNG">Download</button>
+      </memebro-top-bar>
       <div class="editor-content">
         <div class="meme-canvas">
-          <img class="meme-canvas-img" src="${imageUrl}" alt="${altText}" />
+          <img class="meme-canvas-img" src="${imageUrl}" alt="${altText}" crossorigin="anonymous" />
           ${captionOverlaysHtml}
         </div>
         <div class="editor-panels">
@@ -354,6 +404,60 @@ class MemeBroEditor extends HTMLElement {
         });
       });
     });
+
+    const backBtn = this.shadowRoot.querySelector('.top-bar-back');
+    if (backBtn) {
+      backBtn.addEventListener('click', () => history.back());
+    }
+
+    const downloadBtn = this.shadowRoot.querySelector('.download-btn');
+    if (downloadBtn) {
+      downloadBtn.addEventListener('click', () => this._downloadMeme());
+    }
+
+  }
+
+  /**
+   * Renders the meme canvas to a PNG via html2canvas, constructs a {@link Meme}
+   * object, fires `memebro:meme-downloaded`, and triggers a browser download.
+   * NOTE: imgflip images must be served with CORS headers for html2canvas to
+   * read pixel data. If the canvas is tainted the download will fail; routing
+   * images through the backend proxy (Cloudflare Worker) resolves this.
+   * @returns {Promise<void>}
+   * @throws {Error} if html2canvas fails to render
+   */
+  async _downloadMeme() {
+    const memeEl = this.shadowRoot.querySelector('.meme-canvas');
+    const rendered = await html2canvas(memeEl, {
+      useCORS: true,
+      allowTaint: false,
+      backgroundColor: null,
+      scale: window.devicePixelRatio || 2,
+      logging: false,
+    });
+
+    /** @type {Meme} */
+    const meme = {
+      id: crypto.randomUUID(),
+      templateId: this.templateId ?? '',
+      templateImageUrl: this.template?.imageUrl ?? '',
+      captions: this.captions.map((c) => ({ ...c })),
+      source: 'quick',
+      createdAt: new Date().toISOString(),
+    };
+
+    this.dispatchEvent(
+      new CustomEvent('memebro:meme-downloaded', {
+        detail: { meme, format: 'png' },
+        bubbles: true,
+        composed: true,
+      })
+    );
+
+    const link = document.createElement('a');
+    link.href = rendered.toDataURL('image/png');
+    link.download = `meme-${meme.id}.png`;
+    link.click();
   }
 }
 

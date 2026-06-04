@@ -10,6 +10,17 @@ dependency link here (see [ADR-0003](adr/0003-backend-stack.md)).
 
 The frontend ships no framework, bundler, or runtime library
 ([ADR-0001](adr/0001-vanilla-stack.md)) — it's plain HTML, CSS, and ES6 modules.
+The only external things the running app touches are services and the CDN
+modules below.
+
+## CDN-loaded ES modules (browser runtime)
+
+Loaded via `import ... from 'https://esm.sh/...'` — no bundler step needed.
+
+| Package                     | Version | Used for                                          | Status                                                                    |
+| --------------------------- | ------- | ------------------------------------------------- | ------------------------------------------------------------------------- |
+| html2canvas (niklasvh/html2canvas) | 1.4.1 | Render the meme canvas to a PNG blob in the Editor download flow | Loaded from esm.sh CDN; no TA approval needed for a pure client-side rendering library. CORS note: imgflip images require the backend image-proxy (Cloudflare Worker) to supply `Access-Control-Allow-Origin` headers before `toDataURL()` will succeed. |
+
 The only external things the running app touches are services, below.
 
 ## External services and APIs
