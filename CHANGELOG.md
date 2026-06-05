@@ -5,9 +5,33 @@ Format follows [Keep a Changelog](https://keepachangelog.com/) and [Semantic Ver
 
 ## [Unreleased]
 
+Sprint 4: the Library → Search → Editor vertical slice plus a process and CI hardening push.
+
 ### Added
 
+- Search screen with AI-ranked template results and a graceful client-side ImgFlip fallback when the search API is unreachable (#72)
+- `/api/search` Cloudflare Worker route serving fixture-ranked templates (#75)
+- Cloudflare Worker API scaffold with an `/api/status` health-check endpoint and CORS handling (#26)
+- AI prompt builder pure function for the Conjure flow (#27)
 - Shared `<memebro-top-bar>` and `<memebro-tab-bar>` chrome web components for the Library → Search → Editor slice (#74)
+- Vitest unit-testing and Playwright end-to-end frameworks wired into CI (#36, #37)
+- ImgFlip smoke tests, JSON-validator tests, and gallery unit tests (#67, #65, #71)
+- CODEOWNERS, a full README rewrite, an ADR index, and a dependencies ledger (#57, #58, #59)
+
+### Changed
+
+- Polished the library home browse grid to render real popular templates from the ImgFlip API and route selected templates to the editor (#70)
+- Updated the interface contract to add the Search screen and promote the Editor to the core flow (#69)
+- Hardened CI/CD into a single pipeline that gates the GitHub Pages deploy on passing lint, unit, E2E, and worker tests (#89)
+
+### Fixed
+
+- Escaped user-controlled template text rendered in the gallery to close an XSS injection sink (#64)
+
+### Documentation
+
+- ADR-0009 (Cloudflare as the backend platform, supersedes ADR-0003), ADR-0010 (gate the Pages deploy on CI), and ADR-0011 (AI provider for template search) (#62, #89, #88)
+- ADR-0006 (web components with Shadow DOM), ADR-0007 (JSDoc instead of TypeScript), and ADR-0008 (frontend linting toolchain) (#56)
 
 ## [0.1.0] - 2026-05-24
 
