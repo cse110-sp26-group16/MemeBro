@@ -1,5 +1,8 @@
 # MemeBro
 
+[![CI/CD Pipeline](https://github.com/cse110-sp26-group16/MemeBro/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/cse110-sp26-group16/MemeBro/actions/workflows/ci-cd.yml)
+[![CodeQL](https://github.com/cse110-sp26-group16/MemeBro/actions/workflows/codeql.yml/badge.svg)](https://github.com/cse110-sp26-group16/MemeBro/actions/workflows/codeql.yml)
+
 AI-powered meme generator, mobile first. Think "ImgFlip for the AI generation":
 pick a template, caption it, and export, or describe what you want and let AI
 help build the meme.

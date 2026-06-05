@@ -1,6 +1,7 @@
 node_modules/
 .git/
 .github/
+.husky/
 dist/
 build/
 coverage/
@@ -17,3 +18,4 @@ admin/
 Design/
 package-lock.json
 index.html
+js/vendor/

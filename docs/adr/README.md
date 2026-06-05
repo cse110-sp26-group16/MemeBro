@@ -7,17 +7,21 @@ decision is captured here.
 
 ## Index
 
-| ADR                                         | Decision                                | Status                      |
-| ------------------------------------------- | --------------------------------------- | --------------------------- |
-| [0001](0001-vanilla-stack.md)               | Vanilla HTML/CSS/JS, no framework       | Accepted                    |
-| [0002](0002-deployment-target.md)           | Deploy to GitHub Pages                  | Accepted                    |
-| [0003](0003-backend-stack.md)               | Backend stack for the AI proxy          | Superseded by ADR-0009      |
-| [0004](0004-e2e-testing-framework.md)       | Playwright for E2E testing              | Proposed (lands via PR #50) |
-| [0005](0005-unit-testing-framework.md)      | Vitest for unit testing                 | Proposed (lands via PR #51) |
-| [0006](0006-web-components-shadow-dom.md)   | Web Components with Shadow DOM          | Accepted (lands via PR #56) |
-| [0007](0007-jsdoc-instead-of-typescript.md) | JSDoc instead of TypeScript             | Accepted (lands via PR #56) |
-| [0008](0008-frontend-linting-toolchain.md)  | Frontend linting + formatting toolchain | Accepted (lands via PR #56) |
-| [0009](0009-backend-platform.md)            | Cloudflare as the backend platform      | Accepted                    |
+| ADR                                         | Decision                                | Status                       |
+| ------------------------------------------- | --------------------------------------- | ---------------------------- |
+| [0001](0001-vanilla-stack.md)               | Vanilla HTML/CSS/JS, no framework       | Accepted                     |
+| [0002](0002-deployment-target.md)           | Deploy to GitHub Pages                  | Accepted                     |
+| [0003](0003-backend-stack.md)               | Backend stack for the AI proxy          | Superseded by ADR-0009       |
+| [0004](0004-e2e-testing-framework.md)       | Playwright for E2E testing              | Proposed (lands via PR #50)  |
+| [0005](0005-unit-testing-framework.md)      | Vitest for unit testing                 | Proposed (lands via PR #51)  |
+| [0006](0006-web-components-shadow-dom.md)   | Web Components with Shadow DOM          | Accepted (lands via PR #56)  |
+| [0007](0007-jsdoc-instead-of-typescript.md) | JSDoc instead of TypeScript             | Accepted (lands via PR #56)  |
+| [0008](0008-frontend-linting-toolchain.md)  | Frontend linting + formatting toolchain | Accepted (lands via PR #56)  |
+| [0009](0009-backend-platform.md)            | Cloudflare as the backend platform      | Accepted                     |
+| [0010](0010-gate-deploy-on-ci.md)           | Gate the Pages deploy on CI passing     | Accepted                     |
+| [0011](0011-ai-provider-search.md)          | AI provider for template search ranking | Proposed (pending TA)        |
+| [0012](0012-require-ci-success-check.md)    | Require ci-success in branch protection | Accepted                     |
+| [0013](0013-editor-export-html2canvas.md)   | Export edited memes via html2canvas     | Accepted (lands via this PR) |
 
 > Some ADRs are still in open PRs and will appear in this directory once those
 > PRs merge. The status column notes which.

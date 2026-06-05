@@ -58,6 +58,7 @@ class MemebroTemplateGallery extends HTMLElement {
     super();
     this.attachShadow({ mode: "open" });
     this.templates = mockTemplates;
+    this.handleClick = this.handleClick.bind(this);
   }
 
   /**
@@ -73,7 +74,51 @@ class MemebroTemplateGallery extends HTMLElement {
    * Renders the gallery once the element is connected to the DOM.
    */
   connectedCallback() {
+    this.shadowRoot.addEventListener("click", this.handleClick);
     this.render();
+  }
+
+  /**
+   * Removes event listeners when disconnected.
+   */
+  disconnectedCallback() {
+    this.shadowRoot.removeEventListener("click", this.handleClick);
+  }
+
+  /**
+   * Dispatches the template-selected event when a template card is clicked.
+   * @param {Event} event Click event from the shadow root.
+   */
+  handleClick(event) {
+    const target = event.target;
+
+    if (!(target instanceof Element)) {
+      return;
+    }
+
+    if (target.closest(".favorite")) {
+      return;
+    }
+
+    const card = target.closest(".template-card");
+
+    if (!(card instanceof HTMLElement)) {
+      return;
+    }
+
+    const template = this.templates.find((item) => item.id === card.dataset.templateId);
+
+    if (!template) {
+      return;
+    }
+
+    this.dispatchEvent(
+      new CustomEvent("memebro:template-selected", {
+        detail: { template },
+        bubbles: true,
+        composed: true,
+      })
+    );
   }
 
   /**
@@ -291,35 +336,53 @@ class MemebroTemplateGallery extends HTMLElement {
   }
 
   /**
+   * Escapes a value for safe interpolation into HTML attributes and text content.
+   * @param {*} value - The value to escape.
+   * @returns {string}
+   */
+  escapeHtml(value) {
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  /**
    * Builds the HTML string for a single template card.
    * @param {object} template - A template with `imageUrl`, `name`, `useCount`, and `isAi` fields.
    * @returns {string} the card's HTML markup.
    */
   renderCard(template) {
+    const id = this.escapeHtml(template.id);
+    const name = this.escapeHtml(template.name);
+    const imageUrl = this.escapeHtml(template.imageUrl);
+    const useCount = this.escapeHtml(template.useCount);
     return `
-      <article class="template-card">
+      <article class="template-card" data-template-id="${id}">
         <div class="image-wrap">
           <img
             class="template-image"
-            src="${template.imageUrl}"
-            alt="${template.name} meme template"
+            src="${imageUrl}"
+            alt="${name} meme template"
             loading="lazy"
           />
 
           <button
             class="favorite"
             type="button"
-            aria-label="Favorite ${template.name}"
+            aria-label="Favorite ${name}"
           >
             ♥
           </button>
         </div>
 
         <div class="card-body">
-          <h2 class="template-name">${template.name}</h2>
+          <h2 class="template-name">${name}</h2>
 
           <div class="meta">
-            <span>${template.useCount} uses</span>
+            <span>${useCount} uses</span>
             ${template.isAi ? '<span class="badge">AI</span>' : ""}
           </div>
         </div>

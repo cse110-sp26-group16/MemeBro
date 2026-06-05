@@ -5,4 +5,10 @@
   "observability": {
     "enabled": true,
   },
+  "vars": {
+    // When "true", /api/search returns static fixture data instead of calling
+    // the AI ranker. Keep on until the AI ranking layer (issue #77) lands, then
+    // flip to "false". No secrets here — bindings only.
+    "USE_FIXTURE": "true",
+  },
 }
