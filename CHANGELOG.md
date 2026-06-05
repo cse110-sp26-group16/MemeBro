@@ -8,6 +8,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/) and [Semantic Ver
 ### Added
 
 - Shared `<memebro-top-bar>` and `<memebro-tab-bar>` chrome web components for the Library → Search → Editor slice (#74)
+- `js/api/storage.js` localStorage persistence layer (`getMemes`, `saveMeme`, `deleteMeme`, `getTheme`, `setTheme`) with centralized schema-version check and corrupt-value guards
 
 ## [0.1.0] - 2026-05-24
 
