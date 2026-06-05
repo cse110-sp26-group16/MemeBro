@@ -20,6 +20,7 @@ decision is captured here.
 | [0009](0009-backend-platform.md)            | Cloudflare as the backend platform      | Accepted                    |
 | [0010](0010-gate-deploy-on-ci.md)           | Gate the Pages deploy on CI passing     | Accepted                    |
 | [0011](0011-ai-provider-search.md)          | AI provider for template search ranking | Proposed (pending TA)       |
+| [0012](0012-require-ci-success-check.md)    | Require ci-success in branch protection | Accepted                    |
 
 > Some ADRs are still in open PRs and will appear in this directory once those
 > PRs merge. The status column notes which.
