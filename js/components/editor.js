@@ -23,10 +23,12 @@
 
 import { getPopularTemplates } from "../api/imgflip-api.js";
 import html2canvas from "../vendor/html2canvas.esm.js";
+import "./top-bar.js";
 
 /**
  * Editor screen: renders a template with editable, ratio-positioned caption
- * overlays and exports the result as a downloadable PNG.
+ * overlays inside the shared top-bar chrome, and exports the result as a
+ * downloadable PNG.
  * @augments {HTMLElement}
  */
 class MemeBroEditor extends HTMLElement {
@@ -68,7 +70,9 @@ class MemeBroEditor extends HTMLElement {
   }
 
   /**
-   * Renders the meme canvas, caption inputs, style chips, and download button.
+   * Renders the full-viewport editor: shared top bar (back, title, download),
+   * the meme canvas with caption overlays, the input + style panels, and the
+   * visual bottom toolbar.
    * @returns {void}
    */
   render() {
@@ -91,14 +95,33 @@ class MemeBroEditor extends HTMLElement {
 
     this.shadowRoot.innerHTML = `
       <style>
+        *, *::before, *::after {
+          box-sizing: border-box;
+        }
+
         :host {
           display: flex;
           flex-direction: column;
-          align-items: center;
-          padding: var(--space-6) var(--space-4);
-          gap: var(--space-4);
           background: var(--bg-2);
-          min-height: 100vh;
+          /* fill exactly the visible viewport; 100svh collapses with browser chrome on iOS */
+          height: 100vh;
+          height: 100svh;
+          width: 100%;
+          overflow: hidden;
+        }
+
+        .editor-content {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: var(--space-4);
+          padding: var(--space-4) var(--space-4) var(--space-6);
+          width: 100%;
+          min-width: 0;
+          overflow-y: auto;
+          overflow-x: hidden;
+          -webkit-overflow-scrolling: touch;
         }
 
         .meme-canvas {
@@ -110,9 +133,8 @@ class MemeBroEditor extends HTMLElement {
           border-radius: var(--radius);
           overflow: hidden;
           box-shadow: var(--shadow-lg);
-          border-color: var(--ink);
-          border-width: 2px;
-          border-style: solid;
+          border: 2px solid var(--ink);
+          flex-shrink: 0;
         }
 
         .meme-canvas-img {
@@ -136,6 +158,7 @@ class MemeBroEditor extends HTMLElement {
           padding: var(--space-2);
           font-family: Geist, system-ui, sans-serif;
         }
+
         .meme-canvas-caption--placeholder {
           opacity: 0.5;
           font-weight: 400;
@@ -143,12 +166,19 @@ class MemeBroEditor extends HTMLElement {
           letter-spacing: normal;
         }
 
+        .editor-panels {
+          display: flex;
+          flex-direction: column;
+          gap: var(--space-4);
+          width: 100%;
+          max-width: 480px;
+        }
+
         .input-panels {
           display: flex;
           flex-direction: column;
           gap: var(--space-3);
           width: 100%;
-          max-width: 480px;
         }
 
         .input-panels-row {
@@ -159,6 +189,7 @@ class MemeBroEditor extends HTMLElement {
           border: 1px solid var(--line);
           border-radius: var(--radius);
           padding: var(--space-2) var(--space-3);
+          min-height: 44px;
         }
 
         .input-panels-label {
@@ -182,18 +213,13 @@ class MemeBroEditor extends HTMLElement {
           color: var(--ink-2);
         }
 
-        .style-row {
-          width: 100%;
-          max-width: 480px;
-        }
-
         .style-row__label {
           font-size: var(--text-xs);
           font-family: Geist, system-ui, sans-serif;
           color: var(--ink-3);
           text-transform: uppercase;
           letter-spacing: var(--tracking-wide);
-          margin-bottom: var(--space-2);
+          margin: 0 0 var(--space-2) 0;
         }
 
         .style-row__chips {
@@ -218,6 +244,7 @@ class MemeBroEditor extends HTMLElement {
           font-size: var(--text-sm);
           font-family: Geist, system-ui, sans-serif;
           cursor: pointer;
+          min-height: 36px;
         }
 
         .style-chip[aria-pressed="true"] {
@@ -243,9 +270,9 @@ class MemeBroEditor extends HTMLElement {
         .caption-style--glitch {
           font-family: Geist, system-ui, sans-serif;
           text-shadow:
-            2px  0   0 #ff0040,
-           -2px  0   0 #00ffff,
-            0    2px 0 var(--editor-caption-outline);
+            2px 0 0 #ff0040,
+            -2px 0 0 #00ffff,
+            0 2px 0 var(--editor-caption-outline);
         }
         .caption-style--bubble {
           font-family: Geist, system-ui, sans-serif;
@@ -254,22 +281,75 @@ class MemeBroEditor extends HTMLElement {
           text-shadow: none;
         }
 
-        .download-button {
+        /* bottom toolbar — visual only, no interaction */
+        .editor-toolbar {
+          flex-shrink: 0;
           width: 100%;
-          max-width: 480px;
-          padding: var(--space-3);
+          background: var(--surface);
+          border-top: 1px solid var(--line);
+          display: flex;
+          align-items: center;
+          height: var(--bottom-nav-h);
+          pointer-events: none;
+          user-select: none;
+        }
+
+        .editor-toolbar__item {
+          flex: 1;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: var(--text-sm);
+          font-family: Geist, system-ui, sans-serif;
+          color: var(--ink-3);
+          letter-spacing: var(--tracking-wide);
+        }
+
+        .top-bar-back {
+          background: transparent;
           border: none;
-          border-radius: var(--radius);
+          padding: var(--space-2);
+          color: var(--ink);
+          font-size: var(--text-xl);
+          line-height: 1;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          font-family: Geist, system-ui, sans-serif;
+          min-height: 44px;
+        }
+
+        .top-bar-title {
+          font-size: var(--text-sm);
+          font-family: Geist, system-ui, sans-serif;
+          color: var(--ink);
+          font-weight: 500;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          max-width: 100%;
+        }
+
+        .download-button {
           background: var(--orange);
           color: var(--surface);
-          font-family: Geist, system-ui, sans-serif;
-          font-size: var(--text-base);
+          border: none;
+          border-radius: var(--radius);
+          padding: var(--space-2) var(--space-4);
+          font-size: var(--text-sm);
           font-weight: 600;
+          font-family: Geist, system-ui, sans-serif;
           cursor: pointer;
+          min-height: 36px;
+          letter-spacing: 0.01em;
         }
 
         .download-button:hover {
           background: var(--orange-2);
+        }
+
+        .download-button:active {
+          background: var(--orange-deep);
         }
 
         .editor-error {
@@ -302,36 +382,53 @@ class MemeBroEditor extends HTMLElement {
         }
       </style>
 
-      <div class="meme-canvas">
-        <img class="meme-canvas-img" src="${imageUrl}" alt="${altText}" crossorigin="anonymous" />
-        ${captionOverlaysHtml}
-      </div>
-      <div class="input-panels" id="input-panels">
-        <div class="input-panels-row">
-          <span class="input-panels-label">top →</span>
-          <input class="input-panels-input" data-panel-index="0" type="text" placeholder="Top text" aria-label="Top caption" value="${this.captions[0].text}" />
+      <memebro-top-bar>
+        <button class="top-bar-back" slot="breadcrumb" aria-label="Go back">&#8592;</button>
+        <span class="top-bar-title" slot="search-input">${this.template ? this.template.name : ""}</span>
+        <button class="download-button" slot="actions" type="button" aria-label="Download PNG">Download</button>
+      </memebro-top-bar>
+      <div class="editor-content">
+        <div class="meme-canvas">
+          <img class="meme-canvas-img" src="${imageUrl}" alt="${altText}" crossorigin="anonymous" />
+          ${captionOverlaysHtml}
         </div>
-        <div class="input-panels-row">
-          <span class="input-panels-label">bot →</span>
-          <input class="input-panels-input" data-panel-index="1" type="text" placeholder="Bottom text" aria-label="Bottom caption" value="${this.captions[1].text}" />
+        <div class="editor-panels">
+          <div class="input-panels" id="input-panels">
+            <div class="input-panels-row">
+              <span class="input-panels-label">top →</span>
+              <input class="input-panels-input" data-panel-index="0" type="text" placeholder="Top text" aria-label="Top caption" value="${this.captions[0].text}" />
+            </div>
+            <div class="input-panels-row">
+              <span class="input-panels-label">bot →</span>
+              <input class="input-panels-input" data-panel-index="1" type="text" placeholder="Bottom text" aria-label="Bottom caption" value="${this.captions[1].text}" />
+            </div>
+          </div>
+          <div class="style-row">
+            <p class="style-row__label">Style</p>
+            <div class="style-row__chips" role="group" aria-label="Caption style">
+              <button class="style-chip" data-style="classic" aria-pressed="${this.activeStyle === "classic"}">classic</button>
+              <button class="style-chip" data-style="serif"   aria-pressed="${this.activeStyle === "serif"}">serif</button>
+              <button class="style-chip" data-style="type"    aria-pressed="${this.activeStyle === "type"}">type</button>
+              <button class="style-chip" data-style="glitch"  aria-pressed="${this.activeStyle === "glitch"}">glitch</button>
+              <button class="style-chip" data-style="bubble"  aria-pressed="${this.activeStyle === "bubble"}">bubble</button>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="style-row">
-        <p class="style-row__label">Style</p>
-        <div class="style-row__chips" role="group" aria-label="Caption style">
-          <button class="style-chip" data-style="classic" aria-pressed="${this.activeStyle === "classic"}">classic</button>
-          <button class="style-chip" data-style="serif"   aria-pressed="${this.activeStyle === "serif"}">serif</button>
-          <button class="style-chip" data-style="type"    aria-pressed="${this.activeStyle === "type"}">type</button>
-          <button class="style-chip" data-style="glitch"  aria-pressed="${this.activeStyle === "glitch"}">glitch</button>
-          <button class="style-chip" data-style="bubble"  aria-pressed="${this.activeStyle === "bubble"}">bubble</button>
-        </div>
-      </div>
-      <button class="download-button" type="button">Download meme</button>`;
+      <div class="editor-toolbar" aria-hidden="true">
+        <span class="editor-toolbar__item">text</span>
+        <span class="editor-toolbar__item">style</span>
+        <span class="editor-toolbar__item">sticker</span>
+        <span class="editor-toolbar__item">fx</span>
+        <span class="editor-toolbar__item">layers</span>
+      </div>`;
   }
 
   /**
-   * Wires the panel inputs to the canvas caption overlays.
-   * Typing in a panel input updates both this.captions and the corresponding overlay span.
+   * Wires the panel inputs to the caption overlays, the style chips to the
+   * caption fonts, the back button to history, and the download button to the
+   * PNG export.
+   * @returns {void}
    */
   attachListeners() {
     this.shadowRoot.querySelectorAll(".input-panels-input").forEach((input) => {
@@ -374,6 +471,11 @@ class MemeBroEditor extends HTMLElement {
         });
       });
     });
+
+    const backButton = this.shadowRoot.querySelector(".top-bar-back");
+    if (backButton) {
+      backButton.addEventListener("click", () => window.history.back());
+    }
 
     const downloadButton = this.shadowRoot.querySelector(".download-button");
     if (downloadButton) {
