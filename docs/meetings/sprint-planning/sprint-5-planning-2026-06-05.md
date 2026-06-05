@@ -51,6 +51,17 @@ The team chose the full Mine experience for this sprint: favorites, recent, and
 my memes all persist, built on `storage.js` (#106) and the History screen
 (#107), both already open.
 
+### AI incorporation
+
+Real AI is not live anywhere in the running app today. The worker's
+`rankTemplates()` is a stub that throws, the deployed frontend calls a relative
+`/api/search` that 404s on Pages and silently falls back to a client-side string
+match, and ADR-0011 is still Proposed with no provider locked. Since this is an
+AI-themed course, real AI incorporation is a must-have, not a defer. The
+committed feature is semantic search ranking, and the ranker is already written
+on `feat/ai-search-ranking`, so this is mostly a land-and-wire job, not net-new
+work. The generative Conjure flow stays deferred.
+
 ## Sprint Goal
 
 Take the Library to Search to Editor slice from looks-done to actually-works, and
@@ -58,6 +69,15 @@ make every visible control either real or gone. The bar for the final build: no
 dead buttons, no fake numbers, no "undefined."
 
 ## Scope (committed, sequenced by priority)
+
+### AI incorporation (must-have for the grade)
+
+This must land alongside P0. It is a graded requirement and it is mostly built.
+
+- #134 Ratify ADR-0011 and get TA sign-off on the search AI provider (Jordan), unblocks the rest
+- #77 AI provider integration for search ranking (Bowen), merge the `feat/ai-search-ranking` branch, wire the worker's `rankTemplates` to the real module, resolve the `ci-cd.yml` conflict with #89
+- #135 Wire and deploy the worker for live AI search (Jordan), bind the provider, deploy, point the frontend at the real worker URL, verify a real model call
+- #136 Tests for the AI search ranking and flow (Roy)
 
 ### P0, honesty and bug pass (cheap, makes the demo stop looking broken)
 
@@ -90,12 +110,15 @@ dead buttons, no fake numbers, no "undefined."
 ### QA
 
 - #66 E2E test for the gallery (Koji and Angelo, already open)
+- #137 E2E test for the editor flow, caption edit, color, drag, download (Tim)
 
 ## Out of Scope (explicitly deferred)
 
-- Conjure generative flow. The backend is #77 (deferred). If #77 does not land,
-  hide the Conjure call-to-actions so no dead button ships, and hide the Conjured
-  Mine entry.
+- Conjure generative flow (image generation). `conjure.html` is static with no
+  backend route and the generative provider is still pending, so this stays
+  deferred. Hide the Conjure call-to-actions and the Conjured Mine entry so no
+  dead button ships. Note this is separate from the AI search ranking (#77),
+  which is in scope above.
 - Stickers, FX, and layers panels.
 - Export beyond PNG download, and multi-destination share.
 
@@ -107,9 +130,10 @@ dead buttons, no fake numbers, no "undefined."
 
 ## Cut line for the freeze
 
-If the 06-07 freeze holds, P0 must land because it is what a reviewer sees. Pull
-in P1 top down, and treat P2 as stretch. If the freeze has real room, P2 lands
-too. Tech debt is off the demo path and can run after the freeze.
+AI incorporation (#134, #77, #135, #136) and P0 are both must-land, since AI is
+a graded requirement and P0 is what a reviewer sees. Pull in P1 top down, and
+treat P2 as stretch. If the freeze has real room, P2 lands too. Tech debt is off
+the demo path and can run after the freeze.
 
 ## Decisions
 
@@ -117,23 +141,32 @@ too. Tech debt is off the demo path and can run after the freeze.
   pull in top down to the cut line.
 - Default for dead controls is make it real if cheap, otherwise hide.
 - Full persistence this sprint: favorites, recent, and my memes.
-- Conjure stays deferred. Hide its entry points if the backend does not land.
+- AI incorporation is a must-have: land real semantic search ranking (ratify
+  ADR-0011, merge #77, deploy the worker, point the frontend at it). Jordan leads
+  it with Bowen.
+- Generative Conjure stays deferred. Hide its entry points so no dead button ships.
 
 ## Assignments summary
 
 | Person                     | Issues                                               |
 | -------------------------- | ---------------------------------------------------- |
 | Yuval (`ypesok28`)         | #117, #118, #119, #120, #121, #124, #125, #131, #132 |
+| Jordan (`JordanJunaidi`)   | #134, #135, plus #77                                 |
+| Bowen (`Endless1010`)      | #77                                                  |
 | Harvey (`lurany`)          | #115, #116, #126, #128                               |
 | Fariba (`Fariba-Tokhi`)    | #114, #122, #127                                     |
 | Alec (`AlecLichtenberger`) | #123, #130                                           |
 | Jennifer (`jenniferrzhu`)  | #129, plus #107                                      |
 | Koji (`nakazawak`)         | #106, plus #66                                       |
 | Angelo (`Asespene`)        | #66                                                  |
+| Roy (`Flimgees`)           | #136                                                 |
+| Tim (`timhaotongwu`)       | #137                                                 |
 
 ## Action Items
 
 - [ ] Confirm the scope and cut line at the meeting, adjust assignments as needed
+- [ ] Ratify ADR-0011 with TA sign-off (#134), it unblocks the AI work
+- [ ] Merge #77 and deploy the worker so real AI search is live on the deployed site (#135)
 - [ ] Land all P0 issues before the freeze
 - [ ] Pull in P1 top down, then P2 if time allows
 - [ ] Land #106 first so favorites, recent, and my memes can build on it
