@@ -174,7 +174,6 @@ class MemeBroEditor extends HTMLElement {
           letter-spacing: normal;
         }
 
-        /* transparent centering wrapper on mobile; becomes the left flex column on desktop */
         .canvas-wrapper {
           width: 100%;
           display: flex;
@@ -267,7 +266,6 @@ class MemeBroEditor extends HTMLElement {
           color: var(--bg);
         }
 
-        /* per-style caption fonts */
         .caption-style--classic {
           font-family: Impact, "Arial Narrow", sans-serif;
         }
@@ -296,7 +294,6 @@ class MemeBroEditor extends HTMLElement {
           text-shadow: none;
         }
 
-        /* bottom toolbar — visual only, no interaction */
         .editor-toolbar {
           flex-shrink: 0;
           width: 100%;
@@ -396,10 +393,6 @@ class MemeBroEditor extends HTMLElement {
           cursor: pointer;
         }
 
-        /* ── Desktop side-panel layout (≥ 900 px) ────────────────────────────────
-           Controls move into a fixed-width right panel so no scrolling is needed.
-           The canvas fills all remaining horizontal space on the left.
-        ─────────────────────────────────────────────────────────────────────── */
         @media (min-width: 900px) {
           .editor-content {
             flex-direction: row;
