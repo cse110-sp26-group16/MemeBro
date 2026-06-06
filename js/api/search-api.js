@@ -16,6 +16,7 @@
  */
 
 import { getMemes } from "./imgflip-api.js";
+import { WORKER_BASE_URL } from "./config.js";
 
 /**
  * Performs an AI-ranked template search.
@@ -29,7 +30,9 @@ export async function searchTemplatesWithAI(query) {
     return [];
   }
 
-  const endpoint = `/api/search?q=${encodeURIComponent(normalized)}`;
+  // Call the deployed worker's absolute URL; it sends CORS. WORKER_BASE_URL is
+  // empty for local same-origin dev, in which case this stays a relative path.
+  const endpoint = `${WORKER_BASE_URL}/api/search?q=${encodeURIComponent(normalized)}`;
 
   try {
     const response = await fetch(endpoint);

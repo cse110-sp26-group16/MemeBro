@@ -5,10 +5,19 @@
   "observability": {
     "enabled": true,
   },
+  // Workers AI binding for template search ranking (ADR-0011). Exposed to the
+  // worker as env.AI. Authenticates via the binding — no API key, no secret.
+  "ai": {
+    "binding": "AI",
+  },
   "vars": {
     // When "true", /api/search returns static fixture data instead of calling
-    // the AI ranker. Keep on until the AI ranking layer (issue #77) lands, then
-    // flip to "false". No secrets here — bindings only.
-    "USE_FIXTURE": "true",
+    // the AI ranker. Now that the AI ranking layer has landed, production runs
+    // with "false" so real Workers AI ranking happens. Flip to "true" only for
+    // local/offline development. No secrets here — bindings only.
+    "USE_FIXTURE": "false",
+    // Pins the Workers AI text-embedding model used for ranking, so it can
+    // change without a code edit. Falls back to the in-code default if unset.
+    "SEARCH_EMBED_MODEL": "@cf/baai/bge-base-en-v1.5",
   },
 }
