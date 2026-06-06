@@ -420,6 +420,11 @@ class MemeBroEditor extends HTMLElement {
             max-width: 320px;
             flex-shrink: 0;
           }
+
+          .style-row__chips {
+            flex-wrap: wrap;
+            overflow-x: visible;
+          }
         }
       </style>
 
