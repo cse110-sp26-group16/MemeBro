@@ -482,7 +482,8 @@ class MemeBroEditor extends HTMLElement {
 
     const canvas = this.shadowRoot.querySelector(".meme-canvas");
 
-    this.shadowRoot.querySelector(".meme-canvas-img")
+    this.shadowRoot
+      .querySelector(".meme-canvas-img")
       .addEventListener("dragstart", (e) => e.preventDefault());
 
     this.shadowRoot.querySelectorAll(".meme-canvas-caption").forEach((overlay) => {
@@ -508,17 +509,17 @@ class MemeBroEditor extends HTMLElement {
           this.captions[idx].x = newX;
           this.captions[idx].y = newY;
           overlay.style.left = `${newX * 100}%`;
-          overlay.style.top  = `${newY * 100}%`;
+          overlay.style.top = `${newY * 100}%`;
         };
 
         const onUp = () => {
           overlay.classList.remove("meme-canvas-caption--dragging");
           overlay.removeEventListener("pointermove", onMove);
-          overlay.removeEventListener("pointerup",   onUp);
+          overlay.removeEventListener("pointerup", onUp);
         };
 
         overlay.addEventListener("pointermove", onMove);
-        overlay.addEventListener("pointerup",   onUp);
+        overlay.addEventListener("pointerup", onUp);
       });
     });
 
