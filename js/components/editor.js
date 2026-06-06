@@ -174,6 +174,14 @@ class MemeBroEditor extends HTMLElement {
           letter-spacing: normal;
         }
 
+        /* transparent centering wrapper on mobile; becomes the left flex column on desktop */
+        .canvas-wrapper {
+          width: 100%;
+          display: flex;
+          align-items: flex-start;
+          justify-content: center;
+        }
+
         .editor-panels {
           display: flex;
           flex-direction: column;
@@ -181,7 +189,6 @@ class MemeBroEditor extends HTMLElement {
           width: 100%;
           max-width: 480px;
         }
-
         .input-panels {
           display: flex;
           flex-direction: column;
@@ -388,6 +395,32 @@ class MemeBroEditor extends HTMLElement {
           line-height: 1;
           cursor: pointer;
         }
+
+        /* ── Desktop side-panel layout (≥ 900 px) ────────────────────────────────
+           Controls move into a fixed-width right panel so no scrolling is needed.
+           The canvas fills all remaining horizontal space on the left.
+        ─────────────────────────────────────────────────────────────────────── */
+        @media (min-width: 900px) {
+          .editor-content {
+            flex-direction: row;
+            align-items: flex-start;
+            justify-content: center;
+            overflow: hidden;
+          }
+
+          .canvas-wrapper {
+            /* Lock the wrapper to the canvas's natural max-width so the
+               canvas stays the same size it was on mobile (480 px). */
+            width: 480px;
+            flex-shrink: 0;
+          }
+
+          .editor-panels {
+            width: 320px;
+            max-width: 320px;
+            flex-shrink: 0;
+          }
+        }
       </style>
 
       <memebro-top-bar>
@@ -396,9 +429,11 @@ class MemeBroEditor extends HTMLElement {
         <button class="download-button" slot="actions" type="button" aria-label="Download PNG">Download</button>
       </memebro-top-bar>
       <div class="editor-content">
-        <div class="meme-canvas">
-          <img class="meme-canvas-img" src="${imageUrl}" alt="${altText}" crossorigin="anonymous" />
-          ${captionOverlaysHtml}
+        <div class="canvas-wrapper">
+          <div class="meme-canvas">
+            <img class="meme-canvas-img" src="${imageUrl}" alt="${altText}" crossorigin="anonymous" />
+            ${captionOverlaysHtml}
+          </div>
         </div>
         <div class="editor-panels">
           <div class="input-panels" id="input-panels">
