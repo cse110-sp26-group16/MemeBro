@@ -53,9 +53,9 @@
 
                 <section class="home-sidebar__group" aria-labelledby="mine-heading">
                     <h2 id="mine-heading">Mine</h2>
-                    <a class="home-sidebar__link" href="#mine">
+                    <a class="home-sidebar__link" href="/pages/history.html">
                         <span>My memes</span>
-                        <span>24</span>
+                        <span data-meme-count>24</span>
                     </a>
                     <a class="home-sidebar__link" href="#conjured">
                         <span>Conjured ✦</span>
@@ -154,7 +154,7 @@
                 <span aria-hidden="true">▦</span>
                 Library
             </a>
-            <a class="home-bottom-nav__item" href="#mine">
+            <a class="home-bottom-nav__item" href="/pages/history.html">
                 <span aria-hidden="true">♙</span>
                 Mine
             </a>
@@ -170,6 +170,12 @@
         <a id="conjure" class="home-conjure-fab" href="#conjure" aria-label="Conjure a new meme template">✦</a>
     </div>
     <script type="module">
+      import { getMemes } from './js/api/storage.stub.js';
+      const memes = getMemes();
+      const count = Array.isArray(memes) ? memes.length : 0;
+      document.querySelectorAll('[data-meme-count]').forEach((element) => {
+        element.textContent = String(count);
+      });
         import { getPopularTemplates } from "./js/api/imgflip-api.js";
         import "./js/components/template-gallery.js";
         const gallery = document.querySelector("#popular-template-gallery");
