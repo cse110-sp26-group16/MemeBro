@@ -2,29 +2,6 @@ import { describe, it, expect, vi } from "vitest";
 import {searchTemplatesWithAI} from "../../js/api/search-api";
 
 
-const mockTemplates = [
-  {
-    id: "drake",
-    name: "Drake Hotline Bling",
-    imageUrl: "https://i.imgflip.com/30b1gx.jpg",
-    width: 1200,
-    height: 1200,
-  },
-  {
-    id: "imgflip-distracted-id",
-    name: "Distracted Boyfriend",
-    imageUrl: "https://i.imgflip.com/1ur9b0.jpg",
-    width: 1200,
-    height: 800,
-  },
-  {
-    id: "buttons",
-    name: "Two Buttons",
-    imageUrl: "https://i.imgflip.com/1g8my4.jpg",
-    width: 600,
-    height: 908,
-  },
-];
 
 
 vi.mock("../../js/api/imgflip-api.js", () => {
