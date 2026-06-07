@@ -20,6 +20,20 @@ import { searchTemplatesWithAI } from "../api/search-api.js";
 const SEARCH_DEBOUNCE_MS = 250;
 
 /**
+ * Escapes a value for safe interpolation into HTML text content and attributes.
+ * @param {unknown} value - The value to escape.
+ * @returns {string} HTML-safe string.
+ */
+function escapeHtml(value) {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+/**
  * Stubbed shared bottom tab bar component.
  */
 class MemebroTabBar extends HTMLElement {
@@ -208,7 +222,9 @@ export class MemebroSearch extends HTMLElement {
   render() {
     const hasResults = this.results.length > 0;
     const showQuery = this.query.trim().length > 0;
-    const resultHeading = showQuery ? `Results for “${this.query.trim()}”` : "Search results";
+    const resultHeading = showQuery
+      ? `Results for "${escapeHtml(this.query.trim())}"`
+      : "Search results";
 
     this.shadowRoot.innerHTML = `
       <style>
@@ -431,7 +447,7 @@ export class MemebroSearch extends HTMLElement {
               type="search"
               autocomplete="off"
               placeholder="Search templates or describe a meme"
-              value="${this.query}"
+              value="${escapeHtml(this.query)}"
             />
             <button class="clear-button" type="button" aria-label="Clear search">×</button>
           </div>
@@ -451,20 +467,20 @@ export class MemebroSearch extends HTMLElement {
                 <a
                   class="result-card"
                   href="editor.html?templateId=${encodeURIComponent(template.id)}"
-                  data-template-id="${template.id}"
+                  data-template-id="${escapeHtml(template.id)}"
                 >
                   <div class="image-frame">
                     <img
                       class="result-image"
-                      src="${template.imageUrl}"
-                      alt="${template.name} template"
+                      src="${escapeHtml(template.imageUrl)}"
+                      alt="${escapeHtml(template.name)} template"
                     />
                   </div>
                   <div class="card-body">
-                    <p class="template-name">${template.name}</p>
+                    <p class="template-name">${escapeHtml(template.name)}</p>
                     <div class="template-meta">
                       <span>Score ${template.score.toFixed(2)}</span>
-                      <span>${template.reason || "AI match"}</span>
+                      <span>${escapeHtml(template.reason || "AI match")}</span>
                     </div>
                   </div>
                 </a>
@@ -477,7 +493,7 @@ export class MemebroSearch extends HTMLElement {
           <div class="conjure-card">
             <div class="conjure-label">
               <span aria-hidden="true">✦</span>
-              <p class="conjure-title">Can’t find ${showQuery ? `“${this.query.trim()}”` : "it"}? Let AI conjure it.</p>
+              <p class="conjure-title">Can’t find ${showQuery ? `"${escapeHtml(this.query.trim())}"` : "it"}? Let AI conjure it.</p>
             </div>
             <p class="conjure-copy">Generate a custom template</p>
             <div class="conjure-actions">
