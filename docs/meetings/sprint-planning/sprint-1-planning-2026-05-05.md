@@ -68,10 +68,10 @@ Tasks were assigned across the team using the existing GitHub Issues
 ## Action Items
 
 - [x] Split work across the team via GitHub Issues — completed during meeting.
-- [ ] Each assignee makes progress on their issue(s) this sprint.
-- [ ] Standups logged in `docs/meetings/standups/` (≥ 3× per week per
+- [x] Each assignee makes progress on their issue(s) this sprint.
+- [x] Standups logged in `docs/meetings/standups/` (≥ 3× per week per
       CSE 110 process requirements).
-- [ ] Sprint review + retrospective notes captured at end of sprint.
+- [x] Sprint review + retrospective notes captured at end of sprint.
 
 ## Next Up
 

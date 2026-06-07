@@ -1,64 +1,129 @@
 const mockTemplates = [
   {
-    id: 'drake',
-    name: 'Drake Hotline Bling',
-    imageUrl: 'https://i.imgflip.com/30b1gx.jpg',
-    useCount: '1.2M',
+    id: "drake",
+    name: "Drake Hotline Bling",
+    imageUrl: "https://i.imgflip.com/30b1gx.jpg",
+    useCount: "1.2M",
     isAi: false,
   },
   {
-    id: 'distracted-boyfriend',
-    name: 'Distracted Boyfriend',
-    imageUrl: 'https://i.imgflip.com/1ur9b0.jpg',
-    useCount: '980K',
+    id: "distracted-boyfriend",
+    name: "Distracted Boyfriend",
+    imageUrl: "https://i.imgflip.com/1ur9b0.jpg",
+    useCount: "980K",
     isAi: false,
   },
   {
-    id: 'two-buttons',
-    name: 'Two Buttons',
-    imageUrl: 'https://i.imgflip.com/1g8my4.jpg',
-    useCount: '840K',
+    id: "two-buttons",
+    name: "Two Buttons",
+    imageUrl: "https://i.imgflip.com/1g8my4.jpg",
+    useCount: "840K",
     isAi: true,
   },
   {
-    id: 'change-my-mind',
-    name: 'Change My Mind',
-    imageUrl: 'https://i.imgflip.com/24y43o.jpg',
-    useCount: '760K',
+    id: "change-my-mind",
+    name: "Change My Mind",
+    imageUrl: "https://i.imgflip.com/24y43o.jpg",
+    useCount: "760K",
     isAi: false,
   },
   {
-    id: 'left-exit',
-    name: 'Left Exit 12 Off Ramp',
-    imageUrl: 'https://i.imgflip.com/22bdq6.jpg',
-    useCount: '650K',
+    id: "left-exit",
+    name: "Left Exit 12 Off Ramp",
+    imageUrl: "https://i.imgflip.com/22bdq6.jpg",
+    useCount: "650K",
     isAi: false,
   },
   {
-    id: 'expanding-brain',
-    name: 'Expanding Brain',
-    imageUrl: 'https://i.imgflip.com/1jwhww.jpg',
-    useCount: '590K',
+    id: "expanding-brain",
+    name: "Expanding Brain",
+    imageUrl: "https://i.imgflip.com/1jwhww.jpg",
+    useCount: "590K",
     isAi: true,
   },
 ];
 
+/**
+ * Template gallery screen. Renders a responsive grid of meme template cards
+ * into its own shadow root, seeded with a built-in mock list until real data
+ * is supplied via the `data` setter.
+ *
+ * Tag: `<memebro-template-gallery>`.
+ */
 class MemebroTemplateGallery extends HTMLElement {
+  /**
+   * Attaches an open shadow root and seeds the gallery with mock templates.
+   */
   constructor() {
     super();
-    this.attachShadow({ mode: 'open' });
+    this.attachShadow({ mode: "open" });
     this.templates = mockTemplates;
+    this.handleClick = this.handleClick.bind(this);
   }
 
+  /**
+   * Replaces the gallery's templates and re-renders.
+   * @param {object[]} templates - Templates to display; a non-array is treated as empty.
+   */
   set data(templates) {
     this.templates = Array.isArray(templates) ? templates : [];
     this.render();
   }
 
+  /**
+   * Renders the gallery once the element is connected to the DOM.
+   */
   connectedCallback() {
+    this.shadowRoot.addEventListener("click", this.handleClick);
     this.render();
   }
 
+  /**
+   * Removes event listeners when disconnected.
+   */
+  disconnectedCallback() {
+    this.shadowRoot.removeEventListener("click", this.handleClick);
+  }
+
+  /**
+   * Dispatches the template-selected event when a template card is clicked.
+   * @param {Event} event Click event from the shadow root.
+   */
+  handleClick(event) {
+    const target = event.target;
+
+    if (!(target instanceof Element)) {
+      return;
+    }
+
+    if (target.closest(".favorite")) {
+      return;
+    }
+
+    const card = target.closest(".template-card");
+
+    if (!(card instanceof HTMLElement)) {
+      return;
+    }
+
+    const template = this.templates.find((item) => item.id === card.dataset.templateId);
+
+    if (!template) {
+      return;
+    }
+
+    this.dispatchEvent(
+      new CustomEvent("memebro:template-selected", {
+        detail: { template },
+        bubbles: true,
+        composed: true,
+      })
+    );
+  }
+
+  /**
+   * Renders the full gallery markup (styles, topbar, and template grid) into the shadow root.
+   */
   render() {
     this.shadowRoot.innerHTML = `
       <style>
@@ -264,38 +329,61 @@ class MemebroTemplateGallery extends HTMLElement {
         </div>
 
         <div class="gallery-grid">
-          ${this.templates.map((template) => this.renderCard(template)).join('')}
+          ${this.templates.map((template) => this.renderCard(template)).join("")}
         </div>
       </section>
     `;
   }
 
+  /**
+   * Escapes a value for safe interpolation into HTML attributes and text content.
+   * @param {*} value - The value to escape.
+   * @returns {string}
+   */
+  escapeHtml(value) {
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  /**
+   * Builds the HTML string for a single template card.
+   * @param {object} template - A template with `imageUrl`, `name`, `useCount`, and `isAi` fields.
+   * @returns {string} the card's HTML markup.
+   */
   renderCard(template) {
+    const id = this.escapeHtml(template.id);
+    const name = this.escapeHtml(template.name);
+    const imageUrl = this.escapeHtml(template.imageUrl);
+    const useCount = this.escapeHtml(template.useCount);
     return `
-      <article class="template-card">
+      <article class="template-card" data-template-id="${id}">
         <div class="image-wrap">
           <img
             class="template-image"
-            src="${template.imageUrl}"
-            alt="${template.name} meme template"
+            src="${imageUrl}"
+            alt="${name} meme template"
             loading="lazy"
           />
 
           <button
             class="favorite"
             type="button"
-            aria-label="Favorite ${template.name}"
+            aria-label="Favorite ${name}"
           >
             ♥
           </button>
         </div>
 
         <div class="card-body">
-          <h2 class="template-name">${template.name}</h2>
+          <h2 class="template-name">${name}</h2>
 
           <div class="meta">
-            <span>${template.useCount} uses</span>
-            ${template.isAi ? '<span class="badge">AI</span>' : ''}
+            <span>${useCount} uses</span>
+            ${template.isAi ? '<span class="badge">AI</span>' : ""}
           </div>
         </div>
       </article>
@@ -303,7 +391,4 @@ class MemebroTemplateGallery extends HTMLElement {
   }
 }
 
-customElements.define(
-  'memebro-template-gallery',
-  MemebroTemplateGallery
-);
+customElements.define("memebro-template-gallery", MemebroTemplateGallery);

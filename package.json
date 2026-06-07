@@ -4,23 +4,51 @@
   "description": "A meme generation platform with AI-powered face-swapping",
   "private": true,
   "scripts": {
+    "test:meme": "node test-meme.js",
+    "test:e2e": "playwright test",
+    "test:unit": "vitest run",
+    "test:unit:watch": "vitest",
     "lint:js": "eslint . --ext .js --ignore-path .eslintignore",
-    "lint:css": "stylelint \"**/*.css\" --ignore-path .stylelintignore || echo 'No CSS files found'",
+    "lint:css": "stylelint \"**/*.css\" --ignore-path .stylelintignore",
     "lint:html": "htmlhint --format unix index.html",
     "lint:markdown": "markdownlint \"**/*.md\" --ignore-path .markdownlintignore --config .markdownlint.json",
     "lint:json": "node scripts/validate-json.js",
     "format:check": "prettier --check .",
     "lint": "npm run lint:js && npm run lint:css && npm run lint:html && npm run lint:markdown && npm run lint:json",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.css": [
+      "stylelint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md}": [
+      "prettier --write"
+    ]
+  },
+  "dependencies": {
+    "canvas": "^3.2.3",
+    "replicate": "^1.4.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.60.0",
     "eslint": "^8.57.0",
     "eslint-plugin-jsdoc": "^48.2.3",
+    "htmlhint": "^1.1.4",
+    "husky": "^9.1.7",
+    "jsdom": "^29.1.1",
+    "lint-staged": "^15.5.2",
+    "markdownlint-cli": "^0.39.0",
+    "prettier": "^3.2.5",
+    "serve": "^14.2.6",
     "stylelint": "^16.3.1",
     "stylelint-config-standard": "^36.0.0",
-    "htmlhint": "^1.1.4",
-    "markdownlint-cli": "^0.39.0",
-    "prettier": "^3.2.5"
+    "vitest": "^4.1.7"
   },
   "engines": {
     "node": ">=18.0.0"

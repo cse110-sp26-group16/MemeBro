@@ -4,5 +4,7 @@ node_modules/
 dist/
 build/
 coverage/
-research/ai-prototypes/outputs/
-Design/screens/
+research/
+test-results/
+admin/
+Design/

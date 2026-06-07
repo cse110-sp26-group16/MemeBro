@@ -124,25 +124,25 @@ Omair said he'd post written answers to the 4 open dock questions later today af
 
 ## Action Items
 
-- [ ] Push the `docs/sprint-1-process` branch and open a PR so the retro, templates, and cadence land on main. Yuval, Tue 5/12.
-- [ ] Slack the team a 24h review ping for PR #13, #14, #17. Yuval, Tue 5/12.
-- [ ] Close issue #4 on github (versioning, all AC met). Tue 5/12.
-- [ ] Create the Sprint 2 milestone on github and attach the must-do issues. Tue 5/12.
-- [ ] Assign owners for issues #10 (Baseline Code) and #11 (Testing + Linting Infrastructure) by EOD Tuesday so nothing is orphan.
-- [ ] Assign the 5 lead roles (project, design, devops, AI, QA) at this meeting and record in `docs/process/team-roster.md`.
-- [ ] Log today's standup as `docs/meetings/standups/standup-2026-05-12.md`. Tue 5/12.
-- [ ] Post the 4 TA questions in slack as Wednesday's TA meeting agenda by Tuesday night.
-- [ ] Open sprint 2 github issues for each working group (frontend, backend, testing/docs/PR, design) so members self-select. Yuval, Wed 5/13.
-- [ ] Each team member: pick a group via the sprint 2 issues by Fri 5/15.
-- [ ] Add `AGENTS.md` at repo root with code style and conventions. Yuval / testing-docs group.
-- [ ] Update mobile wireframes for the quick flow (template search + text edit) and the popular templates list on the landing page. Fariba, Koji.
+- [x] Push the `docs/sprint-1-process` branch and open a PR so the retro, templates, and cadence land on main. Yuval, Tue 5/12.
+- [x] Slack the team a 24h review ping for PR #13, #14, #17. Yuval, Tue 5/12.
+- [x] Close issue #4 on github (versioning, all AC met). Tue 5/12.
+- [x] Create the Sprint 2 milestone on github and attach the must-do issues. Tue 5/12.
+- [x] Assign owners for issues #10 (Baseline Code) and #11 (Testing + Linting Infrastructure) by EOD Tuesday so nothing is orphan.
+- [x] Assign the 5 lead roles (project, design, devops, AI, QA) at this meeting and record in `docs/process/team-roster.md`.
+- [x] Log today's standup as `docs/meetings/standups/standup-2026-05-12.md`. Tue 5/12.
+- [x] Post the 4 TA questions in slack as Wednesday's TA meeting agenda by Tuesday night.
+- [x] Open sprint 2 github issues for each working group (frontend, backend, testing/docs/PR, design) so members self-select. Yuval, Wed 5/13.
+- [x] Each team member: pick a group via the sprint 2 issues by Fri 5/15.
+- [x] Add `AGENTS.md` at repo root with code style and conventions. Yuval / testing-docs group.
+- [x] Update mobile wireframes for the quick flow (template search + text edit) and the popular templates list on the landing page. Fariba, Koji.
 - [ ] Coordinate the code review swap with another MemBro team for the weekend of 5/23 and 5/24. Yuval.
-- [ ] AI model research (start with Replicate) and pick a direction. Backend group.
+- [x] AI model research (start with Replicate) and pick a direction. Backend group.
 - [ ] Wire image flip top 100 templates API as the data source for the quick-meme search flow. Backend group.
-- [ ] Start the core UI build off the design. Frontend group.
-- [ ] Prep something to show for the Thursday 2026-05-21 presentation video. Each lane.
-- [ ] Check the dock for Omair's answers once midterm grading wraps. Yuval, Jordan, Wed 5/13.
-- [ ] Try to schedule an in-person sprint kickoff for next week, possibly the library (per Fariba's ask). Yuval.
+- [x] Start the core UI build off the design. Frontend group.
+- [x] Prep something to show for the Thursday 2026-05-21 presentation video. Each lane.
+- [x] Check the dock for Omair's answers once midterm grading wraps. Yuval, Jordan, Wed 5/13.
+- [x] Try to schedule an in-person sprint kickoff for next week, possibly the library (per Fariba's ask). Yuval.
 
 ## Next Up
 

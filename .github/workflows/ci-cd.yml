@@ -8,23 +8,175 @@ on:
     branches:
       - main
 
+# Least privilege at the top; the deploy job widens its own scope below.
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
+# Cancel superseded runs for the same PR to save CI minutes, but never cancel a
+# push to main mid-run, because that is when the Pages deploy happens.
 concurrency:
-  group: pages
-  cancel-in-progress: false
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
-  test:
-    name: Run Dummy Test
+  lint:
+    name: Lint and format
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
-      - name: Run dummy test
-        run: echo "Dummy test passed successfully!"
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint (JS, CSS, HTML, Markdown, JSON)
+        run: npm run lint
+
+      - name: Check formatting
+        run: npm run format:check
+
+  test-unit:
+    name: Run Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run unit tests
+        run: npm run test:unit
+
+  test-e2e:
+    name: Run E2E Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Cache the browser binaries so we only re-download when the lockfile (and
+      # therefore the Playwright version) changes.
+      - name: Cache Playwright browsers
+        uses: actions/cache@v5
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Run E2E tests
+        run: npm run test:e2e
+
+  test-worker:
+    name: Run Worker Tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: memebro-api
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: memebro-api/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run worker unit tests
+        run: npm test
+
+  security-audit:
+    name: Dependency Audit (non-blocking)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Informational only: surfaces high-severity advisories as an annotation
+      # without blocking merges. Dependabot drives the actual fixes.
+      - name: Audit dependencies
+        run: npm audit --audit-level=high
+        continue-on-error: true
+
+  ci-success:
+    name: CI success
+    needs: [lint, test-unit, test-e2e, test-worker]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      # Single stable status check for branch protection: green only when every
+      # required job succeeded. Survives job renames better than listing each one.
+      - name: Verify required jobs succeeded
+        if: contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')
+        run: |
+          echo "A required job failed or was cancelled: ${{ join(needs.*.result, ', ') }}"
+          exit 1
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: [lint, test-unit, test-e2e, test-worker]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    # Serialize Pages deploys and never cancel one in flight.
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v6
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: "."
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

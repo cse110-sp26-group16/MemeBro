@@ -11,14 +11,14 @@ from the CSE 110 spec: the way we work is what we're graded on.
 
 ## Weekly Meeting Schedule
 
-| Day                            | Event                                                               | Format                      | Time           | Who attends                                |
-| ------------------------------ | ------------------------------------------------------------------- | --------------------------- | -------------- | ------------------------------------------ |
-| **Sunday**                     | Sprint Retrospective (prior sprint) + Sprint Planning (next sprint) | Zoom or in-person           | ~45–60 min     | Whole team (required)                      |
-| **Tuesday**                    | Standup #1                                                          | In person after class       | ~10 min, 6:20pm | Whole team                                 |
-| **Wednesday**                  | TA Meeting                                                          | Zoom or in-person           | 10:30 am       | Team leads usually, anyone welcome, with TA |
-| **Wednesday**                  | Standup #2                                                          | Zoom                        | 1:00 pm        | Whole team                                 |
-| **Thursday**                   | Standup #3                                                          | In person after class       | ~10 min, 6:20pm | Whole team                                 |
-| **Once before end of quarter** | Prof Meeting                                                        | Whoever can attend          | ~20 min        | ≥ 2 team members + Prof                    |
+| Day                            | Event                                                               | Format                | Time            | Who attends                                 |
+| ------------------------------ | ------------------------------------------------------------------- | --------------------- | --------------- | ------------------------------------------- |
+| **Sunday**                     | Sprint Retrospective (prior sprint) + Sprint Planning (next sprint) | Zoom or in-person     | ~45–60 min      | Whole team (required)                       |
+| **Tuesday**                    | Standup #1                                                          | In person after class | ~10 min, 6:20pm | Whole team                                  |
+| **Wednesday**                  | TA Meeting                                                          | Zoom or in-person     | 10:30 am        | Team leads usually, anyone welcome, with TA |
+| **Wednesday**                  | Standup #2                                                          | Zoom                  | 1:00 pm         | Whole team                                  |
+| **Thursday**                   | Standup #3                                                          | In person after class | ~10 min, 6:20pm | Whole team                                  |
+| **Once before end of quarter** | Prof Meeting                                                        | Whoever can attend    | ~20 min         | ≥ 2 team members + Prof                     |
 
 **Rule:** every meeting produces a Markdown file using the matching
 template in `docs/meetings/templates/`. **No file = it didn't happen**

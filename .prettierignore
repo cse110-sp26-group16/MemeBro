@@ -1,6 +1,7 @@
 node_modules/
 .git/
 .github/
+.husky/
 dist/
 build/
 coverage/
@@ -11,7 +12,10 @@ out/
 *.jpeg
 *.gif
 *.svg
-research/ai-prototypes/outputs/
-research/ai-prototypes/package-lock.json
+research/
+test-results/
+admin/
+Design/
 package-lock.json
 index.html
+js/vendor/
