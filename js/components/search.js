@@ -319,6 +319,18 @@ export class MemebroSearch extends HTMLElement {
           border-radius: var(--radius-lg);
           overflow: hidden;
           box-shadow: var(--shadow-sm);
+          cursor: pointer;
+          transition: transform 0.15s ease;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .result-card {
+            transition: none;
+          }
+        }
+
+        .result-card:hover {
+          transform: scale(1.03);
         }
 
         .image-frame {
