@@ -122,7 +122,7 @@ class MemebroTemplateGallery extends HTMLElement {
   }
 
   /**
-   * Renders the full gallery markup (styles, topbar, and template grid) into the shadow root.
+   * Renders the full gallery markup and template grid into the shadow root.
    */
   render() {
     this.shadowRoot.innerHTML = `
@@ -147,69 +147,12 @@ class MemebroTemplateGallery extends HTMLElement {
           overflow-x: hidden;
         }
 
-        .topbar {
-          display: grid;
-          grid-template-columns: auto minmax(0, 1fr) auto;
-          align-items: center;
-          gap: var(--radius);
-          margin-bottom: var(--radius-xl);
-        }
-
-        .brand {
-          font-size: clamp(1.25rem, 8vw, 2.25rem);
-          font-weight: 700;
-          letter-spacing: -0.06em;
-          white-space: nowrap;
-        }
-
-        .search {
-          width: 100%;
-          min-width: 0;
-          border: 1px solid var(--line);
-          background: var(--surface);
-          color: var(--ink-2);
-          border-radius: var(--radius-xl);
-          padding: var(--radius-sm) var(--radius);
-          box-shadow: var(--shadow-sm);
-          font: inherit;
-          outline: none;
-        }
-
-        .search::placeholder {
-          color: var(--ink-3);
-        }
-
-        .menu {
-          border: 1px solid var(--line);
-          background: var(--surface);
-          color: var(--ink);
-          border-radius: var(--radius-xl);
-          padding: var(--radius-sm) var(--radius);
-          box-shadow: var(--shadow-sm);
-        }
-
-        .eyebrow {
-          color: var(--orange-deep);
-          font-size: 0.8rem;
-          font-weight: 700;
-          letter-spacing: 0.08em;
-          text-transform: uppercase;
-          margin-bottom: var(--radius-sm);
-        }
-
         .section-header {
           display: flex;
           align-items: flex-end;
           justify-content: space-between;
           gap: var(--radius);
           margin-bottom: var(--radius);
-        }
-
-        .section-title {
-          font-size: clamp(1.75rem, 9vw, 4rem);
-          line-height: 0.9;
-          letter-spacing: -0.08em;
-          margin: 0;
         }
 
         .count {
@@ -305,26 +248,9 @@ class MemebroTemplateGallery extends HTMLElement {
         }
       </style>
 
-      <section class="page" aria-labelledby="template-gallery-title">
-        <header class="topbar">
-          <div class="brand">memebro.</div>
-
-          <input
-            class="search"
-            type="text"
-            placeholder="search templates"
-            aria-label="Search templates"
-          />
-
-          <button class="menu" type="button" aria-label="Open menu">
-            •••
-          </button>
-        </header>
-
-        <div class="eyebrow">Recent</div>
+      <section class="page" aria-label="Template gallery">
 
         <div class="section-header">
-          <h1 id="template-gallery-title" class="section-title">Browse</h1>
           <span class="count">${this.templates.length} templates</span>
         </div>
 

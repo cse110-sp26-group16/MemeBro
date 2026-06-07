@@ -39,6 +39,14 @@ describe("MemebroTemplateGallery – rendering", () => {
     expect(el.shadowRoot.querySelector(".count").textContent).toBe("2 templates");
   });
 
+  it("does not render standalone top chrome when embedded", () => {
+    el = mount([SAFE]);
+    expect(el.shadowRoot.querySelector(".topbar")).toBeNull();
+    expect(el.shadowRoot.querySelector(".brand")).toBeNull();
+    expect(el.shadowRoot.querySelector(".search")).toBeNull();
+    expect(el.shadowRoot.querySelector(".menu")).toBeNull();
+  });
+
   it("renders the image src and alt from template data", () => {
     el = mount([SAFE]);
     const img = el.shadowRoot.querySelector(".template-image");
