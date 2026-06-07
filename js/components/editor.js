@@ -71,8 +71,7 @@ class MemeBroEditor extends HTMLElement {
 
   /**
    * Renders the full-viewport editor: shared top bar (back, title, download),
-   * the meme canvas with caption overlays, the input + style panels, and the
-   * visual bottom toolbar.
+   * the meme canvas with caption overlays, and the input + style panels.
    * @returns {void}
    */
   render() {
@@ -281,30 +280,6 @@ class MemeBroEditor extends HTMLElement {
           text-shadow: none;
         }
 
-        /* bottom toolbar — visual only, no interaction */
-        .editor-toolbar {
-          flex-shrink: 0;
-          width: 100%;
-          background: var(--surface);
-          border-top: 1px solid var(--line);
-          display: flex;
-          align-items: center;
-          height: var(--bottom-nav-h);
-          pointer-events: none;
-          user-select: none;
-        }
-
-        .editor-toolbar__item {
-          flex: 1;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: var(--text-sm);
-          font-family: Geist, system-ui, sans-serif;
-          color: var(--ink-3);
-          letter-spacing: var(--tracking-wide);
-        }
-
         .top-bar-back {
           background: transparent;
           border: none;
@@ -414,13 +389,6 @@ class MemeBroEditor extends HTMLElement {
             </div>
           </div>
         </div>
-      </div>
-      <div class="editor-toolbar" aria-hidden="true">
-        <span class="editor-toolbar__item">text</span>
-        <span class="editor-toolbar__item">style</span>
-        <span class="editor-toolbar__item">sticker</span>
-        <span class="editor-toolbar__item">fx</span>
-        <span class="editor-toolbar__item">layers</span>
       </div>`;
   }
 
