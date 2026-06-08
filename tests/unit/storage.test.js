@@ -59,8 +59,15 @@ Object.defineProperty(globalThis, "localStorage", {
   writable: true,
 });
 
-const { getMemes, saveMeme, deleteMeme, getRecentTemplates, recordRecentTemplate, getTheme, setTheme } =
-  await import("../../js/api/storage.js");
+const {
+  getMemes,
+  saveMeme,
+  deleteMeme,
+  getRecentTemplates,
+  recordRecentTemplate,
+  getTheme,
+  setTheme,
+} = await import("../../js/api/storage.js");
 
 const KEY_MEMES = "memebro:memes";
 const KEY_SCHEMA_VERSION = "memebro:schema-version";
