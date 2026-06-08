@@ -1,3 +1,5 @@
+import { getFavorites, toggleFavorite } from "../api/storage.js";
+
 const mockTemplates = [
   {
     id: "drake",
@@ -116,7 +118,8 @@ class MemebroTemplateGallery extends HTMLElement {
   }
 
   /**
-   * Dispatches the template-selected event when a template card is clicked.
+   * Dispatches the template-selected event when a template card is clicked,
+   * or toggles the favorite when the heart button is clicked.
    * @param {Event} event Click event from the shadow root.
    */
   handleClick(event) {
@@ -126,7 +129,26 @@ class MemebroTemplateGallery extends HTMLElement {
       return;
     }
 
-    if (target.closest(".favorite")) {
+    const favBtn = target.closest(".favorite");
+    if (favBtn instanceof HTMLElement) {
+      const card = favBtn.closest(".template-card");
+      if (card instanceof HTMLElement) {
+        const templateId = card.dataset.templateId;
+        const nowFavorited = toggleFavorite(templateId);
+        favBtn.dataset.favorited = String(nowFavorited);
+        favBtn.textContent = nowFavorited ? "♥" : "♡";
+        favBtn.setAttribute(
+          "aria-label",
+          `${nowFavorited ? "Unfavorite" : "Favorite"} ${card.querySelector(".template-name")?.textContent ?? ""}`
+        );
+        this.dispatchEvent(
+          new CustomEvent("memebro:favorite-toggled", {
+            detail: { templateId, favorited: nowFavorited },
+            bubbles: true,
+            composed: true,
+          })
+        );
+      }
       return;
     }
 
@@ -249,6 +271,11 @@ class MemebroTemplateGallery extends HTMLElement {
           transform: scale(1.05);
         }
 
+        .favorite[data-favorited="true"] {
+          color: var(--orange-deep);
+          background: var(--orange-wash);
+        }
+
         .card-body {
           padding: var(--radius-sm);
         }
@@ -297,7 +324,12 @@ class MemebroTemplateGallery extends HTMLElement {
         </div>
 
         <div class="gallery-grid">
-          ${this.templates.map((template) => this.renderCard(template)).join("")}
+          ${(() => {
+            const favSet = new Set(getFavorites());
+            return this.templates
+              .map((template) => this.renderCard(template, favSet.has(template.id)))
+              .join("");
+          })()}
         </div>
       </section>
     `;
@@ -320,12 +352,15 @@ class MemebroTemplateGallery extends HTMLElement {
   /**
    * Builds the HTML string for a single template card.
    * @param {object} template - A template with `imageUrl`, `name`, and optional `isAi` fields.
+   * @param {boolean} isFavorited - Whether this template is currently favorited.
    * @returns {string} the card's HTML markup.
    */
-  renderCard(template) {
+  renderCard(template, isFavorited = false) {
     const id = this.escapeHtml(template.id);
     const name = this.escapeHtml(template.name);
     const imageUrl = this.escapeHtml(template.imageUrl);
+    const favLabel = isFavorited ? `Unfavorite ${name}` : `Favorite ${name}`;
+    const favIcon = isFavorited ? "♥" : "♡";
     return `
       <article class="template-card" data-template-id="${id}">
         <div class="image-wrap">
@@ -339,10 +374,9 @@ class MemebroTemplateGallery extends HTMLElement {
           <button
             class="favorite"
             type="button"
-            aria-label="Favorite ${name}"
-          >
-            ♥
-          </button>
+            data-favorited="${isFavorited}"
+            aria-label="${favLabel}"
+          >${favIcon}</button>
         </div>
 
         <div class="card-body">

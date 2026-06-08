@@ -43,6 +43,7 @@ const KEY_MEMES = "memebro:memes";
 const KEY_RECENT_TEMPLATES = "memebro:recent-templates";
 const KEY_SCHEMA_VERSION = "memebro:schema-version";
 const KEY_THEME = "memebro:theme";
+const KEY_FAVORITES = "memebro:favorites";
 const MAX_RECENT_TEMPLATES = 8;
 
 /** Current storage schema version. Bump and add a migration if a shape changes. */
@@ -229,6 +230,44 @@ export function getTheme() {
   ensureSchemaVersion();
   const theme = readJSON(KEY_THEME, DEFAULT_THEME);
   return theme === "light" || theme === "dark" ? theme : DEFAULT_THEME;
+}
+
+/**
+ * Read all favorited template ids.
+ * @returns {string[]} the favorited template ids, or `[]` when none are stored
+ */
+export function getFavorites() {
+  ensureSchemaVersion();
+  const favs = readJSON(KEY_FAVORITES, []);
+  return Array.isArray(favs) ? favs : [];
+}
+
+/**
+ * Check whether a template id is currently favorited.
+ * @param {string} templateId   The template id to check
+ * @returns {boolean}
+ */
+export function isFavorite(templateId) {
+  return getFavorites().includes(templateId);
+}
+
+/**
+ * Toggle a template's favorited status. Returns the new state.
+ * @param {string} templateId   The template id to toggle
+ * @returns {boolean} `true` when now favorited, `false` when removed
+ */
+export function toggleFavorite(templateId) {
+  ensureSchemaVersion();
+  const favs = getFavorites();
+  const idx = favs.indexOf(templateId);
+  if (idx === -1) {
+    favs.push(templateId);
+    writeJSON(KEY_FAVORITES, favs);
+    return true;
+  }
+  favs.splice(idx, 1);
+  writeJSON(KEY_FAVORITES, favs);
+  return false;
 }
 
 /**

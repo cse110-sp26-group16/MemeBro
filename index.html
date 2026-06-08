@@ -31,7 +31,10 @@
                 <section class="home-sidebar__group" aria-labelledby="library-heading">
                     <h2 id="library-heading">Library</h2>
                     <a class="home-sidebar__link home-sidebar__link--active" href="#all">All templates</a>
-                    <a class="home-sidebar__link" href="#favorites">Favorites</a>
+                    <a class="home-sidebar__link" href="#favorites">
+                        <span>Favorites</span>
+                        <span data-favorites-count>0</span>
+                    </a>
                      <a class="home-sidebar__link" href="#recent">
                         <span>Recent</span>
                         <span data-recent-count>0</span>
@@ -138,7 +141,7 @@
     </div>
     <script type="module">
       import { getMemes } from './js/api/storage.stub.js';
-      import { getRecentTemplates } from "./js/api/storage.js";
+      import { getRecentTemplates, getFavorites } from "./js/api/storage.js";
       import { wireToggle } from './js/theme.js';
       wireToggle(document.querySelector('[aria-label="Toggle theme"]'));
       const memes = getMemes();
@@ -165,6 +168,13 @@
         if (recentCount) {
             recentCount.textContent = String(recentTemplates.length);
         }
+
+        function updateFavoritesCount() {
+            document.querySelectorAll('[data-favorites-count]').forEach((el) => {
+                el.textContent = String(getFavorites().length);
+            });
+        }
+        updateFavoritesCount();
 
         if (recentSection && recentStrip && recentTemplates.length > 0) {
             recentSection.hidden = false;
@@ -210,11 +220,42 @@
                 goToSearch(link.textContent);
             });
         });
+        let allTemplates = [];
         try {
-            gallery.data = await getPopularTemplates();
+            allTemplates = await getPopularTemplates();
         } catch {
-            gallery.data = [];
+            allTemplates = [];
         }
+        gallery.data = allTemplates;
+
+        // Sidebar view switching
+        const allLink = document.querySelector('.home-sidebar__link[href="#all"]');
+        const favoritesLink = document.querySelector('.home-sidebar__link[href="#favorites"]');
+        const sectionTitle = document.querySelector('#templates-heading');
+
+        function setActiveLink(activeEl) {
+            document.querySelectorAll('.home-sidebar__link').forEach((l) => l.classList.remove('home-sidebar__link--active'));
+            activeEl?.classList.add('home-sidebar__link--active');
+        }
+
+        allLink?.addEventListener('click', (e) => {
+            e.preventDefault();
+            gallery.data = allTemplates;
+            if (sectionTitle) sectionTitle.textContent = 'All templates';
+            setActiveLink(allLink);
+        });
+
+        favoritesLink?.addEventListener('click', (e) => {
+            e.preventDefault();
+            const favIds = new Set(getFavorites());
+            gallery.data = allTemplates.filter((t) => favIds.has(t.id));
+            if (sectionTitle) sectionTitle.textContent = 'Favorites';
+            setActiveLink(favoritesLink);
+        });
+
+        gallery.addEventListener('memebro:favorite-toggled', () => {
+            updateFavoritesCount();
+        });
     </script>
 </body>
 </html>
