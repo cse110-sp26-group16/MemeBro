@@ -231,6 +231,18 @@ class MemebroTemplateGallery extends HTMLElement {
           border-radius: var(--radius-lg);
           background: var(--surface);
           box-shadow: var(--shadow-sm);
+          cursor: pointer;
+          transition: transform 0.15s ease;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .template-card {
+            transition: none;
+          }
+        }
+
+        .template-card:hover {
+          transform: scale(1.03);
         }
 
         .image-wrap {
