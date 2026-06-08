@@ -1,8 +1,8 @@
 # ADR-0011: AI provider for template search ranking
 
-- **Status:** Proposed <!-- pending TA sign-off; no dependency added in this PR -->
-- **Date:** 2026-06-01
-- **Deciders:** Whole team, pending TA sign-off from Omair Qazi
+- **Status:** Accepted <!-- TA sign-off received; Workers AI added to dependencies.md and wired in #135 -->
+- **Date:** 2026-06-01 (accepted 2026-06-06)
+- **Deciders:** Whole team, TA sign-off from Omair Qazi
 
 ## Context
 
@@ -90,9 +90,9 @@ latency. Embeddings are chosen over a generative model because ranking does not
 require generation, and over image embeddings because the titles are already
 good text signal.
 
-This ADR **does not** add Workers AI to [`../dependencies.md`](../dependencies.md).
-It records the proposed direction only. Adding the service to the dependency
-ledger waits on TA sign-off per process rule 8 (see "When this ADR changes").
+Now that this ADR is accepted (TA sign-off received), Workers AI is recorded in
+[`../dependencies.md`](../dependencies.md) per process rule 8, and the real
+`rankTemplates` call is wired and deployed in #135.
 
 ### Environment and binding requirements
 

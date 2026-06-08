@@ -59,6 +59,7 @@ class MemebroTemplateGallery extends HTMLElement {
     this.attachShadow({ mode: "open" });
     this.templates = mockTemplates;
     this.handleClick = this.handleClick.bind(this);
+    this.handleKeydown = this.handleKeydown.bind(this);
   }
 
   /**
@@ -75,6 +76,7 @@ class MemebroTemplateGallery extends HTMLElement {
    */
   connectedCallback() {
     this.shadowRoot.addEventListener("click", this.handleClick);
+    this.shadowRoot.addEventListener("keydown", this.handleKeydown);
     this.render();
   }
 
@@ -83,6 +85,34 @@ class MemebroTemplateGallery extends HTMLElement {
    */
   disconnectedCallback() {
     this.shadowRoot.removeEventListener("click", this.handleClick);
+    this.shadowRoot.removeEventListener("keydown", this.handleKeydown);
+  }
+
+  /**
+   * Submits the built-in search field on Enter so the host can route the query
+   * to the dedicated search page.
+   * @param {KeyboardEvent} event Keydown event from the shadow root.
+   */
+  handleKeydown(event) {
+    const target = event.target;
+
+    if (event.key !== "Enter") {
+      return;
+    }
+
+    if (!(target instanceof HTMLInputElement) || !target.classList.contains("search")) {
+      return;
+    }
+
+    event.preventDefault();
+
+    this.dispatchEvent(
+      new CustomEvent("memebro:search-submit", {
+        detail: { query: target.value },
+        bubbles: true,
+        composed: true,
+      })
+    );
   }
 
   /**
@@ -122,7 +152,7 @@ class MemebroTemplateGallery extends HTMLElement {
   }
 
   /**
-   * Renders the full gallery markup (styles, topbar, and template grid) into the shadow root.
+   * Renders the full gallery markup and template grid into the shadow root.
    */
   render() {
     this.shadowRoot.innerHTML = `
@@ -147,69 +177,12 @@ class MemebroTemplateGallery extends HTMLElement {
           overflow-x: hidden;
         }
 
-        .topbar {
-          display: grid;
-          grid-template-columns: auto minmax(0, 1fr) auto;
-          align-items: center;
-          gap: var(--radius);
-          margin-bottom: var(--radius-xl);
-        }
-
-        .brand {
-          font-size: clamp(1.25rem, 8vw, 2.25rem);
-          font-weight: 700;
-          letter-spacing: -0.06em;
-          white-space: nowrap;
-        }
-
-        .search {
-          width: 100%;
-          min-width: 0;
-          border: 1px solid var(--line);
-          background: var(--surface);
-          color: var(--ink-2);
-          border-radius: var(--radius-xl);
-          padding: var(--radius-sm) var(--radius);
-          box-shadow: var(--shadow-sm);
-          font: inherit;
-          outline: none;
-        }
-
-        .search::placeholder {
-          color: var(--ink-3);
-        }
-
-        .menu {
-          border: 1px solid var(--line);
-          background: var(--surface);
-          color: var(--ink);
-          border-radius: var(--radius-xl);
-          padding: var(--radius-sm) var(--radius);
-          box-shadow: var(--shadow-sm);
-        }
-
-        .eyebrow {
-          color: var(--orange-deep);
-          font-size: 0.8rem;
-          font-weight: 700;
-          letter-spacing: 0.08em;
-          text-transform: uppercase;
-          margin-bottom: var(--radius-sm);
-        }
-
         .section-header {
           display: flex;
           align-items: flex-end;
           justify-content: space-between;
           gap: var(--radius);
           margin-bottom: var(--radius);
-        }
-
-        .section-title {
-          font-size: clamp(1.75rem, 9vw, 4rem);
-          line-height: 0.9;
-          letter-spacing: -0.08em;
-          margin: 0;
         }
 
         .count {
@@ -231,6 +204,18 @@ class MemebroTemplateGallery extends HTMLElement {
           border-radius: var(--radius-lg);
           background: var(--surface);
           box-shadow: var(--shadow-sm);
+          cursor: pointer;
+          transition: transform 0.15s ease;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .template-card {
+            transition: none;
+          }
+        }
+
+        .template-card:hover {
+          transform: scale(1.03);
         }
 
         .image-wrap {
@@ -305,26 +290,9 @@ class MemebroTemplateGallery extends HTMLElement {
         }
       </style>
 
-      <section class="page" aria-labelledby="template-gallery-title">
-        <header class="topbar">
-          <div class="brand">memebro.</div>
-
-          <input
-            class="search"
-            type="text"
-            placeholder="search templates"
-            aria-label="Search templates"
-          />
-
-          <button class="menu" type="button" aria-label="Open menu">
-            •••
-          </button>
-        </header>
-
-        <div class="eyebrow">Recent</div>
+      <section class="page" aria-label="Template gallery">
 
         <div class="section-header">
-          <h1 id="template-gallery-title" class="section-title">Browse</h1>
           <span class="count">${this.templates.length} templates</span>
         </div>
 
@@ -351,14 +319,13 @@ class MemebroTemplateGallery extends HTMLElement {
 
   /**
    * Builds the HTML string for a single template card.
-   * @param {object} template - A template with `imageUrl`, `name`, `useCount`, and `isAi` fields.
+   * @param {object} template - A template with `imageUrl`, `name`, and optional `isAi` fields.
    * @returns {string} the card's HTML markup.
    */
   renderCard(template) {
     const id = this.escapeHtml(template.id);
     const name = this.escapeHtml(template.name);
     const imageUrl = this.escapeHtml(template.imageUrl);
-    const useCount = this.escapeHtml(template.useCount);
     return `
       <article class="template-card" data-template-id="${id}">
         <div class="image-wrap">
@@ -382,8 +349,7 @@ class MemebroTemplateGallery extends HTMLElement {
           <h2 class="template-name">${name}</h2>
 
           <div class="meta">
-            <span>${useCount} uses</span>
-            ${template.isAi ? '<span class="badge">AI</span>' : ""}
+            ${template.isAi === true ? '<span class="badge">AI</span>' : ""}
           </div>
         </div>
       </article>
