@@ -97,11 +97,12 @@ A template plus the user's edits.
 
 `localStorage` is the only client-side store for sprint 2. No IndexedDB, no cookies for app data.
 
-| Key                      | Type                | Notes                                                                |
-| ------------------------ | ------------------- | -------------------------------------------------------------------- |
-| `memebro:memes`          | `Meme[]`            | The saved meme list. History reads, Editor writes.                   |
-| `memebro:schema-version` | `number`            | Currently `1`. Bump and add a migration if you change a shape above. |
-| `memebro:theme`          | `'light' \| 'dark'` | Persisted theme choice. Foundation JS reads on load.                 |
+| Key                        | Type                | Notes                                                                |
+| -------------------------- | ------------------- | -------------------------------------------------------------------- |
+| `memebro:memes`            | `Meme[]`            | The saved meme list. History reads, Editor writes.                   |
+| `memebro:recent-templates` | `Template[]`        | Most-recent-first templates opened in the editor. Capped at 8.       |
+| `memebro:schema-version`   | `number`            | Currently `1`. Bump and add a migration if you change a shape above. |
+| `memebro:theme`            | `'light' \| 'dark'` | Persisted theme choice. Foundation JS reads on load.                 |
 
 All storage access goes through `js/api/storage.js`. Components do not call `localStorage` directly. That keeps the schema-version check in one place.
 
@@ -134,13 +135,13 @@ this.dispatchEvent(
 
 Modules under `js/api/` expose async functions and know nothing about the DOM. Screens import and call them.
 
-| Module                  | Purpose                                                               | Target exports                                                                                                                             |
-| ----------------------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| `js/api/imgflip-api.js` | Template search and popular list (#21)                                | `getPopularTemplates(): Promise<Template[]>`, `searchTemplates(query: string): Promise<Template[]>`                                        |
-| `js/api/storage.js`     | `localStorage` wrapper                                                | `getMemes(): Meme[]`, `saveMeme(meme: Meme): void`, `deleteMeme(id: string): void`, `getTheme(): 'light'\|'dark'`, `setTheme(theme): void` |
-| `js/api/ai-api.js`      | Pure prompt builder (#27)                                             | `buildAIPrompt(inputs: ConjureInputs): string`                                                                                             |
-| `js/api/conjure.js`     | AI generation, BLOCKED on [ADR-0003](adr/0003-backend-stack.md) (#27) | `conjureMeme(prompt: string): Promise<Meme>`                                                                                               |
-| `js/api/search-api.js`  | AI-ranked template search (#72)                                       | `searchTemplatesWithAI(query: string): Promise<RankedTemplate[]>`                                                                          |
+| Module                  | Purpose                                                               | Target exports                                                                                                                                                                                                                   |
+| ----------------------- | --------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `js/api/imgflip-api.js` | Template search and popular list (#21)                                | `getPopularTemplates(): Promise<Template[]>`, `searchTemplates(query: string): Promise<Template[]>`                                                                                                                              |
+| `js/api/storage.js`     | `localStorage` wrapper                                                | `getMemes(): Meme[]`, `saveMeme(meme: Meme): void`, `deleteMeme(id: string): void`, `getRecentTemplates(): Template[]`, `recordRecentTemplate(template: Template): void`, `getTheme(): 'light'\|'dark'`, `setTheme(theme): void` |
+| `js/api/ai-api.js`      | Pure prompt builder (#27)                                             | `buildAIPrompt(inputs: ConjureInputs): string`                                                                                                                                                                                   |
+| `js/api/conjure.js`     | AI generation, BLOCKED on [ADR-0003](adr/0003-backend-stack.md) (#27) | `conjureMeme(prompt: string): Promise<Meme>`                                                                                                                                                                                     |
+| `js/api/search-api.js`  | AI-ranked template search (#72)                                       | `searchTemplatesWithAI(query: string): Promise<RankedTemplate[]>`                                                                                                                                                                |
 
 These signatures are the agreement so other lanes can stub against them while the real module is in flight. The owning issue locks the final signatures in its PR.
 

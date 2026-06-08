@@ -27,11 +27,23 @@
  * @property {string} createdAt          ISO 8601 timestamp
  */
 
+/**
+ * @typedef {object} Template
+ * @property {string} id           Stable id from the upstream source
+ * @property {string} name         Human-readable title
+ * @property {string} imageUrl     Absolute URL to the image
+ * @property {number} width        Image width in pixels
+ * @property {number} height       Image height in pixels
+ * @property {boolean} [popular]   True if returned from the popular list
+ */
+
 /** @typedef {'light'|'dark'} Theme */
 
 const KEY_MEMES = "memebro:memes";
+const KEY_RECENT_TEMPLATES = "memebro:recent-templates";
 const KEY_SCHEMA_VERSION = "memebro:schema-version";
 const KEY_THEME = "memebro:theme";
+const MAX_RECENT_TEMPLATES = 8;
 
 /** Current storage schema version. Bump and add a migration if a shape changes. */
 const SCHEMA_VERSION = 1;
@@ -172,6 +184,40 @@ export function deleteMeme(id) {
   const memes = getMemes();
   const next = memes.filter((m) => !(m && m.id === id));
   writeJSON(KEY_MEMES, next);
+}
+
+/**
+ * Read recently opened templates, most recent first.
+ * @returns {Template[]} the recent templates, or `[]` when none are stored
+ */
+export function getRecentTemplates() {
+  ensureSchemaVersion();
+  const templates = readJSON(KEY_RECENT_TEMPLATES, []);
+  return Array.isArray(templates) ? templates : [];
+}
+
+/**
+ * Record a template as recently opened, deduped by id and capped.
+ * @param {Template} template The template opened in the editor
+ * @returns {void}
+ */
+export function recordRecentTemplate(template) {
+  ensureSchemaVersion();
+  if (!template || typeof template !== "object" || typeof template.id !== "string") {
+    return;
+  }
+
+  const recent = getRecentTemplates().filter((item) => item && item.id !== template.id);
+  recent.unshift({
+    id: template.id,
+    name: template.name,
+    imageUrl: template.imageUrl,
+    width: template.width,
+    height: template.height,
+    ...(template.popular === undefined ? {} : { popular: template.popular }),
+  });
+
+  writeJSON(KEY_RECENT_TEMPLATES, recent.slice(0, MAX_RECENT_TEMPLATES));
 }
 
 /**

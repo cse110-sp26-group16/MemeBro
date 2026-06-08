@@ -32,7 +32,10 @@
                     <h2 id="library-heading">Library</h2>
                     <a class="home-sidebar__link home-sidebar__link--active" href="#all">All templates</a>
                     <a class="home-sidebar__link" href="#favorites">Favorites</a>
-                     <a class="home-sidebar__link" href="#recent">Recent</a>
+                     <a class="home-sidebar__link" href="#recent">
+                        <span>Recent</span>
+                        <span data-recent-count>0</span>
+                    </a>
                 </section>
                 <section class="home-sidebar__group" aria-labelledby="categories-heading">
                     <h2 id="categories-heading">Categories</h2>
@@ -103,15 +106,9 @@
                         <p>Tap a template to start. Hover for actions.</p>
                     </div>
                 </div>
-                <section class="home-recent" aria-labelledby="recent-heading">
+                <section class="home-recent" aria-labelledby="recent-heading" hidden>
                     <h3 id="recent-heading">Recent</h3>
-                    <div class="home-recent__strip">
-                        <article class="home-thumb home-thumb--drake">Drake</article>
-                        <article class="home-thumb home-thumb--twd">TWD</article>
-                        <article class="home-thumb home-thumb--distracted">Distracted</article>
-                        <article class="home-thumb home-thumb--expanding">Expanding</article>
-                        <article class="home-thumb home-thumb--orange">Change</article>
-                    </div>
+                    <div class="home-recent__strip" id="recent-template-strip"></div>
                 </section>
                 <section class="home-browse" aria-labelledby="browse-heading">
                     <h3 id="browse-heading">Browse</h3>
@@ -141,21 +138,9 @@
     </div>
     <script type="module">
       import { getMemes } from './js/api/storage.stub.js';
+      import { getRecentTemplates } from "./js/api/storage.js";
       import { wireToggle } from './js/theme.js';
       wireToggle(document.querySelector('[aria-label="Toggle theme"]'));
-
-      const searchForm = document.querySelector('.home-search');
-      if (searchForm) {
-        searchForm.addEventListener('submit', (event) => {
-          event.preventDefault();
-          const query = document.querySelector('#template-search').value.trim();
-          if (!query) {
-            return;
-          }
-          window.location.href = `pages/search.html?q=${encodeURIComponent(query)}`;
-        });
-      }
-
       const memes = getMemes();
       const count = Array.isArray(memes) ? memes.length : 0;
       document.querySelectorAll('[data-meme-count]').forEach((element) => {
@@ -164,6 +149,35 @@
         import { getPopularTemplates } from "./js/api/imgflip-api.js";
         import "./js/components/template-gallery.js";
         const gallery = document.querySelector("#popular-template-gallery");
+        const escapeHtml = (value) =>
+            String(value)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#39;");
+
+        const recentSection = document.querySelector(".home-recent");
+        const recentStrip = document.querySelector("#recent-template-strip");
+        const recentCount = document.querySelector("[data-recent-count]");
+        const recentTemplates = getRecentTemplates();
+
+        if (recentCount) {
+            recentCount.textContent = String(recentTemplates.length);
+        }
+
+        if (recentSection && recentStrip && recentTemplates.length > 0) {
+            recentSection.hidden = false;
+            recentStrip.innerHTML = recentTemplates
+                .map(
+                    (template) => `
+                        <a class="home-thumb" href="pages/editor.html?templateId=${encodeURIComponent(template.id)}">
+                            ${escapeHtml(template.name)}
+                        </a>
+                    `
+                )
+                .join("");
+        }
         gallery.addEventListener("memebro:template-selected", (event) => {
             const templateId = event.detail.template.id;
             window.location.href = `pages/editor.html?templateId=${encodeURIComponent(templateId)}`;

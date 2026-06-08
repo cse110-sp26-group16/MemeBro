@@ -59,12 +59,20 @@ Object.defineProperty(globalThis, "localStorage", {
   writable: true,
 });
 
-const { getMemes, saveMeme, deleteMeme, getTheme, setTheme } =
-  await import("../../js/api/storage.js");
+const {
+  getMemes,
+  saveMeme,
+  deleteMeme,
+  getRecentTemplates,
+  recordRecentTemplate,
+  getTheme,
+  setTheme,
+} = await import("../../js/api/storage.js");
 
 const KEY_MEMES = "memebro:memes";
 const KEY_SCHEMA_VERSION = "memebro:schema-version";
 const KEY_THEME = "memebro:theme";
+const KEY_RECENT_TEMPLATES = "memebro:recent-templates";
 
 /**
  * Build a valid Meme matching the interface-contract shape.
@@ -101,6 +109,101 @@ describe("storage", () => {
     it("returns an empty array when the stored value is not an array", () => {
       localStorage.setItem(KEY_MEMES, JSON.stringify({ nope: true }));
       expect(getMemes()).toEqual([]);
+    });
+  });
+
+  describe("recent templates", () => {
+    it("returns an empty array when recents are unset", () => {
+      expect(getRecentTemplates()).toEqual([]);
+    });
+
+    it("returns an empty array when the recents value is corrupt JSON", () => {
+      localStorage.setItem(KEY_RECENT_TEMPLATES, "{not valid json");
+      expect(getRecentTemplates()).toEqual([]);
+    });
+
+    it("returns an empty array when the stored recents value is not an array", () => {
+      localStorage.setItem(KEY_RECENT_TEMPLATES, JSON.stringify({ nope: true }));
+      expect(getRecentTemplates()).toEqual([]);
+    });
+
+    it("records templates most-recent-first", () => {
+      recordRecentTemplate({
+        id: "a",
+        name: "Template A",
+        imageUrl: "https://example.com/a.jpg",
+        width: 500,
+        height: 500,
+      });
+
+      recordRecentTemplate({
+        id: "b",
+        name: "Template B",
+        imageUrl: "https://example.com/b.jpg",
+        width: 500,
+        height: 500,
+      });
+
+      expect(getRecentTemplates().map((template) => template.id)).toEqual(["b", "a"]);
+    });
+
+    it("dedupes by template id and moves the reopened template first", () => {
+      recordRecentTemplate({
+        id: "a",
+        name: "Template A",
+        imageUrl: "https://example.com/a.jpg",
+        width: 500,
+        height: 500,
+      });
+
+      recordRecentTemplate({
+        id: "b",
+        name: "Template B",
+        imageUrl: "https://example.com/b.jpg",
+        width: 500,
+        height: 500,
+      });
+
+      recordRecentTemplate({
+        id: "a",
+        name: "Template A updated",
+        imageUrl: "https://example.com/a-updated.jpg",
+        width: 600,
+        height: 600,
+      });
+
+      const recents = getRecentTemplates();
+      expect(recents.map((template) => template.id)).toEqual(["a", "b"]);
+      expect(recents[0].name).toBe("Template A updated");
+    });
+
+    it("caps recents at 8 templates", () => {
+      for (let i = 0; i < 10; i += 1) {
+        recordRecentTemplate({
+          id: String(i),
+          name: `Template ${i}`,
+          imageUrl: `https://example.com/${i}.jpg`,
+          width: 500,
+          height: 500,
+        });
+      }
+
+      expect(getRecentTemplates().map((template) => template.id)).toEqual([
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+      ]);
+    });
+
+    it("ignores invalid templates on write", () => {
+      recordRecentTemplate(null);
+      recordRecentTemplate({});
+      expect(getRecentTemplates()).toEqual([]);
     });
   });
 
