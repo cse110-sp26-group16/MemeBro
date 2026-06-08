@@ -123,7 +123,9 @@ export class MemebroSearch extends HTMLElement {
   }
 
   /**
-   * Connects the component and installs event listeners.
+   * Connects the component and installs event listeners. When the URL carries a
+   * `q` param (e.g. arriving from the home search), the field is prefilled and
+   * the search runs immediately.
    */
   connectedCallback() {
     // Seed the field from a `?q=` param so links from the home page search bars
