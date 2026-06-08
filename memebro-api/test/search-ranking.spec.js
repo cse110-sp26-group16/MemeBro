@@ -55,14 +55,14 @@ describe("rankTemplates - empty / short-circuit cases", () => {
   });
 });
 
-//happy path and provider error test cases added (will not run on branch 136-AiRank-Test due to 
+//happy path and provider error test cases added (will not run on branch 136-AiRank-Test due to
 // Error -> AI ranking provider not yet configured — pending ADR-0010 (#76)). tests will work when ranking provider work
 describe.skip("rankTemplates - provider network integration", () => {
   it("returns ranked templates on a successful AI response", async () => {
     const mockAPI = {
       rankings: [
-        {id: "drake", score: 0.4, reason: "Loose theme match"},
-        {id: "distracted", score: 0.95, reason: "Direct name match",}
+        { id: "drake", score: 0.4, reason: "Loose theme match" },
+        { id: "distracted", score: 0.95, reason: "Direct name match" },
       ],
     };
 
@@ -70,7 +70,7 @@ describe.skip("rankTemplates - provider network integration", () => {
       ok: true,
       json: async () => mockAPI,
     });
-    
+
     const result = await rankTemplates("funny boyfriend", TEMPLATES, MOCK_ENV);
 
     expect(fetchSpy).toHaveBeenCalledTimes(1);
@@ -92,8 +92,6 @@ describe.skip("rankTemplates - provider network integration", () => {
     vi.resetAllMocks();
   });
 });
-
-
 
 describe("buildResults - ranking and filtering logic", () => {
   it("returns templates ranked by score descending", () => {

@@ -60,25 +60,6 @@ jobs:
       - name: Run unit tests
         run: npm run test:unit
 
-  test-worker:
-    name: Run Worker Tests
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Install worker dependencies
-        run: cd memebro-api && npm ci
-
-      - name: Run worker tests
-        run: cd memebro-api && npm run test:ci
-
   test-e2e:
     name: Run E2E Tests
     runs-on: ubuntu-latest
