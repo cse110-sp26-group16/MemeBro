@@ -47,18 +47,41 @@ class MemeBroEditor extends HTMLElement {
       { text: "", x: 0.5, y: 0.05, fontSize: 0.06, color: "#ffffff" },
       { text: "", x: 0.5, y: 0.88, fontSize: 0.06, color: "#ffffff" },
     ];
+    /** True while the template image is being fetched. */
+    this.loading = false;
+    /** True when the template could not be loaded or found. */
+    this.loadError = false;
   }
 
   /**
-   * Reads the templateId from the URL, resolves it, then renders and wires up.
+   * Reads the templateId from the URL, renders the editor shell with a skeleton
+   * immediately, then resolves the template and hydrates (or shows an error).
+   * Rendering the shell first means a slow or failed network never leaves the
+   * page blank.
    * @returns {Promise<void>}
    */
   async connectedCallback() {
     const params = new URLSearchParams(window.location.search);
     this.templateId = params.get("templateId");
-    await this.resolveTemplate();
+
+    this.loading = true;
     this.render();
     this.attachListeners();
+
+    try {
+      await this.resolveTemplate();
+      this.loadError = !this.template;
+    } catch {
+      this.loadError = true;
+    }
+
+    this.loading = false;
+    this.render();
+    this.attachListeners();
+
+    if (this.loadError) {
+      this.showError("Couldn't load this template. Please try again.");
+    }
   }
 
   /**
@@ -93,6 +116,22 @@ class MemeBroEditor extends HTMLElement {
           >${cap.text || (i === 0 ? "TOP TEXT" : "BOTTOM TEXT")}</span>`
       )
       .join("\n");
+
+    // The top-bar title and canvas reflect one of three states: loading (a
+    // neutral skeleton), error (a clear message), or loaded (the real image).
+    const titleHtml = this.loading
+      ? `<span class="top-bar-title top-bar-title--skeleton" slot="search-input" aria-hidden="true"></span>`
+      : `<span class="top-bar-title" slot="search-input">${this.template ? this.template.name : ""}</span>`;
+
+    let canvasInner;
+    if (this.loading) {
+      canvasInner = `<div class="meme-canvas-skeleton" aria-hidden="true"></div>`;
+    } else if (this.loadError) {
+      canvasInner = `<p class="meme-canvas-message" role="status">Couldn't load this template. Please try again.</p>`;
+    } else {
+      canvasInner = `<img class="meme-canvas-img" src="${imageUrl}" alt="${altText}" crossorigin="anonymous" />
+            ${captionOverlaysHtml}`;
+    }
 
     this.shadowRoot.innerHTML = `
       <style>
@@ -145,6 +184,49 @@ class MemeBroEditor extends HTMLElement {
           object-fit: contain;
           user-drag: none;
           -webkit-user-drag: none;
+        }
+
+        /* Neutral placeholder shown while the template image is fetched. */
+        .meme-canvas-skeleton {
+          width: 100%;
+          height: 100%;
+          background: var(--line);
+          animation: skeleton-pulse 1.4s ease-in-out infinite;
+        }
+
+        .meme-canvas-message {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+          height: 100%;
+          margin: 0;
+          padding: var(--space-4);
+          text-align: center;
+          color: var(--ink-3);
+          font-family: Geist, system-ui, sans-serif;
+          font-size: var(--text-sm);
+        }
+
+        .top-bar-title--skeleton {
+          display: inline-block;
+          width: 96px;
+          height: 0.8em;
+          border-radius: var(--radius-sm);
+          background: var(--line);
+          animation: skeleton-pulse 1.4s ease-in-out infinite;
+        }
+
+        @keyframes skeleton-pulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.45; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .meme-canvas-skeleton,
+          .top-bar-title--skeleton {
+            animation: none;
+          }
         }
 
         .meme-canvas-caption {
@@ -478,15 +560,14 @@ class MemeBroEditor extends HTMLElement {
 
       <memebro-top-bar>
         <button class="top-bar-back" slot="breadcrumb" aria-label="Go back">&#8592;</button>
-        <span class="top-bar-title" slot="search-input">${this.template ? this.template.name : ""}</span>
+        ${titleHtml}
         <button class="theme-toggle" slot="actions" type="button" aria-label="Toggle theme">◐</button>
         <button class="download-button" slot="actions" type="button" aria-label="Download PNG">Download</button>
       </memebro-top-bar>
       <div class="editor-content">
         <div class="canvas-wrapper">
-          <div class="meme-canvas">
-            <img class="meme-canvas-img" src="${imageUrl}" alt="${altText}" crossorigin="anonymous" />
-            ${captionOverlaysHtml}
+          <div class="meme-canvas" aria-busy="${this.loading}">
+            ${canvasInner}
           </div>
         </div>
         <div class="editor-panels">
@@ -575,9 +656,11 @@ class MemeBroEditor extends HTMLElement {
 
     const canvas = this.shadowRoot.querySelector(".meme-canvas");
 
-    this.shadowRoot
-      .querySelector(".meme-canvas-img")
-      .addEventListener("dragstart", (e) => e.preventDefault());
+    // The image is absent in the loading/error states, so guard the binding.
+    const memeImage = this.shadowRoot.querySelector(".meme-canvas-img");
+    if (memeImage) {
+      memeImage.addEventListener("dragstart", (e) => e.preventDefault());
+    }
 
     this.shadowRoot.querySelectorAll(".meme-canvas-caption").forEach((overlay) => {
       overlay.addEventListener("pointerdown", (e) => {
