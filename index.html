@@ -199,6 +199,17 @@
         gallery.addEventListener("memebro:search-submit", (event) => {
             goToSearch(event.detail?.query);
         });
+        // Sidebar category links run a search for the category name instead of
+        // jumping to a dead #hash fragment.
+        const categoryLinks = document.querySelectorAll(
+            '.home-sidebar__group[aria-labelledby="categories-heading"] .home-sidebar__link'
+        );
+        categoryLinks.forEach((link) => {
+            link.addEventListener("click", (event) => {
+                event.preventDefault();
+                goToSearch(link.textContent);
+            });
+        });
         try {
             gallery.data = await getPopularTemplates();
         } catch {
