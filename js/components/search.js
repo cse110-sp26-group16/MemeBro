@@ -17,6 +17,7 @@
 
 import { searchTemplatesWithAI } from "../api/search-api.js";
 import { currentTheme, toggleTheme } from "../theme.js";
+import { getFavorites, toggleFavorite } from "../api/storage.js";
 
 const SEARCH_DEBOUNCE_MS = 250;
 
@@ -117,6 +118,7 @@ export class MemebroSearch extends HTMLElement {
     this.results = [];
     this.exactCount = 0;
     this.partialCount = 0;
+    this.favorites = new Set();
     this.debounceTimer = null;
     this.boundInput = this.handleInput.bind(this);
     this.boundClick = this.handleResultClick.bind(this);
@@ -128,13 +130,12 @@ export class MemebroSearch extends HTMLElement {
    * the search runs immediately.
    */
   connectedCallback() {
-    // Seed the field from a `?q=` param so links from the home page search bars
-    // land here with results already running.
     const initialQuery = new URLSearchParams(window.location.search).get("q");
     if (initialQuery) {
       this.query = initialQuery;
     }
 
+    this.favorites = new Set(getFavorites());
     this.render();
     this.shadowRoot.addEventListener("input", this.boundInput);
     this.shadowRoot.addEventListener("click", this.boundClick);
@@ -207,6 +208,21 @@ export class MemebroSearch extends HTMLElement {
     const toggle = event.target.closest("[data-theme-toggle]");
     if (toggle) {
       toggle.setAttribute("aria-pressed", String(toggleTheme() === "dark"));
+      return;
+    }
+
+    const favBtn = event.target.closest(".favorite");
+    if (favBtn instanceof HTMLElement) {
+      event.preventDefault();
+      const templateId = favBtn.dataset.templateId;
+      const nowFavorited = toggleFavorite(templateId);
+      this.favorites = new Set(getFavorites());
+      favBtn.dataset.favorited = String(nowFavorited);
+      favBtn.textContent = nowFavorited ? "♥" : "♡";
+      favBtn.setAttribute(
+        "aria-label",
+        `${nowFavorited ? "Unfavorite" : "Favorite"} ${favBtn.dataset.templateName ?? ""}`
+      );
       return;
     }
 
@@ -404,6 +420,31 @@ export class MemebroSearch extends HTMLElement {
           display: block;
         }
 
+        .favorite {
+          position: absolute;
+          top: var(--space-2);
+          right: var(--space-2);
+          border: 1px solid var(--line);
+          background: var(--surface);
+          color: var(--orange);
+          border-radius: 999px;
+          padding: 0 var(--space-2);
+          box-shadow: var(--shadow-sm);
+          cursor: pointer;
+          transition: transform 0.15s ease;
+          font-size: 1rem;
+          line-height: 1.6;
+        }
+
+        .favorite:hover {
+          transform: scale(1.1);
+        }
+
+        .favorite[data-favorited="true"] {
+          color: var(--orange-deep);
+          background: var(--orange-wash);
+        }
+
         .card-body {
           padding: var(--space-3);
           display: grid;
@@ -525,8 +566,9 @@ export class MemebroSearch extends HTMLElement {
           ${
             hasResults
               ? `<div class="results-grid">${this.results
-                  .map(
-                    (template) => `
+                  .map((template) => {
+                    const isFav = this.favorites.has(template.id);
+                    return `
                 <a
                   class="result-card"
                   href="editor.html?templateId=${encodeURIComponent(template.id)}"
@@ -538,6 +580,14 @@ export class MemebroSearch extends HTMLElement {
                       src="${escapeHtml(template.imageUrl)}"
                       alt="${escapeHtml(template.name)} template"
                     />
+                    <button
+                      class="favorite"
+                      type="button"
+                      data-favorited="${isFav}"
+                      data-template-id="${escapeHtml(template.id)}"
+                      data-template-name="${escapeHtml(template.name)}"
+                      aria-label="${isFav ? "Unfavorite" : "Favorite"} ${escapeHtml(template.name)}"
+                    >${isFav ? "♥" : "♡"}</button>
                   </div>
                   <div class="card-body">
                     <p class="template-name">${escapeHtml(template.name)}</p>
@@ -547,8 +597,8 @@ export class MemebroSearch extends HTMLElement {
                     </div>
                   </div>
                 </a>
-              `
-                  )
+              `;
+                  })
                   .join("")}</div>`
               : `<p class="empty-state">Try a different keyword, or conjure it.</p>`
           }
