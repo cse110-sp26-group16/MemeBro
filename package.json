@@ -8,7 +8,7 @@
     "test:e2e": "playwright test",
     "test:unit": "vitest run",
     "test:unit:watch": "vitest",
-    "lint:js": "eslint . --ext .js --ignore-path .eslintignore",
+    "lint:js": "eslint .",
     "lint:css": "stylelint \"**/*.css\" --ignore-path .stylelintignore",
     "lint:html": "htmlhint --format unix index.html",
     "lint:markdown": "markdownlint \"**/*.md\" --ignore-path .markdownlintignore --config .markdownlint.json",
@@ -36,9 +36,11 @@
     "replicate": "^1.4.0"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@playwright/test": "^1.60.0",
-    "eslint": "^8.57.0",
-    "eslint-plugin-jsdoc": "^48.2.3",
+    "eslint": "^10.4.1",
+    "eslint-plugin-jsdoc": "^63.0.2",
+    "globals": "^17.6.0",
     "htmlhint": "^1.1.4",
     "husky": "^9.1.7",
     "jsdom": "^29.1.1",
@@ -51,6 +53,6 @@
     "vitest": "^4.1.7"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=22.13.0"
   }
 }

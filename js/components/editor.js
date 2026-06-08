@@ -143,14 +143,18 @@ class MemeBroEditor extends HTMLElement {
           width: 100%;
           height: 100%;
           object-fit: contain;
+          user-drag: none;
+          -webkit-user-drag: none;
         }
 
         .meme-canvas-caption {
           position: absolute;
           transform: translateX(-50%);
           width: 90%;
-          pointer-events: none;
+          pointer-events: auto;
           user-select: none;
+          touch-action: none;
+          cursor: grab;
           font-weight: 700;
           text-align: center;
           text-transform: uppercase;
@@ -160,11 +164,22 @@ class MemeBroEditor extends HTMLElement {
           font-family: Geist, system-ui, sans-serif;
         }
 
+        .meme-canvas-caption--dragging {
+          cursor: grabbing;
+        }
+
         .meme-canvas-caption--placeholder {
           opacity: 0.5;
           font-weight: 400;
           text-transform: none;
           letter-spacing: normal;
+        }
+
+        .canvas-wrapper {
+          width: 100%;
+          display: flex;
+          align-items: flex-start;
+          justify-content: center;
         }
 
         .editor-panels {
@@ -174,7 +189,6 @@ class MemeBroEditor extends HTMLElement {
           width: 100%;
           max-width: 480px;
         }
-
         .input-panels {
           display: flex;
           flex-direction: column;
@@ -321,7 +335,6 @@ class MemeBroEditor extends HTMLElement {
           text-shadow: none;
         }
 
-        /* bottom toolbar — visual only, no interaction */
         .editor-toolbar {
           flex-shrink: 0;
           width: 100%;
@@ -434,6 +447,33 @@ class MemeBroEditor extends HTMLElement {
           line-height: 1;
           cursor: pointer;
         }
+
+        @media (min-width: 900px) {
+          .editor-content {
+            flex-direction: row;
+            align-items: flex-start;
+            justify-content: center;
+            overflow: hidden;
+          }
+
+          .canvas-wrapper {
+            /* Lock the wrapper to the canvas's natural max-width so the
+               canvas stays the same size it was on mobile (480 px). */
+            width: 480px;
+            flex-shrink: 0;
+          }
+
+          .editor-panels {
+            width: 320px;
+            max-width: 320px;
+            flex-shrink: 0;
+          }
+
+          .style-row__chips {
+            flex-wrap: wrap;
+            overflow-x: visible;
+          }
+        }
       </style>
 
       <memebro-top-bar>
@@ -443,9 +483,11 @@ class MemeBroEditor extends HTMLElement {
         <button class="download-button" slot="actions" type="button" aria-label="Download PNG">Download</button>
       </memebro-top-bar>
       <div class="editor-content">
-        <div class="meme-canvas">
-          <img class="meme-canvas-img" src="${imageUrl}" alt="${altText}" crossorigin="anonymous" />
-          ${captionOverlaysHtml}
+        <div class="canvas-wrapper">
+          <div class="meme-canvas">
+            <img class="meme-canvas-img" src="${imageUrl}" alt="${altText}" crossorigin="anonymous" />
+            ${captionOverlaysHtml}
+          </div>
         </div>
         <div class="editor-panels">
           <div class="input-panels" id="input-panels">
@@ -486,7 +528,7 @@ class MemeBroEditor extends HTMLElement {
   /**
    * Wires the panel inputs to the caption overlays, the style chips to the
    * caption fonts, the back button to history, and the download button to the
-   * PNG export.
+   * PNG export. Also allows for captions to be dragged and binds them to the canvas
    * @returns {void}
    */
   attachListeners() {
@@ -528,6 +570,49 @@ class MemeBroEditor extends HTMLElement {
             .concat(styleClass)
             .join(" ");
         });
+      });
+    });
+
+    const canvas = this.shadowRoot.querySelector(".meme-canvas");
+
+    this.shadowRoot
+      .querySelector(".meme-canvas-img")
+      .addEventListener("dragstart", (e) => e.preventDefault());
+
+    this.shadowRoot.querySelectorAll(".meme-canvas-caption").forEach((overlay) => {
+      overlay.addEventListener("pointerdown", (e) => {
+        e.preventDefault();
+        overlay.setPointerCapture(e.pointerId);
+
+        const idx = Number(overlay.dataset.captionIndex);
+        const rect = canvas.getBoundingClientRect();
+        const startX = e.clientX;
+        const startY = e.clientY;
+        const originX = this.captions[idx].x;
+        const originY = this.captions[idx].y;
+
+        overlay.classList.add("meme-canvas-caption--dragging");
+
+        const onMove = (moveEvent) => {
+          const dx = (moveEvent.clientX - startX) / rect.width;
+          const dy = (moveEvent.clientY - startY) / rect.height;
+          const newX = Math.min(1, Math.max(0, originX + dx));
+          const maxY = 1 - overlay.offsetHeight / rect.height;
+          const newY = Math.min(Math.max(maxY, 0), Math.max(0, originY + dy));
+          this.captions[idx].x = newX;
+          this.captions[idx].y = newY;
+          overlay.style.left = `${newX * 100}%`;
+          overlay.style.top = `${newY * 100}%`;
+        };
+
+        const onUp = () => {
+          overlay.classList.remove("meme-canvas-caption--dragging");
+          overlay.removeEventListener("pointermove", onMove);
+          overlay.removeEventListener("pointerup", onUp);
+        };
+
+        overlay.addEventListener("pointermove", onMove);
+        overlay.addEventListener("pointerup", onUp);
       });
     });
 

@@ -231,6 +231,18 @@ class MemebroTemplateGallery extends HTMLElement {
           border-radius: var(--radius-lg);
           background: var(--surface);
           box-shadow: var(--shadow-sm);
+          cursor: pointer;
+          transition: transform 0.15s ease;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .template-card {
+            transition: none;
+          }
+        }
+
+        .template-card:hover {
+          transform: scale(1.03);
         }
 
         .image-wrap {
@@ -351,14 +363,13 @@ class MemebroTemplateGallery extends HTMLElement {
 
   /**
    * Builds the HTML string for a single template card.
-   * @param {object} template - A template with `imageUrl`, `name`, `useCount`, and `isAi` fields.
+   * @param {object} template - A template with `imageUrl`, `name`, and optional `isAi` fields.
    * @returns {string} the card's HTML markup.
    */
   renderCard(template) {
     const id = this.escapeHtml(template.id);
     const name = this.escapeHtml(template.name);
     const imageUrl = this.escapeHtml(template.imageUrl);
-    const useCount = this.escapeHtml(template.useCount);
     return `
       <article class="template-card" data-template-id="${id}">
         <div class="image-wrap">
@@ -382,8 +393,7 @@ class MemebroTemplateGallery extends HTMLElement {
           <h2 class="template-name">${name}</h2>
 
           <div class="meta">
-            <span>${useCount} uses</span>
-            ${template.isAi ? '<span class="badge">AI</span>' : ""}
+            ${template.isAi === true ? '<span class="badge">AI</span>' : ""}
           </div>
         </div>
       </article>
