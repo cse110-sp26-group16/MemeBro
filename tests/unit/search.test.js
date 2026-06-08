@@ -13,6 +13,7 @@ describe("Memebro search screen", () => {
 
   afterEach(() => {
     vi.restoreAllMocks();
+    window.history.pushState({}, "", "/");
   });
 
   it("mounts and renders the search input", () => {
@@ -65,5 +66,37 @@ describe("Memebro search screen", () => {
 
     const event = await selected;
     expect(event.detail.template.id).toBe("test-id");
+  });
+
+  it("prefills and runs the search from the q param on load", async () => {
+    const mockResults = [
+      {
+        id: "q-id",
+        name: "Q template",
+        imageUrl: "https://example.com/q.jpg",
+        width: 500,
+        height: 500,
+        score: 0.88,
+        reason: "From the query param",
+      },
+    ];
+
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () => buildResponse(mockResults))
+    );
+
+    window.history.pushState({}, "", "/?q=cats");
+
+    const search = document.createElement("memebro-search");
+    document.body.appendChild(search);
+
+    const input = search.shadowRoot.querySelector("#search-input");
+    expect(input.value).toBe("cats");
+
+    await vi.waitFor(() => {
+      const cards = search.shadowRoot.querySelectorAll(".result-card");
+      expect(cards.length).toBe(1);
+    });
   });
 });

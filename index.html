@@ -186,6 +186,19 @@
       import { getMemes } from './js/api/storage.stub.js';
       import { wireToggle } from './js/theme.js';
       wireToggle(document.querySelector('[aria-label="Toggle theme"]'));
+
+      const searchForm = document.querySelector('.home-search');
+      if (searchForm) {
+        searchForm.addEventListener('submit', (event) => {
+          event.preventDefault();
+          const query = document.querySelector('#template-search').value.trim();
+          if (!query) {
+            return;
+          }
+          window.location.href = `pages/search.html?q=${encodeURIComponent(query)}`;
+        });
+      }
+
       const memes = getMemes();
       const count = Array.isArray(memes) ? memes.length : 0;
       document.querySelectorAll('[data-meme-count]').forEach((element) => {
