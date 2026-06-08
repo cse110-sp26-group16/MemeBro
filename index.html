@@ -8,6 +8,19 @@
     <link rel="stylesheet" href="styles/home.css">
 </head>
 <body>
+    <script>
+        // Apply the saved theme (or the OS preference) before the page paints so
+        // it never flashes the wrong theme. Persistence lives in js/theme.js.
+        try {
+            const saved = JSON.parse(localStorage.getItem("memebro:theme"));
+            const dark =
+                saved === "dark" ||
+                (saved !== "light" && matchMedia("(prefers-color-scheme: dark)").matches);
+            document.documentElement.dataset.theme = dark ? "dark" : "light";
+        } catch {
+            document.documentElement.dataset.theme = "light";
+        }
+    </script>
     <div class="home-shell">
         <aside class="home-sidebar" aria-label="Library navigation">
             <a class="home-sidebar__brand" href="index.html" aria-label="MemeBro home">
@@ -53,9 +66,9 @@
 
                 <section class="home-sidebar__group" aria-labelledby="mine-heading">
                     <h2 id="mine-heading">Mine</h2>
-                    <a class="home-sidebar__link" href="#mine">
+                    <a class="home-sidebar__link" href="/pages/history.html">
                         <span>My memes</span>
-                        <span>24</span>
+                        <span data-meme-count>24</span>
                     </a>
                     <a class="home-sidebar__link" href="#conjured">
                         <span>Conjured ✦</span>
@@ -114,25 +127,7 @@
                         <h2 id="templates-heading">All templates <span>20</span></h2>
                         <p>Tap a template to start. Hover for actions.</p>
                     </div>
-                    <label class="home-sort">
-                        <span>Sort templates</span>
-                        <select>
-                            <option>Sort: Popular</option>
-                            <option>Sort: Recent</option>
-                            <option>Sort: Trending</option>
-                        </select>
-                    </label>
                 </div>
-                <nav class="home-chip-row" aria-label="Template filters">
-                    <a class="home-chip home-chip--active" href="#all">All</a>
-                    <a class="home-chip" href="#trending">Trending</a>
-                    <a class="home-chip" href="#reaction">Reaction</a>
-                    <a class="home-chip" href="#classic">Classic</a>
-                    <a class="home-chip" href="#four-panel">4-panel</a>
-                    <a class="home-chip" href="#video">Video</a>
-                    <a class="home-chip" href="#dev-humor">Dev humor</a>
-                    <a class="home-chip" href="#wholesome">Wholesome</a>
-                </nav>
                 <section class="home-recent" aria-labelledby="recent-heading">
                     <h3 id="recent-heading">Recent</h3>
                     <div class="home-recent__strip">
@@ -145,14 +140,7 @@
                 </section>
                 <section class="home-browse" aria-labelledby="browse-heading">
                     <h3 id="browse-heading">Browse</h3>
-                    <div class="home-template-grid" aria-label="Template gallery placeholder">
-                        <article class="home-template-card home-template-card--wide">NO<br>YES</article>
-                        <article class="home-template-card home-template-card--split"></article>
-                        <article class="home-template-card home-template-card--yellow"></article>
-                        <article class="home-template-card home-template-card--tall"></article>
-                        <article class="home-template-card home-template-card--pink"></article>
-                        <article class="home-template-card"></article>
-                    </div>
+                    <memebro-template-gallery id="popular-template-gallery"></memebro-template-gallery>
                 </section>
             </section>
         </main>
@@ -161,11 +149,11 @@
                 <span aria-hidden="true">▦</span>
                 Library
             </a>
-            <a class="home-bottom-nav__item" href="#mine">
+            <a class="home-bottom-nav__item" href="/pages/history.html">
                 <span aria-hidden="true">♙</span>
                 Mine
             </a>
-            <a class="home-bottom-nav__item" href="#search">
+            <a class="home-bottom-nav__item" href="pages/search.html">
                 <span aria-hidden="true">⌕</span>
                 Search
             </a>
@@ -176,5 +164,40 @@
         </nav>
         <a id="conjure" class="home-conjure-fab" href="#conjure" aria-label="Conjure a new meme template">✦</a>
     </div>
+    <script type="module">
+      import { getMemes } from './js/api/storage.stub.js';
+      import { wireToggle } from './js/theme.js';
+      wireToggle(document.querySelector('[aria-label="Toggle theme"]'));
+
+      const searchForm = document.querySelector('.home-search');
+      if (searchForm) {
+        searchForm.addEventListener('submit', (event) => {
+          event.preventDefault();
+          const query = document.querySelector('#template-search').value.trim();
+          if (!query) {
+            return;
+          }
+          window.location.href = `pages/search.html?q=${encodeURIComponent(query)}`;
+        });
+      }
+
+      const memes = getMemes();
+      const count = Array.isArray(memes) ? memes.length : 0;
+      document.querySelectorAll('[data-meme-count]').forEach((element) => {
+        element.textContent = String(count);
+      });
+        import { getPopularTemplates } from "./js/api/imgflip-api.js";
+        import "./js/components/template-gallery.js";
+        const gallery = document.querySelector("#popular-template-gallery");
+        gallery.addEventListener("memebro:template-selected", (event) => {
+            const templateId = event.detail.template.id;
+            window.location.href = `pages/editor.html?templateId=${encodeURIComponent(templateId)}`;
+        });
+        try {
+            gallery.data = await getPopularTemplates();
+        } catch {
+            gallery.data = [];
+        }
+    </script>
 </body>
 </html>

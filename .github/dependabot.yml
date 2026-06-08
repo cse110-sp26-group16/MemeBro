@@ -1,0 +1,39 @@
+version: 2
+updates:
+  # Frontend / root tooling
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      # Keep the test framework on its own so a breaking major (e.g. vitest 3->4)
+      # is reviewed in isolation and never blocks the other dev-tooling bumps.
+      vitest:
+        patterns:
+          - "vitest"
+          - "@vitest/*"
+      # Collapse the remaining dev-tooling bumps into one PR to cut review noise.
+      dev-dependencies:
+        dependency-type: development
+
+  # Cloudflare Worker backend
+  - package-ecosystem: npm
+    directory: /memebro-api
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      # vitest and its workers pool plugin are version-locked to the same major,
+      # so they must bump together or the peer dependency breaks (see PRs #96/#97).
+      vitest:
+        patterns:
+          - "vitest"
+          - "@vitest/*"
+          - "@cloudflare/vitest-pool-workers"
+
+  # The GitHub Actions used by our workflows
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly

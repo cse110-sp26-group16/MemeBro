@@ -3,23 +3,30 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Search - MemeBro</title>
+    <title>Editor - MemeBro</title>
     <link rel="stylesheet" href="../styles/tokens.css" />
     <style>
+      html,
       body {
         margin: 0;
-        min-height: 100vh;
-        background: var(--bg);
-        color: var(--ink);
-        font-family: Geist, system-ui, sans-serif;
+        padding: 0;
+        width: 100%;
+        overflow-x: hidden;
       }
-
-      #search-root {
-        min-height: 100vh;
+      #editor-root {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      memebro-editor {
+        width: 100%;
       }
     </style>
-    <script type="module" src="../js/components/search.js"></script>
+    <script type="module" src="../js/components/editor.js"></script>
   </head>
+
   <body>
     <script>
       // Apply the saved theme (or the OS preference) before the page paints so
@@ -34,8 +41,8 @@
         document.documentElement.dataset.theme = "light";
       }
     </script>
-    <main id="search-root">
-      <memebro-search></memebro-search>
+    <main id="editor-root">
+      <memebro-editor></memebro-editor>
     </main>
   </body>
 </html>

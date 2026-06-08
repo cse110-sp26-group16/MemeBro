@@ -5,11 +5,36 @@ Format follows [Keep a Changelog](https://keepachangelog.com/) and [Semantic Ver
 
 ## [Unreleased]
 
+Sprint 4: the Library → Search → Editor vertical slice plus a process and CI hardening push.
+
 ### Added
 
-- AI-powered template ranking module (`memebro-api/src/search-ranking.js`); backs the `/api/search` route once ADR-0010 (#76) picks the provider (#77)
-- Worker test CI job — `memebro-api` tests now run on every PR (#75)
+- Live AI template search: the `/api/search` worker now ranks templates with Cloudflare Workers AI text embeddings (cosine similarity over template titles), degrading to an in-worker lexical match if Workers AI is unavailable (#135, #77; [ADR-0011](docs/adr/0011-ai-provider-search.md))
+- Search screen with AI-ranked template results and a graceful client-side ImgFlip fallback when the search API is unreachable (#72)
+- `/api/search` Cloudflare Worker route serving fixture-ranked templates (#75)
+- Cloudflare Worker API scaffold with an `/api/status` health-check endpoint and CORS handling (#26)
+- AI prompt builder pure function for the Conjure flow (#27)
 - Shared `<memebro-top-bar>` and `<memebro-tab-bar>` chrome web components for the Library → Search → Editor slice (#74)
+- Vitest unit-testing and Playwright end-to-end frameworks wired into CI (#36, #37)
+- ImgFlip smoke tests, JSON-validator tests, and gallery unit tests (#67, #65, #71)
+- CODEOWNERS, a full README rewrite, an ADR index, and a dependencies ledger (#57, #58, #59)
+
+### Changed
+
+- Polished the library home browse grid to render real popular templates from the ImgFlip API and route selected templates to the editor (#70)
+- Updated the interface contract to add the Search screen and promote the Editor to the core flow (#69)
+- Hardened CI/CD into a single pipeline that gates the GitHub Pages deploy on passing lint, unit, E2E, and worker tests (#89)
+- Pointed the search frontend at the deployed Cloudflare worker's absolute URL (a relative `/api/search` 404'd on GitHub Pages and silently fell back to client-side matching); deployed the worker with the Workers AI binding and `USE_FIXTURE` off (#135)
+
+### Fixed
+
+- Escaped user-controlled template text rendered in the gallery to close an XSS injection sink (#64)
+
+### Documentation
+
+- ADR-0009 (Cloudflare as the backend platform, supersedes ADR-0003), ADR-0010 (gate the Pages deploy on CI), and ADR-0011 (AI provider for template search) (#62, #89, #88)
+- Accepted ADR-0011 (TA sign-off) and recorded Cloudflare Workers AI in the dependency ledger (#135)
+- ADR-0006 (web components with Shadow DOM), ADR-0007 (JSDoc instead of TypeScript), and ADR-0008 (frontend linting toolchain) (#56)
 
 ## [0.1.0] - 2026-05-24
 
