@@ -16,6 +16,7 @@
  */
 
 import { searchTemplatesWithAI } from "../api/search-api.js";
+import { currentTheme, toggleTheme } from "../theme.js";
 
 const SEARCH_DEBOUNCE_MS = 250;
 
@@ -176,6 +177,12 @@ export class MemebroSearch extends HTMLElement {
    * @param {Event} event The click event from the shadow DOM.
    */
   handleResultClick(event) {
+    const toggle = event.target.closest("[data-theme-toggle]");
+    if (toggle) {
+      toggle.setAttribute("aria-pressed", String(toggleTheme() === "dark"));
+      return;
+    }
+
     const card = event.target.closest(".result-card");
 
     if (!(card instanceof HTMLAnchorElement)) {
@@ -242,6 +249,26 @@ export class MemebroSearch extends HTMLElement {
           font-size: var(--text-sm);
           letter-spacing: var(--tracking-wide);
           text-transform: uppercase;
+        }
+
+        .search-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: var(--space-3);
+        }
+
+        .theme-toggle {
+          background: transparent;
+          border: 1px solid var(--line);
+          border-radius: var(--radius-sm);
+          padding: var(--space-2);
+          color: var(--ink-2);
+          font-size: var(--text-lg);
+          line-height: 1;
+          cursor: pointer;
+          min-height: 36px;
+          min-width: 36px;
         }
 
         .search-field {
@@ -423,7 +450,18 @@ export class MemebroSearch extends HTMLElement {
       </style>
       <div class="page">
         <section class="search-panel">
-          <div class="search-label">Search</div>
+          <div class="search-header">
+            <div class="search-label">Search</div>
+            <button
+              class="theme-toggle"
+              type="button"
+              data-theme-toggle
+              aria-label="Toggle theme"
+              aria-pressed="${currentTheme() === "dark"}"
+            >
+              ◐
+            </button>
+          </div>
           <div class="search-field">
             <span class="icon" aria-hidden="true">⌕</span>
             <input

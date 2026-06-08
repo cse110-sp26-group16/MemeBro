@@ -23,6 +23,7 @@
 
 import { getPopularTemplates } from "../api/imgflip-api.js";
 import html2canvas from "../vendor/html2canvas.esm.js";
+import { wireToggle } from "../theme.js";
 import "./top-bar.js";
 
 /**
@@ -352,6 +353,20 @@ class MemeBroEditor extends HTMLElement {
           background: var(--orange-deep);
         }
 
+        .theme-toggle {
+          background: transparent;
+          border: 1px solid var(--line);
+          border-radius: var(--radius-sm);
+          padding: var(--space-2);
+          color: var(--ink-2);
+          font-size: var(--text-lg);
+          line-height: 1;
+          cursor: pointer;
+          min-height: 36px;
+          min-width: 36px;
+          font-family: Geist, system-ui, sans-serif;
+        }
+
         .editor-error {
           position: fixed;
           top: var(--space-4);
@@ -385,6 +400,7 @@ class MemeBroEditor extends HTMLElement {
       <memebro-top-bar>
         <button class="top-bar-back" slot="breadcrumb" aria-label="Go back">&#8592;</button>
         <span class="top-bar-title" slot="search-input">${this.template ? this.template.name : ""}</span>
+        <button class="theme-toggle" slot="actions" type="button" aria-label="Toggle theme">◐</button>
         <button class="download-button" slot="actions" type="button" aria-label="Download PNG">Download</button>
       </memebro-top-bar>
       <div class="editor-content">
@@ -481,6 +497,8 @@ class MemeBroEditor extends HTMLElement {
     if (downloadButton) {
       downloadButton.addEventListener("click", () => this.downloadMeme());
     }
+
+    wireToggle(this.shadowRoot.querySelector(".theme-toggle"));
   }
 
   /**
