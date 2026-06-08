@@ -128,13 +128,17 @@ export class MemebroSearch extends HTMLElement {
    * the search runs immediately.
    */
   connectedCallback() {
+    // Seed the field from a `?q=` param so links from the home page search bars
+    // land here with results already running.
     const initialQuery = new URLSearchParams(window.location.search).get("q");
     if (initialQuery) {
       this.query = initialQuery;
     }
+
     this.render();
     this.shadowRoot.addEventListener("input", this.boundInput);
     this.shadowRoot.addEventListener("click", this.boundClick);
+
     if (this.query.trim()) {
       this.performSearch();
     }

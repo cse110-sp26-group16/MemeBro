@@ -59,6 +59,7 @@ class MemebroTemplateGallery extends HTMLElement {
     this.attachShadow({ mode: "open" });
     this.templates = mockTemplates;
     this.handleClick = this.handleClick.bind(this);
+    this.handleKeydown = this.handleKeydown.bind(this);
   }
 
   /**
@@ -75,6 +76,7 @@ class MemebroTemplateGallery extends HTMLElement {
    */
   connectedCallback() {
     this.shadowRoot.addEventListener("click", this.handleClick);
+    this.shadowRoot.addEventListener("keydown", this.handleKeydown);
     this.render();
   }
 
@@ -83,6 +85,34 @@ class MemebroTemplateGallery extends HTMLElement {
    */
   disconnectedCallback() {
     this.shadowRoot.removeEventListener("click", this.handleClick);
+    this.shadowRoot.removeEventListener("keydown", this.handleKeydown);
+  }
+
+  /**
+   * Submits the built-in search field on Enter so the host can route the query
+   * to the dedicated search page.
+   * @param {KeyboardEvent} event Keydown event from the shadow root.
+   */
+  handleKeydown(event) {
+    const target = event.target;
+
+    if (event.key !== "Enter") {
+      return;
+    }
+
+    if (!(target instanceof HTMLInputElement) || !target.classList.contains("search")) {
+      return;
+    }
+
+    event.preventDefault();
+
+    this.dispatchEvent(
+      new CustomEvent("memebro:search-submit", {
+        detail: { query: target.value },
+        bubbles: true,
+        composed: true,
+      })
+    );
   }
 
   /**
