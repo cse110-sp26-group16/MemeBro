@@ -267,6 +267,46 @@ class MemeBroEditor extends HTMLElement {
           color: var(--bg);
         }
 
+        .color-row {
+          display: flex;
+          align-items: center;
+          gap: var(--space-2);
+          background: var(--surface);
+          border: 1px solid var(--line);
+          border-radius: var(--radius);
+          padding: var(--space-2) var(--space-3);
+          min-height: 44px;
+        }
+
+        .color-row__label {
+          font-size: var(--text-sm);
+          color: var(--ink);
+          white-space: nowrap;
+          font-family: Geist, system-ui, sans-serif;
+        }
+
+        .color-row__input {
+          appearance: none;
+          -webkit-appearance: none;
+          width: 48px;
+          height: 28px;
+          padding: 0;
+          border: 1px solid var(--line);
+          border-radius: var(--radius-sm);
+          background: transparent;
+          cursor: pointer;
+        }
+
+        .color-row__input::-webkit-color-swatch-wrapper {
+          padding: 2px;
+        }
+
+        .color-row__input::-webkit-color-swatch {
+          border: none;
+          border-radius: 3px;
+        }
+
+        /* per-style caption fonts */
         .caption-style--classic {
           font-family: Impact, "Arial Narrow", sans-serif;
         }
@@ -470,6 +510,10 @@ class MemeBroEditor extends HTMLElement {
               <button class="style-chip" data-style="bubble"  aria-pressed="${this.activeStyle === "bubble"}">bubble</button>
             </div>
           </div>
+          <div class="color-row">
+            <label class="color-row__label" for="caption-color">Color</label>
+            <input class="color-row__input" id="caption-color" type="color" value="${this.captions[0].color}" aria-label="Caption color" />
+          </div>
         </div>
       </div>
       <div class="editor-toolbar" aria-hidden="true">
@@ -580,6 +624,22 @@ class MemeBroEditor extends HTMLElement {
     const downloadButton = this.shadowRoot.querySelector(".download-button");
     if (downloadButton) {
       downloadButton.addEventListener("click", () => this.downloadMeme());
+    }
+
+    const colorInput = this.shadowRoot.querySelector("#caption-color");
+    if (colorInput) {
+      colorInput.addEventListener("input", (e) => {
+        const color = e.currentTarget.value;
+        this.captions.forEach((caption, idx) => {
+          caption.color = color;
+          const overlay = this.shadowRoot.querySelector(
+            `.meme-canvas-caption[data-caption-index="${idx}"]`
+          );
+          if (overlay) {
+            overlay.style.color = color;
+          }
+        });
+      });
     }
 
     wireToggle(this.shadowRoot.querySelector(".theme-toggle"));
