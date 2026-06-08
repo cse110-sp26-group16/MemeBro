@@ -21,7 +21,12 @@ vi.mock("../../js/api/imgflip-api.js", () => ({
   ]),
 }));
 
+vi.mock("../../js/api/storage.js", () => ({
+  recordRecentTemplate: vi.fn(),
+}));
+
 import html2canvas from "../../js/vendor/html2canvas.esm.js";
+import { recordRecentTemplate } from "../../js/api/storage.js";
 import "../../js/components/editor.js";
 
 /**
@@ -41,6 +46,7 @@ async function mountEditor() {
 
 describe("Memebro editor screen", () => {
   beforeEach(() => {
+    vi.clearAllMocks();
     document.body.innerHTML = "";
     window.history.replaceState({}, "", "/editor.html?templateId=test-id");
     // jsdom doesn't implement these; the download path needs them.
@@ -57,6 +63,17 @@ describe("Memebro editor screen", () => {
     const img = editor.shadowRoot.querySelector(".meme-canvas-img");
     expect(img).not.toBeNull();
     expect(img.getAttribute("src")).toContain("test.jpg");
+  });
+
+  it("records the resolved template as recent", async () => {
+    await mountEditor();
+
+    expect(recordRecentTemplate).toHaveBeenCalledWith(
+      expect.objectContaining({
+        id: "test-id",
+        name: "Test template",
+      })
+    );
   });
 
   it("binds the top caption input to the overlay text", async () => {

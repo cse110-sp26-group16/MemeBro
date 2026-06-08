@@ -22,6 +22,7 @@
  */
 
 import { getPopularTemplates } from "../api/imgflip-api.js";
+import { recordRecentTemplate } from "../api/storage.js";
 import html2canvas from "../vendor/html2canvas.esm.js";
 import "./top-bar.js";
 
@@ -67,6 +68,9 @@ class MemeBroEditor extends HTMLElement {
   async resolveTemplate() {
     const templates = await getPopularTemplates();
     this.template = templates.find((t) => t.id === this.templateId) || null;
+    if (this.template) {
+      recordRecentTemplate(this.template);
+    }
   }
 
   /**
