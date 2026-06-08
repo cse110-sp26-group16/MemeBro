@@ -5,7 +5,6 @@ const SAFE = {
   id: "safe",
   name: "Drake Hotline Bling",
   imageUrl: "https://i.imgflip.com/30b1gx.jpg",
-  useCount: "1.2M",
   isAi: false,
 };
 
@@ -37,6 +36,14 @@ describe("MemebroTemplateGallery – rendering", () => {
   it("shows the correct template count", () => {
     el = mount([SAFE, { ...SAFE, id: "b" }]);
     expect(el.shadowRoot.querySelector(".count").textContent).toBe("2 templates");
+  });
+
+  it("does not render standalone top chrome when embedded", () => {
+    el = mount([SAFE]);
+    expect(el.shadowRoot.querySelector(".topbar")).toBeNull();
+    expect(el.shadowRoot.querySelector(".brand")).toBeNull();
+    expect(el.shadowRoot.querySelector(".search")).toBeNull();
+    expect(el.shadowRoot.querySelector(".menu")).toBeNull();
   });
 
   it("renders the image src and alt from template data", () => {
@@ -104,10 +111,9 @@ describe("MemebroTemplateGallery – XSS protection", () => {
     expect(img.hasAttribute("onerror")).toBe(false);
   });
 
-  it("does not create HTML elements when useCount contains tags", () => {
-    el = mount([{ ...SAFE, useCount: "<b>lots</b>" }]);
-    const meta = el.shadowRoot.querySelector(".meta");
-    expect(meta.querySelector("b")).toBeNull();
+  it("does not show AI badge when isAi is not strictly true", () => {
+    el = mount([{ ...SAFE, isAi: "yes" }]);
+    expect(el.shadowRoot.querySelector(".badge")).toBeNull();
   });
 });
 
