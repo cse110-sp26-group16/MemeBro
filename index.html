@@ -180,6 +180,23 @@
             const templateId = event.detail.template.id;
             window.location.href = `pages/editor.html?templateId=${encodeURIComponent(templateId)}`;
         });
+
+        // Submitting either search field (the top bar or the gallery's own
+        // field) hands the query off to the dedicated AI search page.
+        function goToSearch(query) {
+            const trimmed = String(query || "").trim();
+            window.location.href = trimmed
+                ? `pages/search.html?q=${encodeURIComponent(trimmed)}`
+                : "pages/search.html";
+        }
+        const topSearch = document.querySelector("#template-search");
+        topSearch?.closest("form")?.addEventListener("submit", (event) => {
+            event.preventDefault();
+            goToSearch(topSearch.value);
+        });
+        gallery.addEventListener("memebro:search-submit", (event) => {
+            goToSearch(event.detail?.query);
+        });
         try {
             gallery.data = await getPopularTemplates();
         } catch {
