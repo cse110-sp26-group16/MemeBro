@@ -23,6 +23,7 @@
 
 import { getPopularTemplates } from "../api/imgflip-api.js";
 import html2canvas from "../vendor/html2canvas.esm.js";
+import { wireToggle } from "../theme.js";
 import "./top-bar.js";
 
 /**
@@ -46,18 +47,41 @@ class MemeBroEditor extends HTMLElement {
       { text: "", x: 0.5, y: 0.05, fontSize: 0.06, color: "#ffffff" },
       { text: "", x: 0.5, y: 0.88, fontSize: 0.06, color: "#ffffff" },
     ];
+    /** True while the template image is being fetched. */
+    this.loading = false;
+    /** True when the template could not be loaded or found. */
+    this.loadError = false;
   }
 
   /**
-   * Reads the templateId from the URL, resolves it, then renders and wires up.
+   * Reads the templateId from the URL, renders the editor shell with a skeleton
+   * immediately, then resolves the template and hydrates (or shows an error).
+   * Rendering the shell first means a slow or failed network never leaves the
+   * page blank.
    * @returns {Promise<void>}
    */
   async connectedCallback() {
     const params = new URLSearchParams(window.location.search);
     this.templateId = params.get("templateId");
-    await this.resolveTemplate();
+
+    this.loading = true;
     this.render();
     this.attachListeners();
+
+    try {
+      await this.resolveTemplate();
+      this.loadError = !this.template;
+    } catch {
+      this.loadError = true;
+    }
+
+    this.loading = false;
+    this.render();
+    this.attachListeners();
+
+    if (this.loadError) {
+      this.showError("Couldn't load this template. Please try again.");
+    }
   }
 
   /**
@@ -91,6 +115,22 @@ class MemeBroEditor extends HTMLElement {
           >${cap.text || (i === 0 ? "TOP TEXT" : "BOTTOM TEXT")}</span>`
       )
       .join("\n");
+
+    // The top-bar title and canvas reflect one of three states: loading (a
+    // neutral skeleton), error (a clear message), or loaded (the real image).
+    const titleHtml = this.loading
+      ? `<span class="top-bar-title top-bar-title--skeleton" slot="search-input" aria-hidden="true"></span>`
+      : `<span class="top-bar-title" slot="search-input">${this.template ? this.template.name : ""}</span>`;
+
+    let canvasInner;
+    if (this.loading) {
+      canvasInner = `<div class="meme-canvas-skeleton" aria-hidden="true"></div>`;
+    } else if (this.loadError) {
+      canvasInner = `<p class="meme-canvas-message" role="status">Couldn't load this template. Please try again.</p>`;
+    } else {
+      canvasInner = `<img class="meme-canvas-img" src="${imageUrl}" alt="${altText}" crossorigin="anonymous" />
+            ${captionOverlaysHtml}`;
+    }
 
     this.shadowRoot.innerHTML = `
       <style>
@@ -141,14 +181,61 @@ class MemeBroEditor extends HTMLElement {
           width: 100%;
           height: 100%;
           object-fit: contain;
+          user-drag: none;
+          -webkit-user-drag: none;
+        }
+
+        /* Neutral placeholder shown while the template image is fetched. */
+        .meme-canvas-skeleton {
+          width: 100%;
+          height: 100%;
+          background: var(--line);
+          animation: skeleton-pulse 1.4s ease-in-out infinite;
+        }
+
+        .meme-canvas-message {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+          height: 100%;
+          margin: 0;
+          padding: var(--space-4);
+          text-align: center;
+          color: var(--ink-3);
+          font-family: Geist, system-ui, sans-serif;
+          font-size: var(--text-sm);
+        }
+
+        .top-bar-title--skeleton {
+          display: inline-block;
+          width: 96px;
+          height: 0.8em;
+          border-radius: var(--radius-sm);
+          background: var(--line);
+          animation: skeleton-pulse 1.4s ease-in-out infinite;
+        }
+
+        @keyframes skeleton-pulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.45; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .meme-canvas-skeleton,
+          .top-bar-title--skeleton {
+            animation: none;
+          }
         }
 
         .meme-canvas-caption {
           position: absolute;
           transform: translateX(-50%);
           width: 90%;
-          pointer-events: none;
+          pointer-events: auto;
           user-select: none;
+          touch-action: none;
+          cursor: grab;
           font-weight: 700;
           text-align: center;
           text-transform: uppercase;
@@ -158,11 +245,22 @@ class MemeBroEditor extends HTMLElement {
           font-family: Geist, system-ui, sans-serif;
         }
 
+        .meme-canvas-caption--dragging {
+          cursor: grabbing;
+        }
+
         .meme-canvas-caption--placeholder {
           opacity: 0.5;
           font-weight: 400;
           text-transform: none;
           letter-spacing: normal;
+        }
+
+        .canvas-wrapper {
+          width: 100%;
+          display: flex;
+          align-items: flex-start;
+          justify-content: center;
         }
 
         .editor-panels {
@@ -172,7 +270,6 @@ class MemeBroEditor extends HTMLElement {
           width: 100%;
           max-width: 480px;
         }
-
         .input-panels {
           display: flex;
           flex-direction: column;
@@ -251,6 +348,45 @@ class MemeBroEditor extends HTMLElement {
           color: var(--bg);
         }
 
+        .color-row {
+          display: flex;
+          align-items: center;
+          gap: var(--space-2);
+          background: var(--surface);
+          border: 1px solid var(--line);
+          border-radius: var(--radius);
+          padding: var(--space-2) var(--space-3);
+          min-height: 44px;
+        }
+
+        .color-row__label {
+          font-size: var(--text-sm);
+          color: var(--ink);
+          white-space: nowrap;
+          font-family: Geist, system-ui, sans-serif;
+        }
+
+        .color-row__input {
+          appearance: none;
+          -webkit-appearance: none;
+          width: 48px;
+          height: 28px;
+          padding: 0;
+          border: 1px solid var(--line);
+          border-radius: var(--radius-sm);
+          background: transparent;
+          cursor: pointer;
+        }
+
+        .color-row__input::-webkit-color-swatch-wrapper {
+          padding: 2px;
+        }
+
+        .color-row__input::-webkit-color-swatch {
+          border: none;
+          border-radius: 3px;
+        }
+
         /* per-style caption fonts */
         .caption-style--classic {
           font-family: Impact, "Arial Narrow", sans-serif;
@@ -327,6 +463,20 @@ class MemeBroEditor extends HTMLElement {
           background: var(--orange-deep);
         }
 
+        .theme-toggle {
+          background: transparent;
+          border: 1px solid var(--line);
+          border-radius: var(--radius-sm);
+          padding: var(--space-2);
+          color: var(--ink-2);
+          font-size: var(--text-lg);
+          line-height: 1;
+          cursor: pointer;
+          min-height: 36px;
+          min-width: 36px;
+          font-family: Geist, system-ui, sans-serif;
+        }
+
         .editor-error {
           position: fixed;
           top: var(--space-4);
@@ -355,17 +505,46 @@ class MemeBroEditor extends HTMLElement {
           line-height: 1;
           cursor: pointer;
         }
+
+        @media (min-width: 900px) {
+          .editor-content {
+            flex-direction: row;
+            align-items: flex-start;
+            justify-content: center;
+            overflow: hidden;
+          }
+
+          .canvas-wrapper {
+            /* Lock the wrapper to the canvas's natural max-width so the
+               canvas stays the same size it was on mobile (480 px). */
+            width: 480px;
+            flex-shrink: 0;
+          }
+
+          .editor-panels {
+            width: 320px;
+            max-width: 320px;
+            flex-shrink: 0;
+          }
+
+          .style-row__chips {
+            flex-wrap: wrap;
+            overflow-x: visible;
+          }
+        }
       </style>
 
       <memebro-top-bar>
         <button class="top-bar-back" slot="breadcrumb" aria-label="Go back">&#8592;</button>
-        <span class="top-bar-title" slot="search-input">${this.template ? this.template.name : ""}</span>
+        ${titleHtml}
+        <button class="theme-toggle" slot="actions" type="button" aria-label="Toggle theme">◐</button>
         <button class="download-button" slot="actions" type="button" aria-label="Download PNG">Download</button>
       </memebro-top-bar>
       <div class="editor-content">
-        <div class="meme-canvas">
-          <img class="meme-canvas-img" src="${imageUrl}" alt="${altText}" crossorigin="anonymous" />
-          ${captionOverlaysHtml}
+        <div class="canvas-wrapper">
+          <div class="meme-canvas" aria-busy="${this.loading}">
+            ${canvasInner}
+          </div>
         </div>
         <div class="editor-panels">
           <div class="input-panels" id="input-panels">
@@ -388,6 +567,10 @@ class MemeBroEditor extends HTMLElement {
               <button class="style-chip" data-style="bubble"  aria-pressed="${this.activeStyle === "bubble"}">bubble</button>
             </div>
           </div>
+          <div class="color-row">
+            <label class="color-row__label" for="caption-color">Color</label>
+            <input class="color-row__input" id="caption-color" type="color" value="${this.captions[0].color}" aria-label="Caption color" />
+          </div>
         </div>
       </div>`;
   }
@@ -395,7 +578,7 @@ class MemeBroEditor extends HTMLElement {
   /**
    * Wires the panel inputs to the caption overlays, the style chips to the
    * caption fonts, the back button to history, and the download button to the
-   * PNG export.
+   * PNG export. Also allows for captions to be dragged and binds them to the canvas
    * @returns {void}
    */
   attachListeners() {
@@ -440,6 +623,51 @@ class MemeBroEditor extends HTMLElement {
       });
     });
 
+    const canvas = this.shadowRoot.querySelector(".meme-canvas");
+
+    // The image is absent in the loading/error states, so guard the binding.
+    const memeImage = this.shadowRoot.querySelector(".meme-canvas-img");
+    if (memeImage) {
+      memeImage.addEventListener("dragstart", (e) => e.preventDefault());
+    }
+
+    this.shadowRoot.querySelectorAll(".meme-canvas-caption").forEach((overlay) => {
+      overlay.addEventListener("pointerdown", (e) => {
+        e.preventDefault();
+        overlay.setPointerCapture(e.pointerId);
+
+        const idx = Number(overlay.dataset.captionIndex);
+        const rect = canvas.getBoundingClientRect();
+        const startX = e.clientX;
+        const startY = e.clientY;
+        const originX = this.captions[idx].x;
+        const originY = this.captions[idx].y;
+
+        overlay.classList.add("meme-canvas-caption--dragging");
+
+        const onMove = (moveEvent) => {
+          const dx = (moveEvent.clientX - startX) / rect.width;
+          const dy = (moveEvent.clientY - startY) / rect.height;
+          const newX = Math.min(1, Math.max(0, originX + dx));
+          const maxY = 1 - overlay.offsetHeight / rect.height;
+          const newY = Math.min(Math.max(maxY, 0), Math.max(0, originY + dy));
+          this.captions[idx].x = newX;
+          this.captions[idx].y = newY;
+          overlay.style.left = `${newX * 100}%`;
+          overlay.style.top = `${newY * 100}%`;
+        };
+
+        const onUp = () => {
+          overlay.classList.remove("meme-canvas-caption--dragging");
+          overlay.removeEventListener("pointermove", onMove);
+          overlay.removeEventListener("pointerup", onUp);
+        };
+
+        overlay.addEventListener("pointermove", onMove);
+        overlay.addEventListener("pointerup", onUp);
+      });
+    });
+
     const backButton = this.shadowRoot.querySelector(".top-bar-back");
     if (backButton) {
       backButton.addEventListener("click", () => window.history.back());
@@ -449,6 +677,24 @@ class MemeBroEditor extends HTMLElement {
     if (downloadButton) {
       downloadButton.addEventListener("click", () => this.downloadMeme());
     }
+
+    const colorInput = this.shadowRoot.querySelector("#caption-color");
+    if (colorInput) {
+      colorInput.addEventListener("input", (e) => {
+        const color = e.currentTarget.value;
+        this.captions.forEach((caption, idx) => {
+          caption.color = color;
+          const overlay = this.shadowRoot.querySelector(
+            `.meme-canvas-caption[data-caption-index="${idx}"]`
+          );
+          if (overlay) {
+            overlay.style.color = color;
+          }
+        });
+      });
+    }
+
+    wireToggle(this.shadowRoot.querySelector(".theme-toggle"));
   }
 
   /**
