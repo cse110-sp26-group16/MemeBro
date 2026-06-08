@@ -5,7 +5,6 @@ const SAFE = {
   id: "safe",
   name: "Drake Hotline Bling",
   imageUrl: "https://i.imgflip.com/30b1gx.jpg",
-  useCount: "1.2M",
   isAi: false,
 };
 
@@ -104,10 +103,9 @@ describe("MemebroTemplateGallery – XSS protection", () => {
     expect(img.hasAttribute("onerror")).toBe(false);
   });
 
-  it("does not create HTML elements when useCount contains tags", () => {
-    el = mount([{ ...SAFE, useCount: "<b>lots</b>" }]);
-    const meta = el.shadowRoot.querySelector(".meta");
-    expect(meta.querySelector("b")).toBeNull();
+  it("does not show AI badge when isAi is not strictly true", () => {
+    el = mount([{ ...SAFE, isAi: "yes" }]);
+    expect(el.shadowRoot.querySelector(".badge")).toBeNull();
   });
 });
 
