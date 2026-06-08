@@ -225,12 +225,12 @@ async function rankTemplates(query, env) {
   try {
     const model = env.SEARCH_EMBED_MODEL || DEFAULT_EMBED_MODEL;
 
-    const { data: titleVectors } = await env.AI.run(model, {
-      text: templates.map((template) => template.name),
-    });
+    // One batched embedding call: query first, then every title. Halves Neuron
+    // usage and latency versus embedding the query separately.
+    const texts = [query, ...templates.map((template) => template.name)];
     const {
-      data: [queryVector],
-    } = await env.AI.run(model, { text: [query] });
+      data: [queryVector, ...titleVectors],
+    } = await env.AI.run(model, { text: texts });
 
     return templates
       .map((template, index) => {
