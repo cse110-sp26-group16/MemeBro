@@ -9,6 +9,8 @@ help build the meme.
 
 - **Live site:** <https://cse110-sp26-group16.github.io/MemeBro/>
 - **Status Check 1 video:** <https://youtu.be/CxGFtt9xntI>
+- **CSE 110 Full Video Team 16 (private):** <https://youtu.be/ZIkzwTiq-J0>
+- **CSE 110 Full Video Team 16 (public):** <https://youtu.be/kghvEyLkA0I>
 
 Built by **Cutie Devs** (Group 16), CSE 110, Spring 2026.
 
