@@ -31,13 +31,13 @@ files to GitHub Pages ([ADR-0002](adr/0002-deployment-target.md)).
 
 ## 2. Prerequisites
 
-| Tool        | Version           | Why                                                  |
-| ----------- | ----------------- | ---------------------------------------------------- |
-| **Node.js** | **>= 22.13.0**    | Dev tooling, tests, lint. Enforced in `package.json` `engines`. |
-| **npm**     | ships with Node   | Dependency install + scripts.                        |
-| **Python 3** _or_ `npx serve` | any recent | Local static server (ES modules need HTTP, not `file://`). |
-| **git**     | any               | Clone, branch, PR.                                   |
-| **Wrangler** (optional) | latest | Only if you touch the Cloudflare Worker backend (`memebro-api/`). |
+| Tool                          | Version         | Why                                                               |
+| ----------------------------- | --------------- | ----------------------------------------------------------------- |
+| **Node.js**                   | **>= 22.13.0**  | Dev tooling, tests, lint. Enforced in `package.json` `engines`.   |
+| **npm**                       | ships with Node | Dependency install + scripts.                                     |
+| **Python 3** _or_ `npx serve` | any recent      | Local static server (ES modules need HTTP, not `file://`).        |
+| **git**                       | any             | Clone, branch, PR.                                                |
+| **Wrangler** (optional)       | latest          | Only if you touch the Cloudflare Worker backend (`memebro-api/`). |
 
 A modern Chromium-based browser is assumed for E2E tests (Playwright installs
 its own Chromium).
@@ -131,7 +131,7 @@ AGENTS.md               Binding contributor spec — read before any build task
 
 **Where to start reading:** `AGENTS.md` → `docs/interface-contract.md` →
 `docs/adr/README.md` (the ADR index). Those three explain the conventions, the
-contracts between modules, and *why* every major decision was made.
+contracts between modules, and _why_ every major decision was made.
 
 ---
 
@@ -220,7 +220,7 @@ fallback). See [ADR-0009](adr/0009-backend-platform.md) and
 
 From [`docs/process/team-cadence.md`](process/team-cadence.md):
 
-1. **All work is tracked in GitHub Issues**, assigned and labeled *before* work
+1. **All work is tracked in GitHub Issues**, assigned and labeled _before_ work
    starts.
 2. **Feature branches off `main`**, named `<type>/<short-description>`.
 3. **Changes > 300 LoC go through a reviewed PR.** Smaller doc/process changes
@@ -246,7 +246,7 @@ still open" and the Sprint 4 retro for the full list.
 - **Unit-test glob is a blind spot.** Vitest only collects
   `tests/unit/**/*.test.js`; a test placed elsewhere reports green with zero
   tests collected. No coverage floor yet.
-- **Branch protection** must be set in repo Settings to actually *enforce* the
+- **Branch protection** must be set in repo Settings to actually _enforce_ the
   `CI success` gate (one-time config — [ADR-0010](adr/0010-gate-deploy-on-ci.md),
   [ADR-0012](adr/0012-require-ci-success-check.md)).
 - **Pre-existing dependency advisories** in the `markdownlint`/`markdown-it` dev
